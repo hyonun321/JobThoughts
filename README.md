@@ -24,7 +24,7 @@
 [![My Skills](https://skillicons.dev/icons?i=nodejs,figma&theme=light)](https://skillicons.dev)
 
 ### ⌛ Developed Period
-#### 2025.5.07 ~ 2025.5.16 (10 days)
+#### 2025.5.07 ~ 2025.5.20 (14 days)
 
 # 👩‍💻 팀원
 
