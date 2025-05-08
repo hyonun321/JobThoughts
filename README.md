@@ -1,4 +1,5 @@
 # 유레카 프론트엔드 비대면 3조
+
 ## 잡생각
 
 **직업 추천 + 채용 정보 서비스**
@@ -11,19 +12,22 @@
 
 </div>
 
+## 🏃‍♂️ 주요기능
 
-## 🏃‍♂️ 주요기능 
 - 추후 수정 예정
 
 ## 📚 Tech Stack
 
 ### 💻 FE Development
+
 [![My Skills](https://skillicons.dev/icons?i=ts,html,css,react)](https://skillicons.dev)
 
 ### 💻 BE Development
+
 [![My Skills](https://skillicons.dev/icons?i=nodejs,figma&theme=light)](https://skillicons.dev)
 
 ### ⌛ Developed Period
+
 #### 2025.5.07 ~ 2025.5.20 (14 days)
 
 # 👩‍💻 팀원
