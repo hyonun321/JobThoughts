@@ -1,0 +1,20 @@
+name: lint-and-build
+
+on:
+  pull_request:
+
+jobs:
+  lint_and_build:
+    name: Lint and Build Checks ✅
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run ESLint
+        run: pnpm run lint
+
+      - name: Run Build
+        run: pnpm run build
