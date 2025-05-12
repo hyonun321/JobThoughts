@@ -3,7 +3,6 @@ import MainPage from '../pages/MainPage';
 import TestPage from '../pages/TestPage';
 import ResultPage from '../pages/ResultPage';
 import JobListPage from '../pages/JobListPage';
-import JobDetailPage from '../pages/JobDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -21,10 +20,6 @@ const router = createBrowserRouter([
   {
     path: '/jobs',
     element: <JobListPage />,
-  },
-  {
-    path: '/jobs/:jobId',
-    element: <JobDetailPage />,
   },
 ]);
 
