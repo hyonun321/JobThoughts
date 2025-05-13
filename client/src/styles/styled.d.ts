@@ -18,6 +18,8 @@ declare module 'styled-components' {
       gray700: string;
       gray800: string;
       gray900: string;
+      black: string;
+      white: string;
     };
     fontSize: {
       xs: string;

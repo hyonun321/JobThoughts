@@ -15,6 +15,8 @@ export const theme = {
     gray700: '#616161',
     gray800: '#424242',
     gray900: '#212121',
+    black: '#000000',
+    white: '#FFFFFF',
   },
   fontSize: {
     xs: '0.75rem',
