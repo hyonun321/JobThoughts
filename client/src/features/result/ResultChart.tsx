@@ -2,6 +2,12 @@ import { ResponsiveRadar } from '@nivo/radar';
 import styled from 'styled-components';
 import resultData from '../../data/resultData';
 
+// resultData 타입 정의
+type ResultDataItem = {
+  type: string;
+  score: number;
+};
+
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
@@ -37,16 +43,23 @@ export default function ResultChart() {
     console.log(`라벨 클릭: ${label}`);
   };
 
+  //라벨 좌표 타입 정의
+  type LabelPosition = {
+    label: string;
+    x: number;
+    y: number;
+  };
+
   // 라벨 좌표 계산 (반응형 기준 % 좌표)
-  const labels = resultData.map((d, i) => {
+  const labels: LabelPosition[] = resultData.map((d: ResultDataItem, i: number) => {
     const angle = (i / resultData.length) * 2 * Math.PI - Math.PI / 2; // 12시 기준 시작
     const r = Math.abs(Math.sin(angle)) > 0.95 ? 47 : 49;
-    // 중심 보정값 추가 (직접 미세조정)
-    const centerX = 52; // X축 0.5% 우측으로 보정
-    const centerY = 50; // Y축 0.5% 위로 보정
+    const centerX = 52;
+    const centerY = 50;
 
     const x = centerX + r * Math.cos(angle);
     const y = centerY + r * Math.sin(angle);
+
     return { label: d.type, x, y };
   });
 
