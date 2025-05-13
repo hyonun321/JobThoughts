@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Paperlogy-5Medium';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
   }
 
