@@ -16,43 +16,42 @@ type ButtonProps = {
 };
 
 const ButtonStyle = styled.button<{
-  color?: keyof typeof theme.colors | string;
-  size?: keyof typeof theme.fontSize | string;
-  padding?: string;
-  transition?: string;
-  hoverColor?: keyof typeof theme.colors | string;
-  backgroundColor?: keyof typeof theme.colors | string;
-  border?: string;
-  boxShadow?: string;
+  $color?: keyof typeof theme.colors | string;
+  $size?: keyof typeof theme.fontSize | string;
+  $padding?: string;
+  $transition?: string;
+  $hoverColor?: keyof typeof theme.colors | string;
+  $backgroundColor?: keyof typeof theme.colors | string;
+  $border?: string;
+  $boxShadow?: string;
 }>`
-  padding: ${({ padding }) => padding || '16px 24px'};
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor ? backgroundColor : theme.colors.primary};
+  padding: ${({ $padding }) => $padding || '16px 24px'};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor ? $backgroundColor : theme.colors.primary};
 
-  font-size: ${({ theme, size }) => theme.fontSize[size as keyof typeof theme.fontSize] || size};
+  font-size: ${({ theme, $size }) => theme.fontSize[$size as keyof typeof theme.fontSize] || $size};
+  color: ${({ theme, $color }) => theme.colors[$color as keyof typeof theme.colors] || 'white'};
 
-  color: ${({ theme, color }) => theme.colors[color as keyof typeof theme.colors] || 'white'};
-
-  ${({ border }) =>
-    border &&
+  ${({ $border }) =>
+    $border &&
     `
   border: ${border};
 `}
   border-radius:100px;
 
-  ${({ boxShadow }) =>
-    boxShadow &&
+  ${({ $boxShadow }) =>
+    $boxShadow &&
     `
-  box-shadow: ${boxShadow};
+  box-shadow: ${$boxShadow};
 `}
 
-  ${({ transition }) => transition && `transition: ${transition};`}
+  ${({ $transition }) => $transition && `transition: ${$transition};`}
 
-${({ theme, hoverColor }) =>
-    hoverColor &&
+${({ theme, $hoverColor }) =>
+    $hoverColor &&
     `
   &:hover {
-    background-color: ${theme.colors[hoverColor as keyof typeof theme.colors] || hoverColor};
+    background-color: ${theme.colors[$hoverColor as keyof typeof theme.colors] || $hoverColor};
     color: white;
   }
 `}
@@ -81,14 +80,14 @@ export default function Button({
     <ButtonStyle
       onClick={onClick}
       disabled={disabled}
-      color={color}
-      size={size}
-      padding={padding}
-      transition={transition}
-      hoverColor={hoverColor}
-      backgroundColor={backgroundColor}
-      border={border}
-      boxShadow={boxShadow}
+      $color={color}
+      $size={size}
+      $padding={padding}
+      $transition={transition}
+      $hoverColor={hoverColor}
+      $backgroundColor={backgroundColor}
+      $border={border}
+      $boxShadow={boxShadow}
     >
       {text}
     </ButtonStyle>
