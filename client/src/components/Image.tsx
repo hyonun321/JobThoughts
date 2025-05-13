@@ -55,11 +55,11 @@ export default Image;
 /* 
 <사용예시>
 
-<Image
-  src="/assets/rocket.png"
-  alt="로켓 이미지"
-  width="200px"
-  motion="float"
+<Image 
+  src={cubeIcon} 
+  alt="큐브 이미지" 
+  width="200px" 
+  motion="float" 
 />
 
 <Image
