@@ -1,0 +1,33 @@
+export const theme = {
+  colors: {
+    primary: '#4F63FF',
+    area: '#7484FF',
+    background: '#AAC4FF',
+    deco1: '#D0F5FF',
+    deco2: '#FFFDA2',
+    gray50: '#FAFAFA',
+    gray100: '#F5F5F5',
+    gray200: '#EEEEEE',
+    gray300: '#E0E0E0',
+    gray400: '#BDBDBD',
+    gray500: '#9E9E9E',
+    gray600: '#757575',
+    gray700: '#616161',
+    gray800: '#424242',
+    gray900: '#212121',
+  },
+  fontSize: {
+    xs: '0.75rem',
+    s: '0.875rem',
+    m: '1rem',
+    ml: '1.125rem',
+    lg: '1.5rem',
+    xl: '2rem',
+  },
+  fontWeight: {
+    light: 300,
+    medium: 500,
+    bold: 700,
+  },
+  fontFamily: "'Paperlogy-5Medium', sans-serif",
+};
