@@ -38,6 +38,7 @@ export default [
       'react/react-in-jsx-scope': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-empty-interface': ['error', { allowSingleExtends: true }],
       'prettier/prettier': 'error',
       'react/no-unescaped-entities': 'off',
     },
