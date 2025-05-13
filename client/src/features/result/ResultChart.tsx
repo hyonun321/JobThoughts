@@ -52,7 +52,7 @@ export default function ResultChart({ size = 800 }: ChartContainerProps) {
     const r = Math.abs(Math.sin(angle)) > 0.95 ? 47 : 49;
     // 중심 보정값 추가 (직접 미세조정)
     const centerX = 52; // X축 0.5% 우측으로 보정
-    const centerY = 51; // Y축 0.5% 위로 보정
+    const centerY = 50; // Y축 0.5% 위로 보정
 
     const x = centerX + r * Math.cos(angle);
     const y = centerY + r * Math.sin(angle);
