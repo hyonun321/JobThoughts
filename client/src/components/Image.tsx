@@ -65,7 +65,7 @@ export default Image;
 <Image
   src="/assets/card.png"
   alt="직업 카드"
-  data-aos="slide-left" // AOS사용시 예시시
+  data-aos="slide-left" // AOS사용시 예시
   onClick={() => alert('카드 클릭!')}
 />
 

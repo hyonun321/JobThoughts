@@ -4,7 +4,7 @@ export const theme = {
     area: '#7484FF',
     background: '#AAC4FF',
     deco1: '#D0F5FF',
-    deco2: '#FFFDA2',
+    deco2: '#F5F9FF',
     gray50: '#FAFAFA',
     gray100: '#F5F5F5',
     gray200: '#EEEEEE',
@@ -15,6 +15,8 @@ export const theme = {
     gray700: '#616161',
     gray800: '#424242',
     gray900: '#212121',
+    black: '#000000',
+    white: '#FFFFFF',
   },
   fontSize: {
     xs: '0.75rem',
