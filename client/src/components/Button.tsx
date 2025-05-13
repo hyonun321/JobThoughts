@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 
@@ -37,7 +38,7 @@ const ButtonStyle = styled.button<{
   ${({ $border }) =>
     $border &&
     `
-  border: ${border};
+  border: ${$border};
 `}
   border-radius:100px;
 
