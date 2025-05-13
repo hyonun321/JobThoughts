@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import Bear1 from '../assets/bears/bears-1.svg';
