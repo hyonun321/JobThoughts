@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import FullScreenSection from '../../components/FullScreenSection';
 import Button from '../../components/Button';
