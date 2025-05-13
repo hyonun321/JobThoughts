@@ -4,7 +4,7 @@ export const theme = {
     area: '#7484FF',
     background: '#AAC4FF',
     deco1: '#D0F5FF',
-    deco2: '#FFFDA2',
+    deco2: '#F5F9FF',
     gray50: '#FAFAFA',
     gray100: '#F5F5F5',
     gray200: '#EEEEEE',
