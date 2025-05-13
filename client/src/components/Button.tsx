@@ -27,7 +27,9 @@ const ButtonStyle = styled.button<{
 }>`
   padding: ${({ $padding }) => $padding || '16px 24px'};
   background-color: ${({ theme, $backgroundColor }) =>
-    $backgroundColor ? $backgroundColor : theme.colors.primary};
+    $backgroundColor
+      ? theme.colors[$backgroundColor as keyof typeof theme.colors] || $backgroundColor
+      : theme.colors.primary};
 
   font-size: ${({ theme, $size }) => theme.fontSize[$size as keyof typeof theme.fontSize] || $size};
   color: ${({ theme, $color }) => theme.colors[$color as keyof typeof theme.colors] || 'white'};
