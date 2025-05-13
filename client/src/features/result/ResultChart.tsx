@@ -32,16 +32,7 @@ const Label = styled.div<{ x: number; y: number }>`
   }
 `;
 
-type ChartContainerProps = {
-  size?: number;
-};
-
-const ChartContainer = styled.div<ChartContainerProps>`
-  width: ${({ size }) => size || 800}px;
-  height: ${({ size }) => size || 800}px;
-`;
-
-export default function ResultChart({ size = 800 }: ChartContainerProps) {
+export default function ResultChart() {
   const handleClickLabel = (label: string) => {
     console.log(`라벨 클릭: ${label}`);
   };
@@ -65,7 +56,6 @@ export default function ResultChart({ size = 800 }: ChartContainerProps) {
         data={resultData}
         keys={['score']}
         indexBy="type"
-        enableLabels={false}
         margin={{ top: 40, right: 40, bottom: 40, left: 60 }}
         gridLabelOffset={170}
         enableDots={false}
