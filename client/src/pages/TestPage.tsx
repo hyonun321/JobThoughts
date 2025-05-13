@@ -3,6 +3,8 @@ import TestInformSection from '../features/test/TestInformSection';
 import TestQuestionSection from '../features/test/TestQuestionSection';
 import TestCompleteSection from '../features/test/TestCompleteSection';
 import testData from '../data/testData';
+import Image from '../components/Image';
+import cubeIcon from '../assets/icons/icon-cube.png';
 
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,6 +19,7 @@ export default function TestPage() {
 
   return (
     <>
+      <Image src={cubeIcon} alt="큐브 이미지" width="200px" motion="float" />
       {currentIndex === 0 && <TestInformSection onStart={() => setCurrentIndex(1)} />}
       {!isComplete && currentIndex > 0 && (
         <TestQuestionSection currentIndex={currentIndex} onAnswer={handleAnswer} />
