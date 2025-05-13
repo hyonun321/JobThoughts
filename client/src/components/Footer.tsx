@@ -58,7 +58,7 @@ const BearName = styled.div`
   color: ${theme.colors.white};
 `;
 
-const Footer: React.FC = () => {
+function Footer() {
   return (
     <FooterWrapper>
       <BearsRow>
@@ -115,6 +115,6 @@ const Footer: React.FC = () => {
       </IconRow>
     </FooterWrapper>
   );
-};
+}
 
 export default Footer;
