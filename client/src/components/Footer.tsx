@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
+
 import Bear1 from '../assets/bears/bears-1.svg';
 import Bear2 from '../assets/bears/bears-2.svg';
 import Bear3 from '../assets/bears/bears-3.svg';
@@ -8,6 +10,7 @@ import Logo from '../assets/logo/job-logo.svg';
 import IconGithub from '../assets/icons/icon-github.svg';
 import IconFigma from '../assets/icons/icon-figma.svg';
 import IconNotion from '../assets/icons/icon-notion.svg';
+
 import { theme } from '../styles/theme';
 
 const FooterWrapper = styled.footer`
@@ -36,8 +39,7 @@ const BearItem = styled.div`
   margin-bottom: 16px;
 `;
 
-const LogoBox = styled.div`
-`;
+const LogoBox = styled.div``;
 
 const Copyright = styled.div`
   margin-bottom: 28px;
@@ -56,7 +58,7 @@ const BearName = styled.div`
   color: ${theme.colors.white};
 `;
 
-export default function Footer() {
+const Footer: React.FC = () => {
   return (
     <FooterWrapper>
       <BearsRow>
@@ -81,23 +83,38 @@ export default function Footer() {
           <BearName>황주경</BearName>
         </BearItem>
       </BearsRow>
+
       <LogoBox>
         <img src={Logo} alt="로고" width={120} height={120} />
       </LogoBox>
-      <Copyright>
-        © 2025 JobThoughts. All rights reserved.
-      </Copyright>
+
+      <Copyright>© 2025 JobThoughts. All rights reserved.</Copyright>
+
       <IconRow>
-        <a href="https://github.com/hyonun321/JobThoughts" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://github.com/hyonun321/JobThoughts"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={IconGithub} alt="GitHub" width={25} height={25} />
         </a>
-        <a href="https://www.figma.com/design/kzBz8vu4o70rNzyNu9p76g/3%EC%A1%B0-%EC%9E%A1%EC%83%9D%EA%B0%81---%EC%9C%A0%EB%A0%88%EC%B9%B4-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82?node-id=142-6&p=f&t=EYDy3VcovqG4nNeW-0" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://www.figma.com/design/kzBz8vu4o70rNzyNu9p76g/3%EC%A1%B0-%EC%9E%A1%EC%83%9D%EA%B0%81---%EC%9C%A0%EB%A0%88%EC%B9%B4-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82?node-id=142-6&p=f&t=EYDy3VcovqG4nNeW-0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={IconFigma} alt="Figma" width={25} height={25} />
         </a>
-        <a href="https://www.notion.so/03-Team-Project-1ecbbd280f318080b3f1e61be738fdd6" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://www.notion.so/03-Team-Project-1ecbbd280f318080b3f1e61be738fdd6"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={IconNotion} alt="Notion" width={25} height={25} />
         </a>
       </IconRow>
     </FooterWrapper>
   );
-}
+};
+
+export default Footer;
