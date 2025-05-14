@@ -79,19 +79,30 @@ const WordWrapper = styled.div`
 
 // ======================= animation variants =======================
 const typingVariants: Variants = {
-  hidden: { opacity: 0 }, // 글자 초기 상태 (숨겨짐)
-  // 글자가 타이핑처럼 나타날 때 상태
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+
+const lineVariants: Variants = {
+  hidden: { opacity: 0 },
   visible: (i: number) => ({
     opacity: 1,
     transition: {
-      delay: i * 0.1, // 글자마다 0.1초 차이
-      duration: 0,
+      delay: i * 2, // 줄마다 2초 간격으로 등장
+      staggerChildren: 0.1, // 글자마다 0.1초씩 타이핑
     },
   }),
 };
 
 export default function QuestionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const sentences = [
+    '뭐가 맞는지 솔직히 모르겠고',
+    '대충 살고 싶진 않은데',
+    '일단 해봐야 아는 거 맞죠?',
+  ];
+
   return (
     <Section ref={containerRef}>
       {/* 1. 걱정하는 곰돌이 이미지 */}
@@ -104,73 +115,35 @@ export default function QuestionSection() {
           whileTap={{ scale: 0.95 }}
         />
       </ImgWrapper>
+
       <WordWrapper>
-        {/* 2. 문장 - 1 */}
-        <motion.div
-          layout
-          initial="hidden"
-          animate="visible"
-          exit={{ opacity: 0 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
-            {'뭐가 맞는지 솔직히 모르겠고'.split('').map((char, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={typingVariants}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </Text>
-        </motion.div>
-        {/* 3. 문장 - 2 */}
-        <motion.div
-          layout
-          initial="hidden"
-          animate="visible"
-          exit={{ opacity: 0 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
-            {'대충 살고 싶진 않은데'.split('').map((char, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={typingVariants}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </Text>
-        </motion.div>
-        {/* 4. 문장 - 3 */}
-        <motion.div
-          layout
-          initial="hidden"
-          animate="visible"
-          exit={{ opacity: 0 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
-            {'일단 해봐야 아는 거 맞죠?'.split('').map((char, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={typingVariants}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </Text>
-        </motion.div>
+        {sentences.map((sentence, lineIndex) => (
+          <motion.div
+            key={lineIndex}
+            custom={lineIndex}
+            variants={lineVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
+              {sentence.split('').map((char, i) => (
+                <motion.span
+                  key={i}
+                  custom={i}
+                  variants={typingVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{
+                    delay: lineIndex * 2 + i * 0.1,
+                    duration: 0,
+                  }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </Text>
+          </motion.div>
+        ))}
       </WordWrapper>
     </Section>
   );
