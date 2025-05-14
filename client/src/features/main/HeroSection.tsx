@@ -1,13 +1,13 @@
 'use client';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { jobRows } from '../../data/jobRows';
 
 const Section = styled.section`
   width: 100vw;
   height: 400vh;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.black};
   position: relative;
   overflow: hidden;
 `;
@@ -19,8 +19,9 @@ const StickyWrapper = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+  background-color: white;
   align-items: center;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 `;
 
@@ -51,11 +52,13 @@ const BlackSection = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: 1;
 `;
 
 export default function HeroSection() {
   const containerRef = useRef(null);
+  const [hideSticky, setHideSticky] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
@@ -65,39 +68,44 @@ export default function HeroSection() {
     damping: 5, // 감속
     mass: 0.2, // 질량
   });
+  useMotionValueEvent(smoothScroll, 'change', (latest) => {
+    setHideSticky(latest > 0.9999999); // 기준값은 자유롭게 조정 가능
+  });
   const blackOpacity = useTransform(smoothScroll, [0.5, 0.7], [0, 1]);
   const fontSize = useTransform(smoothScroll, [0, 1], ['6rem', '400rem']);
-
   return (
     <Section ref={containerRef}>
-      <StickyWrapper>
-        <Wrapper>
-          {jobRows.map((row, rowIndex) => (
-            <Row key={rowIndex}>
-              {row.map((job, i) => {
-                const isOutlineOnly = job.includes('이');
-                return (
-                  <JobText
-                    key={i}
-                    style={{ fontSize }}
-                    initial={{ x: i % 2 === 0 ? -100 : 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{
-                      delay: rowIndex * 0.3 + i * 0.1,
-                      type: 'spring',
-                    }}
-                    $outline={isOutlineOnly}
-                  >
-                    {job}
-                  </JobText>
-                );
-              })}
-            </Row>
-          ))}
-        </Wrapper>
-      </StickyWrapper>
-
-      <BlackSection style={{ opacity: blackOpacity }} />
+      {!hideSticky && (
+        <>
+          <BlackSection style={{ opacity: blackOpacity }} />
+          <StickyWrapper>
+            <Wrapper>
+              {jobRows.map((row, rowIndex) => (
+                <Row key={rowIndex}>
+                  {row.map((job, i) => {
+                    const isOutlineOnly = job.includes('이');
+                    return (
+                      <JobText
+                        key={i}
+                        style={{ fontSize }}
+                        initial={{ x: i % 2 === 0 ? -100 : 100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                          delay: rowIndex * 0.3 + i * 0.1,
+                          type: 'spring',
+                        }}
+                        $outline={isOutlineOnly}
+                      >
+                        {job}
+                      </JobText>
+                    );
+                  })}
+                </Row>
+              ))}
+            </Wrapper>
+          </StickyWrapper>
+        </>
+      )}
     </Section>
   );
 }
