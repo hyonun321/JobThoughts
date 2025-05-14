@@ -15,11 +15,9 @@ const NextSection = styled.section`
   height: 210vh;
   background: linear-gradient(to bottom, #000000 0%, #4f63ff 50%, #ffffff 100%);
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
 `;
 
 const WordWrap = styled.div`
