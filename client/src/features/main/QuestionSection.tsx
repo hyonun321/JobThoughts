@@ -6,7 +6,7 @@ import Text from '../../components/Text';
 import { style } from 'framer-motion/client';
 import { useAnimate } from 'framer-motion';
 
-// 스타일 정의하기
+// ======================= styled components =======================
 const Section = styled.section`
   border: 1px solid red;
   width: 100vw;
@@ -77,9 +77,18 @@ const WordWrapper = styled.div`
   }
 `;
 
-// 애니메이션 적용하기
-
-// 최적화하기 (훅 사용)
+// ======================= animation variants =======================
+const typingVariants: Variants = {
+  hidden: { opacity: 0 }, // 글자 초기 상태 (숨겨짐)
+  // 글자가 타이핑처럼 나타날 때 상태
+  visible: (i: number) => ({
+    opacity: 1,
+    transition: {
+      delay: i * 0.1, // 글자마다 0.1초 차이
+      duration: 0,
+    },
+  }),
+};
 
 export default function QuestionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -90,7 +99,7 @@ export default function QuestionSection() {
         <motion.img
           src={worriedBear}
           drag
-          dragConstraints={containerRef} // ✅ 화면 기준 제한
+          dragConstraints={containerRef} // 화면 기준 범위 제한
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         />
@@ -98,45 +107,68 @@ export default function QuestionSection() {
       <WordWrapper>
         {/* 2. 문장 - 1 */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          layout
+          initial="hidden"
+          animate="visible"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          whileTap={{ scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
         >
-          <Text as="h1" weight="bold" color="black" align="left">
-            "이 길이 맞는지 고민만 하고 있어요"
+          <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
+            {'뭐가 맞는지 솔직히 모르겠고'.split('').map((char, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={typingVariants}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {char}
+              </motion.span>
+            ))}
           </Text>
         </motion.div>
         {/* 3. 문장 - 2 */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          layout
+          initial="hidden"
+          animate="visible"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
         >
-          <Text as="h1" weight="bold" color="black" align="left">
-            "나랑 어울리는 일이 뭘까요?"
+          <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
+            {'대충 살고 싶진 않은데'.split('').map((char, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={typingVariants}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {char}
+              </motion.span>
+            ))}
           </Text>
         </motion.div>
         {/* 4. 문장 - 3 */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          layout
+          initial="hidden"
+          animate="visible"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          whileTap={{ scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
         >
-          <Text as="h1" weight="bold" color="black" align="left">
-            "막막한데 어디서부터 봐야 하죠?"
+          <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
+            {'일단 해봐야 아는 거 맞죠?'.split('').map((char, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={typingVariants}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {char}
+              </motion.span>
+            ))}
           </Text>
         </motion.div>
       </WordWrapper>
