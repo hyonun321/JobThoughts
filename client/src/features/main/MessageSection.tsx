@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
+import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import styled, { useTheme } from 'styled-components';
 import Text from '../../components/Text';
@@ -45,19 +45,6 @@ const wordVariants: Variants = {
     },
   }),
 };
-
-// ======================= custom hook =======================
-function useScrollAnimation(amount = 0.5) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start(inView ? 'visible' : 'hidden');
-  }, [inView, controls]);
-
-  return { ref, controls };
-}
 
 // ======================= component =======================
 export default function MessageSection() {
