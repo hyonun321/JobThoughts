@@ -2,124 +2,162 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 
-// 1. 버튼 타입 정의하기
-// text와 이벤트 함수를 제외한 모든 속성은 옵션
+const variantStyles = {
+  main: {
+    // 메인 페이지 - 지금 시작하기 버튼
+    width: '300px',
+    height: '55px',
+    backgroundColor: 'white',
+    color: 'primary',
+    border: 'none',
+    padding: '20px 72px',
+    boxShadow: '0px 0px 10px rgba(79, 99, 255, 0.4)',
+    size: 'xl',
+    transition: 'all 0.3s ease',
+    hoverColor: 'primary',
+    disabledColor: 'gray400',
+  },
+  action: {
+    // 직업 검사 페이지 - 다음 버튼
+    width: '50px',
+    height: '20px',
+    backgroundColor: 'primary',
+    color: 'white',
+    border: 'none',
+    padding: '16px 24px',
+    boxShadow: 'none',
+    size: 'm',
+    disabledColor: 'gray400',
+  },
+  link: {
+    // 직업 검사 페이지 - 검사 시작, 결과 보기 버튼
+    width: '250px',
+    height: '30px',
+    backgroundColor: 'primary',
+    color: 'white',
+    border: 'none',
+    padding: '16px 24px',
+    boxShadow: 'none',
+    size: 'lg',
+    disabledColor: 'gray400',
+  },
+  job: {
+    // 검사 결과 페이지 - 직업 버튼
+    width: '100px',
+    height: '20px',
+    backgroundColor: 'white',
+    color: 'black',
+    border: 'none',
+    padding: '12px 16px',
+    boxShadow: '4px 4px 4px rgba(79, 99, 255, 0.4)',
+    size: 'm',
+    transition: 'all 0.3s ease',
+    hoverColor: 'primary',
+    disabledColor: 'gray300',
+  },
+} as const;
+
+type Variant = keyof typeof variantStyles;
+
 type ButtonProps = {
   text: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  variant?: Variant;
   disabled?: boolean;
+  width?: string;
+  height?: string;
   color?: keyof typeof theme.colors | string;
-  size?: keyof typeof theme.fontSize | string;
-  padding?: string;
-  transition?: string;
-  hoverColor?: keyof typeof theme.colors | string;
   backgroundColor?: keyof typeof theme.colors | string;
   border?: string;
+  padding?: string;
   boxShadow?: string;
+  size?: keyof typeof theme.fontSize | string;
+  transition?: string;
+  hoverColor?: keyof typeof theme.colors | string;
+  disabledColor?: keyof typeof theme.colors | string;
 };
 
-// 2. 버튼 스타일 정의하기
-// $를 붙여 DOM에 전달을 방지하여 스타일용으로만 사용할 것임을 명시
 const ButtonStyle = styled.button<{
-  $color?: keyof typeof theme.colors | string;
-  $size?: keyof typeof theme.fontSize | string;
-  $padding?: string;
+  $width: string;
+  $height: string;
+  $padding: string;
+  $backgroundColor: string;
+  $color: string;
+  $border: string;
+  $boxShadow: string;
+  $fontSize: string;
   $transition?: string;
-  $hoverColor?: keyof typeof theme.colors | string;
-  $backgroundColor?: keyof typeof theme.colors | string;
-  $border?: string;
-  $boxShadow?: string;
+  $hoverColor?: string;
+  $disabledColor: string;
 }>`
-  padding: ${({ $padding }) => $padding || '16px 24px'};
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: ${({ $width }) => $width};
+  height: ${({ $height }) => $height};
+  padding: ${({ $padding }) => $padding};
   background-color: ${({ theme, $backgroundColor }) =>
-    $backgroundColor
-      ? theme.colors[$backgroundColor as keyof typeof theme.colors] || $backgroundColor
-      : theme.colors.primary};
-
-  font-size: ${({ theme, $size }) => theme.fontSize[$size as keyof typeof theme.fontSize] || $size};
+    theme.colors[$backgroundColor as keyof typeof theme.colors] || $backgroundColor};
   color: ${({ theme, $color }) => theme.colors[$color as keyof typeof theme.colors] || $color};
+  border: ${({ $border }) => $border};
+  border-radius: 100px;
+  box-shadow: ${({ $boxShadow }) => $boxShadow};
+  font-size: ${({ $fontSize }) => $fontSize};
+  transition: ${({ $transition }) => $transition || 'all 0.3s ease'};
 
-  ${({ $border }) =>
-    $border &&
-    `
-  border: ${$border};
-`}
-  border-radius:100px;
-
-  ${({ $boxShadow }) =>
-    $boxShadow &&
-    `
-  box-shadow: ${$boxShadow};
-`}
-
-  ${({ $transition }) => $transition && `transition: ${$transition};`}
-
-${({ theme, $hoverColor }) =>
-    $hoverColor &&
-    `
-  &:hover {
-    background-color: ${theme.colors[$hoverColor as keyof typeof theme.colors] || $hoverColor};
+  &:hover:enabled {
+    background-color: ${({ theme, $hoverColor, $backgroundColor }) =>
+      $hoverColor
+        ? theme.colors[$hoverColor as keyof typeof theme.colors] || $hoverColor
+        : theme.colors[$backgroundColor as keyof typeof theme.colors] || $backgroundColor};
     color: white;
   }
-`}
+
   &:disabled {
-    background-color: ${({ theme }) => theme.colors.gray400};
+    background-color: ${({ theme, $disabledColor }) =>
+      theme.colors[$disabledColor as keyof typeof theme.colors] || $disabledColor};
     color: white;
     cursor: not-allowed;
     box-shadow: none;
   }
 `;
 
-// 3. 버튼 컴포넌트
 export default function Button({
   text,
   onClick,
+  variant = 'main',
   disabled = false,
-  color = 'white',
-  size = '16px',
-  padding = '16px 24px',
-  transition,
-  hoverColor,
-  backgroundColor = 'primary',
+  width,
+  height,
+  padding,
+  backgroundColor,
+  color,
   border,
   boxShadow,
+  size,
+  transition,
+  hoverColor,
+  disabledColor,
 }: ButtonProps) {
+  const style = variantStyles[variant];
+
   return (
     <ButtonStyle
       onClick={onClick}
       disabled={disabled}
-      $color={color}
-      $size={size}
-      $padding={padding}
-      $transition={transition}
-      $hoverColor={hoverColor}
-      $backgroundColor={backgroundColor}
-      $border={border}
-      $boxShadow={boxShadow}
+      $width={width || style.width}
+      $height={height || style.height}
+      $padding={padding || style.padding}
+      $backgroundColor={backgroundColor || style.backgroundColor}
+      $color={color || style.color}
+      $border={border || style.border}
+      $boxShadow={boxShadow || style.boxShadow}
+      $fontSize={theme.fontSize[size || style.size]}
+      $transition={transition || style.transition}
+      $hoverColor={hoverColor || style.hoverColor}
+      $disabledColor={disabledColor || style.disabledColor}
     >
       {text}
     </ButtonStyle>
   );
-}
-
-// props를 전달하지 않아도 적용되는 버튼 기본값 ✔️
-// padding: 16px 24px;
-// background-color: theme.colors.primary;
-// font-size: theme.fontSize['16px'];
-// color: white;
-// border-radius: 100px;
-
-// 사용 예시 ✔️
-{
-  /* <Button
-  onClick={() => navigate('/test')}
-  text={'지금 시작하기'}
-  padding={'20px 72px'}
-  size="lg" 또는 size="24px"
-  color={'primary'}
-  transition={'all 0.3s ease'}
-  backgroundColor={'white'}
-  hoverColor={'primary'}
-  boxShadow={'0px 0px 10px rgba(79, 99, 255, 0.4)'}
-/>; */
 }
