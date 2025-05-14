@@ -10,7 +10,7 @@ type ResultDataItem = {
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
+  width: 50vw;
   max-width: 500px;
   aspect-ratio: 1 / 1;
   margin: 70px;
@@ -70,7 +70,7 @@ export default function ResultChart() {
         keys={['score']}
         indexBy="type"
         margin={{ top: 40, right: 40, bottom: 40, left: 60 }}
-        gridLabelOffset={170}
+        gridLabelOffset={400}
         enableDots={false}
         colors={['#4F63FF']}
         fillOpacity={0.4}
