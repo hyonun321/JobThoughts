@@ -63,6 +63,11 @@ const WordWrapper = styled.div`
 `;
 
 // ================= animation variants =================
+const fadeInVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
 const typingVariants: Variants = {
   hidden: { opacity: 0 },
   visible: (custom: { index: number; baseDelay: number }) => ({
@@ -95,17 +100,25 @@ export default function QuestionSection() {
     '나랑 어울리는 일이 뭘까요?',
     '막막한데, 어디서부터 봐야 하죠?',
   ];
-  const anim0 = useScrollAnimation(0.5);
-  const anim1 = useScrollAnimation(0.5);
-  const anim2 = useScrollAnimation(0.5);
+  const bearAnimation = useScrollAnimation();
+  const anim0 = useScrollAnimation();
+  const anim1 = useScrollAnimation();
+  const anim2 = useScrollAnimation();
 
   const animations = [anim0, anim1, anim2];
 
   return (
     <Section>
       {/* 곰돌이 이미지 */}
-      <ImgWrapper>
-        <motion.img src={worriedBear} whileHover={{ scale: 1.05 }} />
+      <ImgWrapper ref={bearAnimation.ref}>
+        <motion.div
+          initial="hidden"
+          animate={bearAnimation.controls}
+          whileHover={{ scale: 1.05 }}
+          variants={fadeInVariants}
+        >
+          <img src={worriedBear} alt="곰돌이" />
+        </motion.div>
       </ImgWrapper>
 
       {/* 타이핑 문장 */}
