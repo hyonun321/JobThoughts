@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
+import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import styled, { useTheme } from 'styled-components';
 import Text from '../../components/Text';
@@ -15,11 +15,9 @@ const NextSection = styled.section`
   height: 210vh;
   background: linear-gradient(to bottom, #000000 0%, #4f63ff 50%, #ffffff 100%);
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
 `;
 
 const WordWrap = styled.div`
@@ -47,19 +45,6 @@ const wordVariants: Variants = {
     },
   }),
 };
-
-// ======================= custom hook =======================
-function useScrollAnimation(amount = 0.5) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start(inView ? 'visible' : 'hidden');
-  }, [inView, controls]);
-
-  return { ref, controls };
-}
 
 // ======================= component =======================
 export default function MessageSection() {

@@ -1,5 +1,4 @@
-// TitleSection.tsx
-import { useMemo, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import styled from 'styled-components';
@@ -34,13 +33,18 @@ const Bear = styled(motion.img)`
 const containerVariants: Variants = { hidden: {}, visible: {} };
 
 const shapeVariants: Variants = {
-  hidden: { scale: 0.1, opacity: 0 },
-  visible: (pos: { x: number; y: number; size: number }) => ({
+  hidden: () => ({
+    x: 0,
+    y: 0,
+    scale: 0.1,
+    opacity: 0,
+  }),
+  visible: (pos) => ({
     x: pos.x * 700,
     y: pos.y * 700,
     scale: pos.size,
     opacity: 1,
-    transition: { duration: 0.8, ease: 'easeOut' },
+    transition: { duration: 1.8, ease: [0.25, 0.1, 0.25, 1] },
   }),
 };
 
@@ -49,7 +53,7 @@ const textVariants: Variants = {
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.3 },
+    transition: { duration: 0.8, delay: i * 0.5 },
   }),
 };
 
@@ -58,7 +62,7 @@ const bearVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: 'easeOut', delay: 0.3 },
+    transition: { duration: 1.3, ease: 'easeOut', delay: 0.5 },
   },
 };
 
@@ -72,8 +76,22 @@ export default function TitleSection() {
     controls.start(inView ? 'visible' : 'hidden');
   }, [inView, controls]);
 
-  const circles = useMemo(() => {
-    return Array.from({ length: 30 }, () => {
+  //1) 매 스크롤 진입시마다 원(우주 별 역할)을 랜덤으로 흩뿌리고 싶을 경우 사용 --> 현재는 이 방식 적용
+  const circles = Array.from({ length: 30 }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.random();
+    const size = Math.random() * 0.6 + 0.4;
+    return {
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius,
+      size,
+    };
+  });
+
+  //2) 첫 렌더링 이후에, 스크롤 진입시에는 원(우주 별 역할)을 고정시키고 싶을 경우 사용
+  /*
+  const circlesRef = useRef(
+    Array.from({ length: 30 }, () => {
       const angle = Math.random() * Math.PI * 2;
       const radius = Math.random();
       const size = Math.random() * 0.6 + 0.4;
@@ -82,8 +100,11 @@ export default function TitleSection() {
         y: Math.sin(angle) * radius,
         size,
       };
-    });
-  }, []);
+    })
+  );
+
+  const circles = circlesRef.current;
+  */
 
   return (
     <Section>
@@ -96,8 +117,10 @@ export default function TitleSection() {
       >
         {circles.map((pos, i) => (
           <Shape
-            key={i}
+            key={`${i}-${inView}`}
             variants={shapeVariants}
+            initial="hidden"
+            animate="visible"
             custom={pos}
             style={{
               top: '50%',
@@ -110,7 +133,7 @@ export default function TitleSection() {
 
         <motion.div
           variants={textVariants}
-          custom={0}
+          custom={1}
           style={{ position: 'absolute', top: '30%', left: '15%' }}
         >
           <Text as="h1" size="120px" weight="bold" color="primary" align="left">
@@ -120,7 +143,7 @@ export default function TitleSection() {
 
         <motion.div
           variants={textVariants}
-          custom={1}
+          custom={2}
           style={{ position: 'absolute', top: '55%', left: '15%' }}
         >
           <Text as="h1" size="120px" weight="bold" color="white" align="left">
