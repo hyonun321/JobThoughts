@@ -88,13 +88,14 @@ export default function QuestionSection() {
     '막막한데, 어디서부터 봐야 하지?',
   ];
 
-  const animations: {
-    ref: React.RefObject<HTMLElement>;
-    controls: ReturnType<typeof useAnimation>;
-  }[] = [];
+  const animationsRef = useRef<
+    { ref: React.RefObject<HTMLElement>; controls: ReturnType<typeof useAnimation> }[]
+  >([]);
 
-  for (let i = 0; i < lines.length; i++) {
-    animations.push(useScrollAnimation(0.5));
+  if (animationsRef.current.length === 0) {
+    for (let i = 0; i < lines.length; i++) {
+      animationsRef.current.push(useScrollAnimation(0.5));
+    }
   }
 
   return (
