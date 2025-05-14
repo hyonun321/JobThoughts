@@ -11,7 +11,7 @@ type ResultDataItem = {
 const Wrapper = styled.div`
   position: relative;
   width: 50vw;
-  max-width: 500px;
+  max-width: 450px;
   aspect-ratio: 1 / 1;
   margin: 70px;
   border-radius: 1px solid red;
@@ -38,11 +38,7 @@ const Label = styled.div<{ x: number; y: number }>`
   }
 `;
 
-export default function ResultChart() {
-  const handleClickLabel = (label: string) => {
-    console.log(`라벨 클릭: ${label}`);
-  };
-
+export default function ResultChart({ onLabelClick }) {
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;
@@ -79,7 +75,7 @@ export default function ResultChart() {
         motionConfig="gentle"
       />
       {labels.map((l) => (
-        <Label key={l.label} x={l.x} y={l.y} onClick={() => handleClickLabel(l.label)}>
+        <Label key={l.label} x={l.x} y={l.y} onClick={() => onLabelClick(l.label)}>
           {l.label}
         </Label>
       ))}

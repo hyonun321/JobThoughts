@@ -2,9 +2,11 @@ import ResultChart from '../features/result/ResultChart';
 import ResultDescriptionCard from '../features/result/ResultDescriptionCard';
 import JobGroupSection from '../features/result/JobGroupSection';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ResultSection = styled.div`
-  padding: 20px 20px;
+  padding: 0px 20px;
 `;
 
 const ResultTopWrapper = styled.div`
@@ -19,12 +21,63 @@ const ResultTopWrapper = styled.div`
   }
 `;
 
+// ======================= animation variants =======================
+const layoutSpring = {
+  type: 'spring',
+  stiffness: 40,
+  damping: 20,
+};
+
+const slideInVariants = {
+  hidden: { x: -100, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring', // spring 애니메이션 적용
+      stiffness: 40, // 낮을수록 부드럽고 천천히 감
+      damping: 20, // 감쇠율을 높이면 느리게 멈춤, 기본적으로 20
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      type: 'spring',
+      stiffness: 40,
+      damping: 20,
+    },
+  },
+};
+
 export default function ResultPage() {
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   return (
     <ResultSection>
       <ResultTopWrapper>
-        <ResultChart />
-        <ResultDescriptionCard />
+        <motion.div layout transition={layoutSpring}>
+          {/* Chart가 밀리게 애니메이션 */}
+          <ResultChart onLabelClick={(label) => setSelectedLabel(label)} />
+        </motion.div>
+
+        <AnimatePresence>
+          {selectedLabel && (
+            <motion.div
+              key="description"
+              variants={slideInVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{
+                type: 'spring',
+                stiffness: 40,
+                damping: 20,
+              }}
+            >
+              <ResultDescriptionCard label={selectedLabel} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </ResultTopWrapper>
       <JobGroupSection />
     </ResultSection>
