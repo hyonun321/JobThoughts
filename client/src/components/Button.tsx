@@ -101,3 +101,25 @@ export default function Button({
     </ButtonStyle>
   );
 }
+
+// props를 전달하지 않아도 적용되는 버튼 기본값 ✔️
+// padding: 16px 24px;
+// background-color: theme.colors.primary;
+// font-size: theme.fontSize['16px'];
+// color: white;
+// border-radius: 100px;
+
+// 사용 예시 ✔️
+{
+  /* <Button
+  onClick={() => navigate('/test')}
+  text={'지금 시작하기'}
+  padding={'20px 72px'}
+  size="lg" 또는 size="24px"
+  color={'primary'}
+  transition={'all 0.3s ease'}
+  backgroundColor={'white'}
+  hoverColor={'primary'}
+  boxShadow={'0px 0px 10px rgba(79, 99, 255, 0.4)'}
+/>; */
+}
