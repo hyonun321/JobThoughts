@@ -91,10 +91,12 @@ export default function QuestionSection() {
 
   return (
     <Section>
+      {/* 곰돌이 이미지 */}
       <ImgWrapper>
         <motion.img src={worriedBear} whileHover={{ scale: 1.05 }} />
       </ImgWrapper>
 
+      {/* 타이핑 문장 */}
       <WordWrapper>
         {lines.map((line, lineIndex) => {
           const { controls, ref } = animations[lineIndex];
