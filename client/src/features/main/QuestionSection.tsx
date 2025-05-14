@@ -75,8 +75,6 @@ function useScrollAnimation(amount = 0.5) {
 
 // ================= component =================
 export default function QuestionSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   const line1 = useScrollAnimation(0.5);
   const line2 = useScrollAnimation(0.5);
   const line3 = useScrollAnimation(0.5);
@@ -114,15 +112,9 @@ export default function QuestionSection() {
   };
 
   return (
-    <Section ref={containerRef}>
+    <Section>
       <ImgWrapper>
-        <motion.img
-          src={worriedBear}
-          drag
-          dragConstraints={containerRef}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        />
+        <motion.img src={worriedBear} />
       </ImgWrapper>
 
       <WordWrapper>
