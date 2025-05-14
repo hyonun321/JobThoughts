@@ -13,7 +13,7 @@ const Section = styled.section`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  padding: 0 10px;
+  padding: 0 20px;
   background: #fff;
   overflow: hidden;
 
