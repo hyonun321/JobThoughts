@@ -11,6 +11,18 @@ import compassImg from '../../assets/icons/icon-compass.png';
 import bearImg from '../../assets/start-bear.png';
 import arrowImg from '../../assets/icons/icon-start-arrow.png';
 
+// ======================== types ========================
+type PositionedIconProps = {
+  src: string;
+  alt: string;
+  top?: string;
+  left?: string;
+  right?: string;
+  width?: string;
+  refObj: React.Ref<HTMLDivElement>;
+  animation: ReturnType<typeof useAnimation>;
+};
+
 // ======================== styled-components ========================
 const CTAWrapper = styled(FullScreenSection)`
   width: 100vw;
@@ -20,28 +32,12 @@ const CTAWrapper = styled(FullScreenSection)`
   overflow: hidden;
 `;
 
-const PositionedElement = styled(motion.div)<{
-  top?: string;
-  left?: string;
-  right?: string;
-  width?: string;
-}>`
-  position: absolute;
-  top: ${({ top }) => top || 'auto'};
-  left: ${({ left }) => left || 'auto'};
-  right: ${({ right }) => right || 'auto'};
-  width: ${({ width }) => width || 'auto'};
-  z-index: 1;
-`;
-
-const RocketWrapper = styled(motion.div)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
-  pointer-events: none;
+const MotionCharacter = styled(motion.div)`
+  margin-top: 40px;
+  width: 280px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
 `;
 
 const RocketImage = styled(motion.img)`
@@ -51,35 +47,6 @@ const RocketImage = styled(motion.img)`
   width: 300px;
   transform: rotate(-20deg);
   z-index: 10;
-`;
-
-const CTAButtonWrapper = styled(motion.div)`
-  z-index: 2;
-
-  button {
-    background-color: rgba(255, 255, 255, 0.85);
-    color: ${({ theme }) => theme.colors.primary};
-    font-weight: bold;
-    transition: all 0.3s ease;
-
-    &:hover:enabled {
-      background-color: ${({ theme }) => theme.colors.primary};
-      box-shadow: 4px 4px 20px rgba(79, 99, 255, 1);
-      color: white;
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
-  }
-`;
-
-const MotionCharacter = styled(motion.div)`
-  margin-top: 40px;
-  width: 280px;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
 `;
 
 // ======================== animation variants ========================
@@ -116,18 +83,37 @@ function useScrollAnimation(amount = 0.5) {
   return { ref, controls };
 }
 
-// ======================== 컴포넌트 ========================
+// ======================== components ========================
+const PositionedIcon = ({
+  src,
+  alt,
+  top,
+  left,
+  right,
+  width,
+  refObj,
+  animation,
+}: PositionedIconProps) => (
+  <motion.div
+    ref={refObj}
+    initial="hidden"
+    animate={animation}
+    variants={fadeInVariants}
+    style={{ position: 'absolute', top, left, right, width, zIndex: 1 }}
+  >
+    <Image src={src} alt={alt} width="100%" motion="float" />
+  </motion.div>
+);
+
 export default function StartCTASection() {
   const navigate = useNavigate();
 
-  // scroll-based animation
   const arrow = useScrollAnimation(0.4);
   const key = useScrollAnimation(0.4);
   const compass = useScrollAnimation(0.4);
   const button = useScrollAnimation(0.4);
   const bear = useScrollAnimation(0.4);
 
-  // rocket animation control
   const rocketRef = useRef(null);
   const inView = useInView(rocketRef, { amount: 0.3 });
   const rocketControls = useAnimation();
@@ -141,46 +127,44 @@ export default function StartCTASection() {
 
   return (
     <CTAWrapper>
-      {/* 화살표 */}
-      <PositionedElement
-        ref={arrow.ref}
-        initial="hidden"
-        animate={arrow.controls}
-        variants={fadeInVariants}
-        top="10px"
+      <PositionedIcon
+        refObj={arrow.ref}
+        animation={arrow.controls}
+        src={arrowImg}
+        alt="시작 화살표"
+        top="30px"
         width="250px"
-      >
-        <Image src={arrowImg} alt="시작 화살표" width="100%" motion="float" />
-      </PositionedElement>
-
-      {/* 열쇠 */}
-      <PositionedElement
-        ref={key.ref}
-        initial="hidden"
-        animate={key.controls}
-        variants={fadeInVariants}
+      />
+      <PositionedIcon
+        refObj={key.ref}
+        animation={key.controls}
+        src={keyImg}
+        alt="열쇠 이미지"
         top="200px"
         left="100px"
         width="250px"
-      >
-        <Image src={keyImg} alt="열쇠 이미지" width="100%" motion="float" />
-      </PositionedElement>
-
-      {/* 나침반 */}
-      <PositionedElement
-        ref={compass.ref}
-        initial="hidden"
-        animate={compass.controls}
-        variants={fadeInVariants}
+      />
+      <PositionedIcon
+        refObj={compass.ref}
+        animation={compass.controls}
+        src={compassImg}
+        alt="나침반 이미지"
         top="480px"
         right="100px"
         width="200px"
+      />
+      <motion.div
+        ref={rocketRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
       >
-        <Image src={compassImg} alt="나침반 이미지" width="100%" motion="float" />
-      </PositionedElement>
-
-      {/* 우주선 */}
-      <RocketWrapper ref={rocketRef}>
         <RocketImage
           src={rocketImg}
           alt="rocket"
@@ -188,21 +172,20 @@ export default function StartCTASection() {
           initial="initial"
           animate={rocketControls}
         />
-      </RocketWrapper>
+      </motion.div>
 
-      {/* 시작 버튼 */}
-      <CTAButtonWrapper
+      <motion.div
         ref={button.ref}
         initial="hidden"
         animate={button.controls}
         variants={fadeInVariants}
-        whileHover={{ scale: 1.1 }} // hover 시 확대
-        whileTap={{ scale: 0.98 }} // 클릭 시 살짝 축소
+        style={{ zIndex: 2 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.98 }}
       >
-        <Button onClick={() => navigate('/test')} variant="main" text={'지금 시작하기'} />
-      </CTAButtonWrapper>
+        <Button onClick={() => navigate('/test')} variant="main" text="지금 시작하기" />
+      </motion.div>
 
-      {/* 캐릭터 */}
       <MotionCharacter
         ref={bear.ref}
         initial="hidden"
