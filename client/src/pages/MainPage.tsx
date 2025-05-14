@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Footer from '../components/Footer';
 import FlowButtonSection from '../features/main/FlowButtonSection';
 import HeroSection from '../features/main/HeroSection';
+import TitleSection from '../features/main/TitleSection';
 import MessageSection from '../features/main/MessageSection';
 import StartCTASection from '../features/main/StartCTASection';
 import QuestionSection from '../features/main/QuestionSection';
@@ -17,6 +18,7 @@ export default function MainPage() {
   return (
     <PageWrapper>
       <HeroSection />
+      <TitleSection />
       <MessageSection />
       <FlowButtonSection />
       <QuestionSection />
