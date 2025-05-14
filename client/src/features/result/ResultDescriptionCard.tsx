@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { theme } from '../../styles/theme';
 
 const Card = styled.div`
   width: clamp(200px, 40vw, 500px);
@@ -13,7 +12,7 @@ const Card = styled.div`
     inset 10px 10px 10px 4px rgba(255, 255, 255, 0.6),
     inset -5px -5px 15px 4px rgba(193, 215, 249, 1);
 
-  p {
+  & p {
     padding-left: 10px;
   }
 `;
@@ -22,7 +21,6 @@ const SectionTitle = styled.h3`
   width: 120px;
   background-color: white;
   border-radius: 100px;
-  border: 1px solid red;
   box-shadow: 0px 1px 3px rgba(79, 99, 255, 0.5);
   padding: 5px 0px;
   text-align: center;
