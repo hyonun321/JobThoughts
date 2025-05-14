@@ -50,7 +50,7 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
       <Text
         as="p"
         size="lg"
-        weight="medium"
+        weight="light"
         color="black"
         align="center"
         style={{ marginTop: '0.5rem' }}
