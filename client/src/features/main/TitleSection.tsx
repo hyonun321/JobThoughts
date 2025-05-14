@@ -13,6 +13,7 @@ const Section = styled.section`
   position: relative;
   overflow: hidden;
   background: black;
+  z-index: 1;
 `;
 
 const Shape = styled(motion.div)`
