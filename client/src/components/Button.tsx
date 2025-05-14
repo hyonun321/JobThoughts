@@ -37,7 +37,7 @@ const ButtonStyle = styled.button<{
       : theme.colors.primary};
 
   font-size: ${({ theme, $size }) => theme.fontSize[$size as keyof typeof theme.fontSize] || $size};
-  color: ${({ theme, $color }) => theme.colors[$color as keyof typeof theme.colors] || 'white'};
+  color: ${({ theme, $color }) => theme.colors[$color as keyof typeof theme.colors] || $color};
 
   ${({ $border }) =>
     $border &&
