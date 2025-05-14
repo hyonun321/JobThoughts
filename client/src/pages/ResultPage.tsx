@@ -40,8 +40,8 @@ const slideInVariants = {
     },
   },
   exit: {
+    x: -100,
     opacity: 0,
-    scale: 0.95,
     transition: {
       type: 'spring',
       stiffness: 40,
@@ -74,7 +74,7 @@ export default function ResultPage() {
                 damping: 20,
               }}
             >
-              <ResultDescriptionCard label={selectedLabel} />
+              <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(null)} />
             </motion.div>
           )}
         </AnimatePresence>

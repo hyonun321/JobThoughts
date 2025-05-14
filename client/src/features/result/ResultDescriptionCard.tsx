@@ -27,9 +27,18 @@ const SectionTitle = styled.h3`
   font-size: 20px;
 `;
 
-export default function ResultDescriptionCard() {
+export default function ResultDescriptionCard({
+  label,
+  onClose,
+}: {
+  label: string;
+  onClose: () => void;
+}) {
   return (
     <Card>
+      <button onClick={onClose} style={{ alignSelf: 'flex-end' }}>
+        X
+      </button>
       <div>
         <SectionTitle>특징</SectionTitle>
         <p>나의 능력을 충분히 발휘할 수 있을 때 보람과 만족을 느낍니다.</p>
