@@ -15,6 +15,7 @@ const Section = styled.section`
   padding: 0 10px;
   background: #fff;
   overflow: hidden;
+
   @media (max-width: 480px) {
     flex-direction: column;
     gap: 0.25rem;
@@ -40,9 +41,15 @@ const WordWrapper = styled.div`
     font-size: 40px;
     white-space: nowrap;
   }
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 30px;
+    }
+  }
   @media (max-width: 480px) {
     h1 {
       font-size: 20px;
+      text-align: center;
     }
   }
 `;
