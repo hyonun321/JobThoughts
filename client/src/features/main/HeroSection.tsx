@@ -3,7 +3,6 @@ import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { jobRows } from '../../data/jobRows';
-
 const Section = styled.section`
   width: 100vw;
   height: 400vh;
@@ -41,7 +40,7 @@ const Row = styled.div`
 const JobText = styled(motion.span)<{ $outline?: boolean }>`
   font-weight: 900;
   display: inline-block;
-  color: ${({ $outline }) => ($outline ? 'transparent' : `${({ theme }) => theme.colors.black}`)};
+  color: ${({ $outline, theme }) => ($outline ? 'transparent' : theme.colors.black)};
   -webkit-text-stroke: ${({ $outline }) => ($outline ? '1px black' : '0')};
 `;
 
@@ -71,7 +70,7 @@ export default function HeroSection() {
   useMotionValueEvent(smoothScroll, 'change', (latest) => {
     setHideSticky(latest > 0.9999999); // 기준값은 자유롭게 조정 가능
   });
-  const blackOpacity = useTransform(smoothScroll, [0.5, 0.7], [0, 1]);
+  const blackOpacity = useTransform(smoothScroll, [0.5, 0.6], [0, 1]);
   const fontSize = useTransform(smoothScroll, [0, 1], ['6rem', '400rem']);
   return (
     <Section ref={containerRef}>
