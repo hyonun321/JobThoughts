@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import achievement from '../assets/card/achievement.svg';
 import autonomy from '../assets/card/autonomy.svg';
 import creativity from '../assets/card/creativity.svg';
@@ -9,6 +8,7 @@ import socialContribution from '../assets/card/social-contribution.svg';
 import socialRecognition from '../assets/card/social-recognition.svg';
 import stability from '../assets/card/stability.svg';
 
+// Card 컴포넌트 props 정의
 type Props = {
   value: string;
   selected: boolean;
@@ -17,6 +17,7 @@ type Props = {
   height?: string;
 };
 
+// 텍스트 값과 아이콘을 매핑하는 객체
 const iconMap: Record<string, string> = {
   능력발휘: achievement,
   자율성: autonomy,
@@ -29,6 +30,7 @@ const iconMap: Record<string, string> = {
 };
 
 // ================= styled-components =================
+// 카드 전체 wrapper
 const CardWrapper = styled.div<{
   selected: boolean;
   width?: string;
@@ -58,19 +60,27 @@ const CardWrapper = styled.div<{
         `};
 `;
 
+// 아이콘 스타일
 const CardIcon = styled.img`
   width: 70%;
   height: 70%;
   margin-bottom: 0.5rem;
 `;
 
+// 텍스트 스타일
 const CardLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.colors.black};
 `;
 
+// ================= Card Component =================
+/**
+ * 개별 가치(선택지)를 카드 형태로 시각화하는 컴포넌트
+ * 선택 여부에 따라 스타일이 달라지고, 클릭 시 상위에서 전달된 콜백을 실행함
+ */
 export default function Card({ value, selected, onClick, width, height }: Props) {
+  // value에 해당하는 아이콘 불러오기
   const icon = iconMap[value];
 
   return (
