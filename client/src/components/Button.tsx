@@ -2,9 +2,27 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 
-const variantStyles = {
+// Variant 타입
+type Variant = 'main' | 'action' | 'link' | 'job';
+
+// VariantStyles 타입 정의
+const variantStyles: Record<
+  Variant,
+  {
+    width: string;
+    height: string;
+    backgroundColor: keyof typeof theme.colors | string;
+    color: keyof typeof theme.colors | string;
+    border: string;
+    padding: string;
+    boxShadow: string;
+    size: keyof typeof theme.fontSize;
+    transition?: string;
+    hoverColor?: keyof typeof theme.colors;
+    disabledColor: keyof typeof theme.colors;
+  }
+> = {
   main: {
-    // 메인 페이지 - 지금 시작하기 버튼
     width: '300px',
     height: '55px',
     backgroundColor: 'white',
@@ -18,7 +36,6 @@ const variantStyles = {
     disabledColor: 'gray400',
   },
   action: {
-    // 직업 검사 페이지 - 다음 버튼
     width: '50px',
     height: '20px',
     backgroundColor: 'primary',
@@ -30,7 +47,6 @@ const variantStyles = {
     disabledColor: 'gray400',
   },
   link: {
-    // 직업 검사 페이지 - 검사 시작, 결과 보기 버튼
     width: '250px',
     height: '30px',
     backgroundColor: 'primary',
@@ -42,7 +58,6 @@ const variantStyles = {
     disabledColor: 'gray400',
   },
   job: {
-    // 검사 결과 페이지 - 직업 버튼
     width: '100px',
     height: '20px',
     backgroundColor: 'white',
@@ -55,9 +70,7 @@ const variantStyles = {
     hoverColor: 'primary',
     disabledColor: 'gray300',
   },
-} as const;
-
-type Variant = keyof typeof variantStyles;
+};
 
 type ButtonProps = {
   text: string;
@@ -86,7 +99,7 @@ const ButtonStyle = styled.button<{
   $border: string;
   $boxShadow: string;
   $fontSize: string;
-  $transition?: string;
+  $transition: string;
   $hoverColor?: string;
   $disabledColor: string;
 }>`
@@ -103,7 +116,7 @@ const ButtonStyle = styled.button<{
   border-radius: 100px;
   box-shadow: ${({ $boxShadow }) => $boxShadow};
   font-size: ${({ $fontSize }) => $fontSize};
-  transition: ${({ $transition }) => $transition || 'all 0.3s ease'};
+  transition: ${({ $transition }) => $transition};
 
   &:hover:enabled {
     background-color: ${({ theme, $hoverColor, $backgroundColor }) =>
@@ -152,24 +165,12 @@ export default function Button({
       $color={color || style.color}
       $border={border || style.border}
       $boxShadow={boxShadow || style.boxShadow}
-      $fontSize={theme.fontSize[size || style.size]}
-      $transition={transition || style.transition}
+      $fontSize={theme.fontSize[(size || style.size) as keyof typeof theme.fontSize]}
+      $transition={transition || style.transition || 'all 0.3s ease'}
       $hoverColor={hoverColor || style.hoverColor}
       $disabledColor={disabledColor || style.disabledColor}
     >
       {text}
     </ButtonStyle>
   );
-}
-
-// variant 속성 값
-// main: 메인 페이지 '지금 시작하기' 버튼
-// link: 직업 검사 페이지 - '검사 시작', '결과 보기', 자세히 보기 등 링크 관련 버튼
-// action: 직업 검사 페이지 - '다음' 버튼
-// job: 직업 결과 페이지 - 각 직업 버튼
-// variant만 지정해도 가능할 것 같지만, 혹시라도 스타일을 바꾸려면 각 속성을 props로 넘겨주면 됩니다.
-
-// 사용 예시
-{
-  /* <Button onClick={() => navigate('/test')} variant="main" text={'지금 시작하기'} /> */
 }
