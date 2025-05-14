@@ -1,5 +1,4 @@
-// TitleSection.tsx
-import { useMemo, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import styled from 'styled-components';
@@ -71,8 +70,22 @@ export default function TitleSection() {
     controls.start(inView ? 'visible' : 'hidden');
   }, [inView, controls]);
 
-  const circles = useMemo(() => {
-    return Array.from({ length: 30 }, () => {
+  //1) 매 스크롤 진입시마다 원(우주 별 역할)을 랜덤으로 흩뿌리고 싶을 경우 사용 --> 현재는 이 방식 적용
+  const circles = Array.from({ length: 30 }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.random();
+    const size = Math.random() * 0.6 + 0.4;
+    return {
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius,
+      size,
+    };
+  });
+
+  //2) 첫 렌더링 이후에, 스크롤 진입시에는 원(우주 별 역할)을 고정시키고 싶을 경우 사용
+  /*
+  const circlesRef = useRef(
+    Array.from({ length: 30 }, () => {
       const angle = Math.random() * Math.PI * 2;
       const radius = Math.random();
       const size = Math.random() * 0.6 + 0.4;
@@ -81,8 +94,11 @@ export default function TitleSection() {
         y: Math.sin(angle) * radius,
         size,
       };
-    });
-  }, []);
+    })
+  );
+
+  const circles = circlesRef.current;
+  */
 
   return (
     <Section>
