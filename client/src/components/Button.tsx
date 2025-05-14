@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 
+// 1. 버튼 타입 정의하기
+// text와 이벤트 함수를 제외한 모든 속성은 옵션
 type ButtonProps = {
   text: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -16,6 +18,8 @@ type ButtonProps = {
   boxShadow?: string;
 };
 
+// 2. 버튼 스타일 정의하기
+// $를 붙여 DOM에 전달을 방지하여 스타일용으로만 사용할 것임을 명시
 const ButtonStyle = styled.button<{
   $color?: keyof typeof theme.colors | string;
   $size?: keyof typeof theme.fontSize | string;
@@ -66,6 +70,7 @@ ${({ theme, $hoverColor }) =>
   }
 `;
 
+// 3. 버튼 컴포넌트
 export default function Button({
   text,
   onClick,
