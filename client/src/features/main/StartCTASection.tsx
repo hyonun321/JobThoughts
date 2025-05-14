@@ -20,14 +20,6 @@ const CTAWrapper = styled(FullScreenSection)`
   overflow: hidden;
 `;
 
-const MotionCharacter = styled(motion.div)`
-  position: absolute;
-  bottom: 380px;
-  transform: translateX(-50%);
-  width: 280px;
-  z-index: 2;
-`;
-
 const PositionedElement = styled(motion.div)<{
   top?: string;
   left?: string;
@@ -59,6 +51,35 @@ const RocketImage = styled(motion.img)`
   width: 300px;
   transform: rotate(-20deg);
   z-index: 10;
+`;
+
+const CTAButtonWrapper = styled(motion.div)`
+  z-index: 2;
+
+  button {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: ${({ theme }) => theme.colors.primary};
+    font-weight: bold;
+    transition: all 0.3s ease;
+
+    &:hover:enabled {
+      background-color: ${({ theme }) => theme.colors.primary};
+      box-shadow: 4px 4px 20px rgba(79, 99, 255, 1);
+      color: white;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+`;
+
+const MotionCharacter = styled(motion.div)`
+  margin-top: 40px;
+  width: 280px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
 `;
 
 // ======================== animation variants ========================
@@ -113,8 +134,8 @@ export default function StartCTASection() {
 
   useEffect(() => {
     if (inView) {
-      rocketControls.set('initial'); // reset
-      rocketControls.start('animate'); // trigger animation
+      rocketControls.set('initial');
+      rocketControls.start('animate');
     }
   }, [inView, rocketControls]);
 
@@ -170,25 +191,16 @@ export default function StartCTASection() {
       </RocketWrapper>
 
       {/* 시작 버튼 */}
-      <motion.div
+      <CTAButtonWrapper
         ref={button.ref}
         initial="hidden"
         animate={button.controls}
         variants={fadeInVariants}
-        style={{ zIndex: 2 }}
+        whileHover={{ scale: 1.1 }} // hover 시 확대
+        whileTap={{ scale: 0.98 }} // 클릭 시 살짝 축소
       >
-        <Button
-          onClick={() => navigate('/test')}
-          text="지금 시작하기"
-          padding="20px 72px"
-          size="lg"
-          color="primary"
-          transition="all 0.3s ease"
-          backgroundColor="white"
-          hoverColor="primary"
-          boxShadow="0px 0px 10px rgba(79, 99, 255, 0.4)"
-        />
-      </motion.div>
+        <Button onClick={() => navigate('/test')} variant="main" text={'지금 시작하기'} />
+      </CTAButtonWrapper>
 
       {/* 캐릭터 */}
       <MotionCharacter
