@@ -91,9 +91,9 @@ function useScrollAnimation(amount = 0.5) {
 // ================= component =================
 export default function QuestionSection() {
   const lines = [
-    '뭐가 맞는지 솔직히 모르겠고',
-    '나랑 어울리는 일이 있을까?',
-    '막막한데, 어디서부터 봐야 하지?',
+    '이 길이 맞는지 고민만 하고 있어요',
+    '나랑 어울리는 일이 뭘까요?',
+    '막막한데, 어디서부터 봐야 하죠?',
   ];
   const anim0 = useScrollAnimation(0.5);
   const anim1 = useScrollAnimation(0.5);
