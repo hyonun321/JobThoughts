@@ -57,11 +57,11 @@ const WordWrapper = styled.div`
 // ================= animation variants =================
 const typingVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: (i: number) => ({
+  visible: (custom: { index: number; baseDelay: number }) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.09,
+      delay: custom.baseDelay + custom.index * 0.09,
       duration: 0.1,
     },
   }),
@@ -82,52 +82,43 @@ function useScrollAnimation(amount = 0.5) {
 
 // ================= component =================
 export default function QuestionSection() {
-  const line1 = useScrollAnimation(0.5);
-  const line2 = useScrollAnimation(0.5);
-  const line3 = useScrollAnimation(0.5);
-
-  const renderTyping = (text: string, controls: any, ref: any, lineIndex: number) => {
-    const baseDelay = lineIndex * text.length * 0.09; // 줄마다 시작 딜레이 누적
-    return (
-      <motion.div ref={ref} initial="hidden" animate={controls}>
-        <Text as="h1" weight="bold" color="black">
-          {text.split('').map((char, i) => (
-            <motion.span
-              key={i}
-              custom={i}
-              initial="hidden"
-              animate={controls}
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    delay: baseDelay + i * 0.09,
-                    duration: 0.1,
-                  },
-                },
-              }}
-              style={{ display: 'inline-block' }}
-            >
-              {char === ' ' ? '\u00A0' : char}
-            </motion.span>
-          ))}
-        </Text>
-      </motion.div>
-    );
-  };
+  const lines = [
+    '뭐가 맞는지 솔직히 모르겠고',
+    '나랑 어울리는 일이 있을까?',
+    '막막한데, 어디서부터 봐야 하지?',
+  ];
+  const animations = lines.map(() => useScrollAnimation(0.5));
 
   return (
     <Section>
       <ImgWrapper>
-        <motion.img src={worriedBear} />
+        <motion.img src={worriedBear} whileHover={{ scale: 1.05 }} />
       </ImgWrapper>
 
       <WordWrapper>
-        {renderTyping('뭐가 맞는지 솔직히 모르겠고', line1.controls, line1.ref, 0)}
-        {renderTyping('나랑 어울리는 일이 있을까?', line2.controls, line2.ref, 1)}
-        {renderTyping('막막한데, 어디서부터 봐야 하지?', line3.controls, line3.ref, 2)}
+        {lines.map((line, lineIndex) => {
+          const { controls, ref } = animations[lineIndex];
+          const baseDelay = lineIndex * line.length * 0.09;
+
+          return (
+            <motion.div key={lineIndex} ref={ref} initial="hidden" animate={controls}>
+              <Text as="h1" weight="bold" color="black">
+                {line.split('').map((char, i) => (
+                  <motion.span
+                    key={i}
+                    custom={{ index: i, baseDelay }}
+                    initial="hidden"
+                    animate={controls}
+                    variants={typingVariants}
+                    style={{ display: 'inline-block' }}
+                  >
+                    {char === ' ' ? '\u00A0' : char} {/* 공백 문자 안전하게 처리 */}
+                  </motion.span>
+                ))}
+              </Text>
+            </motion.div>
+          );
+        })}
       </WordWrapper>
     </Section>
   );
