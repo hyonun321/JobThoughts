@@ -87,16 +87,11 @@ export default function QuestionSection() {
     '나랑 어울리는 일이 있을까?',
     '막막한데, 어디서부터 봐야 하지?',
   ];
+  const anim0 = useScrollAnimation(0.5);
+  const anim1 = useScrollAnimation(0.5);
+  const anim2 = useScrollAnimation(0.5);
 
-  const animationsRef = useRef<
-    { ref: React.RefObject<HTMLElement>; controls: ReturnType<typeof useAnimation> }[]
-  >([]);
-
-  if (animationsRef.current.length === 0) {
-    for (let i = 0; i < lines.length; i++) {
-      animationsRef.current.push(useScrollAnimation(0.5));
-    }
-  }
+  const animations = [anim0, anim1, anim2];
 
   return (
     <Section>
