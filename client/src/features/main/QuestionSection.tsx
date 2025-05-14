@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 import worriedBear from '../../assets/worried-bear.png';
@@ -82,13 +82,18 @@ const WordWrapper = styled.div`
 // 최적화하기 (훅 사용)
 
 export default function QuestionSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
   return (
-    <Section>
+    <Section ref={containerRef}>
       {/* 1. 걱정하는 곰돌이 이미지 */}
       <ImgWrapper>
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-          <img src={worriedBear} />
-        </motion.div>
+        <motion.img
+          src={worriedBear}
+          drag
+          dragConstraints={containerRef} // ✅ 화면 기준 제한
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        />
       </ImgWrapper>
       <WordWrapper>
         {/* 2. 문장 - 1 */}
