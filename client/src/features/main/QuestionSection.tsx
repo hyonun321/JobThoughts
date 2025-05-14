@@ -8,6 +8,7 @@ import Text from '../../components/Text';
 // ================= styled components =================
 const Section = styled.section`
   display: flex;
+  gap: 8rem;
   align-items: center;
   justify-content: center;
   width: 100vw;
@@ -15,6 +16,10 @@ const Section = styled.section`
   padding: 0 10px;
   background: #fff;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 
   @media (max-width: 480px) {
     flex-direction: column;
@@ -27,6 +32,9 @@ const ImgWrapper = styled.div`
   img {
     width: 100%;
     object-fit: contain;
+  }
+  @media (max-width: 768px) {
+    width: 300px;
   }
   @media (max-width: 480px) {
     width: 200px;
