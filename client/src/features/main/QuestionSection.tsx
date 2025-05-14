@@ -1,149 +1,134 @@
 import React, { useEffect, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { motion } from 'framer-motion';
+import styled from 'styled-components';
+import { motion, useInView, useAnimation } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import worriedBear from '../../assets/worried-bear.png';
 import Text from '../../components/Text';
-import { style } from 'framer-motion/client';
-import { useAnimate } from 'framer-motion';
 
-// ======================= styled components =======================
+// ================= styled components =================
 const Section = styled.section`
-  border: 1px solid red;
-  width: 100vw;
-  height: 100vh;
-  background: #ffffff;
-  position: relative;
-  overflow: hidden;
   display: flex;
-  gap: 5rem;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  padding: 0px 10px;
-
-  @media (max-width: 768px) {
-    gap: 0.5rem;
-    text-align: center;
-  }
-
+  width: 100vw;
+  height: 100vh;
+  padding: 0 10px;
+  background: #fff;
+  overflow: hidden;
   @media (max-width: 480px) {
-    gap: 0.25rem;
     flex-direction: column;
+    gap: 0.25rem;
   }
 `;
 
 const ImgWrapper = styled.div`
-  border: 1px solid blue;
   width: 400px;
-  height: auto;
-
   img {
     width: 100%;
-    height: auto;
     object-fit: contain;
   }
-  @media (max-width: 768px) {
-    width: 250px;
-  }
-
   @media (max-width: 480px) {
     width: 200px;
   }
 `;
 
 const WordWrapper = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
   h1 {
     font-size: 40px;
+    white-space: nowrap;
   }
-
-  @media (max-width: 768px) {
-    gap: 1rem;
-    h1 {
-      font-size: 25px;
-    }
-  }
-
   @media (max-width: 480px) {
-    gap: 0.5rem;
-    flex-direction: column;
     h1 {
       font-size: 20px;
     }
   }
 `;
 
-// ======================= animation variants =======================
+// ================= animation variants =================
 const typingVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
-
-const lineVariants: Variants = {
   hidden: { opacity: 0 },
   visible: (i: number) => ({
     opacity: 1,
+    y: 0,
     transition: {
-      delay: i * 2, // 줄마다 2초 간격으로 등장
-      staggerChildren: 0.1, // 글자마다 0.1초씩 타이핑
+      delay: i * 0.09,
+      duration: 0.1,
     },
   }),
 };
 
+// ================= custom hook =================
+function useScrollAnimation(amount = 0.5) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: false, amount });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start(inView ? 'visible' : 'hidden');
+  }, [inView, controls]);
+
+  return { ref, controls };
+}
+
+// ================= component =================
 export default function QuestionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const sentences = [
-    '뭐가 맞는지 솔직히 모르겠고',
-    '대충 살고 싶진 않은데',
-    '일단 해봐야 아는 거 맞죠?',
-  ];
+  const line1 = useScrollAnimation(0.5);
+  const line2 = useScrollAnimation(0.5);
+  const line3 = useScrollAnimation(0.5);
+
+  const renderTyping = (text: string, controls: any, ref: any, lineIndex: number) => {
+    const baseDelay = lineIndex * text.length * 0.09; // 줄마다 시작 딜레이 누적
+    return (
+      <motion.div ref={ref} initial="hidden" animate={controls}>
+        <Text as="h1" weight="bold" color="black">
+          {text.split('').map((char, i) => (
+            <motion.span
+              key={i}
+              custom={i}
+              initial="hidden"
+              animate={controls}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    delay: baseDelay + i * 0.09,
+                    duration: 0.1,
+                  },
+                },
+              }}
+              style={{ display: 'inline-block' }}
+            >
+              {char === ' ' ? '\u00A0' : char}
+            </motion.span>
+          ))}
+        </Text>
+      </motion.div>
+    );
+  };
 
   return (
     <Section ref={containerRef}>
-      {/* 1. 걱정하는 곰돌이 이미지 */}
       <ImgWrapper>
         <motion.img
           src={worriedBear}
           drag
-          dragConstraints={containerRef} // 화면 기준 범위 제한
+          dragConstraints={containerRef}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         />
       </ImgWrapper>
 
       <WordWrapper>
-        {sentences.map((sentence, lineIndex) => (
-          <motion.div
-            key={lineIndex}
-            custom={lineIndex}
-            variants={lineVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <Text as="h1" weight="bold" color="black" style={{ whiteSpace: 'nowrap' }}>
-              {sentence.split('').map((char, i) => (
-                <motion.span
-                  key={i}
-                  custom={i}
-                  variants={typingVariants}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{
-                    delay: lineIndex * 2 + i * 0.1,
-                    duration: 0,
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </Text>
-          </motion.div>
-        ))}
+        {renderTyping('뭐가 맞는지 솔직히 모르겠고', line1.controls, line1.ref, 0)}
+        {renderTyping('나랑 어울리는 일이 있을까?', line2.controls, line2.ref, 1)}
+        {renderTyping('막막한데, 어디서부터 봐야 하지?', line3.controls, line3.ref, 2)}
       </WordWrapper>
     </Section>
   );
