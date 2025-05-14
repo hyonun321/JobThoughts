@@ -6,7 +6,6 @@ import TitleSection from '../features/main/TitleSection';
 import MessageSection from '../features/main/MessageSection';
 import StartCTASection from '../features/main/StartCTASection';
 import QuestionSection from '../features/main/QuestionSection';
-import CharacterBanner from '../features/main/CharacterBanner';
 
 const PageWrapper = styled.main`
   display: flex;
@@ -23,7 +22,6 @@ export default function MainPage() {
       <FlowButtonSection />
       <QuestionSection />
       <StartCTASection />
-      <CharacterBanner />
       <Footer />
     </PageWrapper>
   );
