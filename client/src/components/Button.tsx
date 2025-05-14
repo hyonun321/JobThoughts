@@ -161,3 +161,15 @@ export default function Button({
     </ButtonStyle>
   );
 }
+
+// variant 속성 값
+// main: 메인 페이지 '지금 시작하기' 버튼
+// link: 직업 검사 페이지 - '검사 시작', '결과 보기', 자세히 보기 등 링크 관련 버튼
+// action: 직업 검사 페이지 - '다음' 버튼
+// job: 직업 결과 페이지 - 각 직업 버튼
+// variant만 지정해도 가능할 것 같지만, 혹시라도 스타일을 바꾸려면 각 속성을 props로 넘겨주면 됩니다.
+
+// 사용 예시
+{
+  /* <Button onClick={() => navigate('/test')} variant="main" text={'지금 시작하기'} /> */
+}
