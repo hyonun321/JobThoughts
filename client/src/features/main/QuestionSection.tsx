@@ -109,12 +109,7 @@ export default function QuestionSection() {
     <Section>
       {/* 곰돌이 이미지 */}
       <ImgWrapper ref={bearAnimation.ref}>
-        <motion.div
-          initial="hidden"
-          animate={bearAnimation.controls}
-          whileHover={{ scale: 1.05 }}
-          variants={fadeInVariants}
-        >
+        <motion.div initial="hidden" animate={bearAnimation.controls} variants={fadeInVariants}>
           <img src={worriedBear} alt="곰돌이" />
         </motion.div>
       </ImgWrapper>
