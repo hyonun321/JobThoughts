@@ -38,7 +38,7 @@ const CardWrapper = styled.div<{
 }>`
   width: ${({ width }) => width || '240px'};
   height: ${({ height }) => height || '240px'};
-  background-color: ${({ theme, selected }) => (selected ? '#e0f0ff' : theme.colors.deco2)};
+  background-color: ${({ theme, selected }) => (selected ? '#e0f0ff' : theme.colors.white)};
   border-radius: 30px;
   display: flex;
   flex-direction: column;

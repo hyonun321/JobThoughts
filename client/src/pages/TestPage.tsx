@@ -37,7 +37,7 @@ export default function TestPage() {
   };
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
       {/* 배경 이미지 레이어 */}
       <BackgroundFloatWrapper>
         <Image
@@ -45,7 +45,7 @@ export default function TestPage() {
           alt="배경 웨이브"
           width="55%"
           motion="float"
-          style={{ top: '-5%', left: '0%' }}
+          style={{ top: '-10%', left: '-5%' }}
         />
         <Image
           src={ringIcon}
@@ -59,14 +59,14 @@ export default function TestPage() {
           alt="배경 큐브"
           width="15%"
           motion="float"
-          style={{ bottom: '5%', right: '10%' }}
+          style={{ bottom: '0%', right: '8%' }}
         />
       </BackgroundFloatWrapper>
 
       {/* 본문 콘텐츠 */}
       {currentIndex === 0 && <TestInformSection onStart={() => setCurrentIndex(1)} />}
       {!isComplete && currentIndex > 0 && (
-        <TestQuestionSection currentIndex={currentIndex} onAnswer={handleAnswer} />
+        <TestQuestionSection currentIndex={currentIndex - 1} onAnswer={handleAnswer} />
       )}
       {isComplete && <TestCompleteSection answers={answers} />}
     </div>
