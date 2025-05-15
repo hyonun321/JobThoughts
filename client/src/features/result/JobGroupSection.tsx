@@ -32,7 +32,8 @@ const Section = styled.div`
   padding: 50px;
 `;
 
-const JobInfoText = styled.div`
+const JobInfoArea = styled.div`
+  border: 1px solid red;
   display: flex;
   align-items: center;
 
@@ -51,8 +52,27 @@ const SmallTitle = styled.span`
   font-weight: ${theme.fontWeight.medium};
 `;
 
-const Highlight = styled.span`
-  color: ${theme.colors.primary};
+// 제목 텍스트 부분
+const TextArea = styled.div`
+  border: 1px solid red;
+
+  ${SmallTitle} {
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    margin: 5px 0;
+  }
+
+  h2 span {
+    color: ${theme.colors.primary};
+  }
+
+  h3 {
+    font-weight: ${theme.fontWeight.medium};
+    margin: 0 0 60px 0;
+  }
 `;
 
 // 계열별 직업 리스트 레이아웃
@@ -101,6 +121,10 @@ const JobList = styled.div`
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 `;
 
+const CustomButton = styled(Button)`
+  border-radius: 24px;
+`;
+
 export default function JobGroupSection() {
   const navigate = useNavigate();
 
@@ -110,19 +134,18 @@ export default function JobGroupSection() {
 
   return (
     <Section>
-      <JobInfoText>
-        <div>
+      <JobInfoArea>
+        <TextArea>
           <SmallTitle>나의 가치관과 관련이 높은 직업</SmallTitle>
           <h2>
-            <Highlight>자율성</Highlight>도 챙기고, <Highlight>보수</Highlight>도 놓치기 싫은 당신!
-            이런 직업은 어때요?
+            <span>자율성</span>도 챙기고, <span>보수</span>도 놓치기 싫은 당신! 이런 직업은 어때요?
           </h2>
           <h3>직업을 클릭하면, 실시간 채용 공고까지 확인할 수 있어요.</h3>
-        </div>
+        </TextArea>
         <div>
           <img src={JobIntroBear} alt="직업을 소개하는 곰돌이" />
         </div>
-      </JobInfoText>
+      </JobInfoArea>
       {jobRecommendationData.map(({ category, jobs }) => (
         <Group key={category}>
           <Category>
@@ -133,7 +156,7 @@ export default function JobGroupSection() {
           </Category>
           <JobList>
             {jobs.map((job) => (
-              <Button
+              <CustomButton
                 key={job}
                 text={job}
                 variant="job"
@@ -141,7 +164,7 @@ export default function JobGroupSection() {
                 width="fit-content"
               >
                 {job}
-              </Button>
+              </CustomButton>
             ))}
           </JobList>
         </Group>
