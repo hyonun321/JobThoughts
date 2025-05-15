@@ -156,6 +156,7 @@ export default function Button({
   border,
   boxShadow,
   size,
+  fontWeight,
   transition,
   hoverColor,
   disabledColor,
