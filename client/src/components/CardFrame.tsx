@@ -80,7 +80,7 @@ export default function CardFrame({
   });
   const [backCard, setBackCard] = useState({
     id: step - 2,
-    color: 'rgba(213, 229, 255, 1)',
+    color: 'rgba(191, 217, 255, 1)',
     rotation: 3,
   });
 
