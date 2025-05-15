@@ -28,6 +28,7 @@ declare module 'styled-components' {
       ml: string;
       lg: string;
       xl: string;
+      xxl: string;
     };
     fontWeight: {
       light: number;
