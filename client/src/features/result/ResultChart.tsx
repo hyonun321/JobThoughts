@@ -1,6 +1,7 @@
 import { ResponsiveRadar } from '@nivo/radar';
 import styled from 'styled-components';
 import resultData from '../../data/resultData';
+import { theme } from '../../styles/theme';
 
 // resultData 타입 정의
 type ResultDataItem = {
@@ -31,9 +32,9 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   left: ${({ x }) => x}%;
   top: ${({ y }) => y}%;
   cursor: pointer;
-  font-size: ${({ $active }) => ($active ? '18px' : '14px')};
-  color: ${({ $active }) => ($active ? '#4f63ff' : '#333')};
-  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
+  font-size: ${({ $active }) => ($active ? theme.fontSize.ml : theme.fontSize.m)};
+  color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.gray900)};
+  font-weight: ${({ $active }) => ($active ? theme.fontWeight.bold : theme.fontWeight.medium)};
   white-space: nowrap;
   transition: color 0.2s;
 
