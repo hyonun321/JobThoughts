@@ -26,14 +26,12 @@ const categoryImages: Record<string, string> = {
 
 // 전체 레이아웃
 const Section = styled.div`
-  border: 1px solid green;
   max-width: 1200px;
   margin: 0 auto;
   padding: 50px;
 `;
 
 const JobInfoArea = styled.div`
-  border: 1px solid red;
   display: flex;
   align-items: center;
 
@@ -55,8 +53,6 @@ const SmallTitle = styled.span`
 
 // 제목 텍스트 부분
 const TextArea = styled.div`
-  border: 1px solid red;
-
   ${SmallTitle} {
     display: inline-block;
     margin-bottom: 20px;
@@ -78,7 +74,6 @@ const TextArea = styled.div`
 
 // 계열별 직업 리스트 레이아웃
 const Group = styled.div`
-  border: 1px solid blue;
   display: flex;
   align-items: stretch;
   gap: 15px;
@@ -110,7 +105,6 @@ const Category = styled.div`
 
 // 직업 버튼 레이아웃
 const JobList = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
