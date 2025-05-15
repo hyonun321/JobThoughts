@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import FullScreenSection from '../../components/FullScreenSection';
 import CardFrame from '../../components/CardFrame';
 import Button from '../../components/Button';
@@ -13,13 +14,15 @@ type Props = {
 // ================= styled-components =================
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
 `;
+//이전 페이지에서 넘어올때 부드러운 화면 전환 추가를 위한 MotionSection
+const MotionSection = motion(Wrapper);
 
 const CardContent = styled.div`
   max-width: 85%;
@@ -93,7 +96,12 @@ const { left, right } = testData[0];
 export default function TestInformSection({ onStart }: Props) {
   return (
     <FullScreenSection>
-      <Wrapper>
+      <MotionSection
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+      >
         <CardFrame>
           <CardContent>
             <InfoBlock>
@@ -145,7 +153,7 @@ export default function TestInformSection({ onStart }: Props) {
             hoverColor="area"
           />
         </ButtonWrapper>
-      </Wrapper>
+      </MotionSection>
     </FullScreenSection>
   );
 }
