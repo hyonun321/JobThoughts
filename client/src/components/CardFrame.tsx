@@ -52,3 +52,11 @@ export default function CardFrame({ children }: CardFrameProps) {
     </FrameWrapper>
   );
 }
+
+export function LastCard({ children }: CardFrameProps) {
+  return (
+    <FrameWrapper>
+      <TopCard>{children}</TopCard>
+    </FrameWrapper>
+  );
+}
