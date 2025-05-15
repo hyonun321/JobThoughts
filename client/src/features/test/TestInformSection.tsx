@@ -156,13 +156,7 @@ export default function TestInformSection({ onStart }: Props) {
           </CardContent>
         </CardFrame>
         <ButtonWrapper>
-          <Button
-            onClick={onStart}
-            variant="link"
-            text="직업 가치관 검사 시작"
-            boxShadow="2px 3px 4px rgba(1, 1, 1, 0.4)"
-            hoverColor="area"
-          />
+          <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />
         </ButtonWrapper>
       </MotionSection>
     </FullScreenSection>
