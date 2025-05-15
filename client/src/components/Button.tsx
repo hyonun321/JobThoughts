@@ -180,7 +180,7 @@ export default function Button({
           ? fontWeight
           : fontWeight
             ? theme.fontWeight[fontWeight as keyof typeof theme.fontWeight]
-            : undefined
+            : theme.fontWeight.medium
       }
       $transition={transition || style.transition || 'all 0.3s ease'}
       $hoverColor={hoverColor || style.hoverColor}
