@@ -37,7 +37,7 @@ const JobInfoArea = styled.div`
 
   img {
     width: clamp(100px, 30vw, 300px);
-    transform: translateY(12px);
+    transform: translateY(24px);
   }
 `;
 
