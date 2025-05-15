@@ -11,8 +11,8 @@ import stability from '../assets/card/stability.svg';
 // Card 컴포넌트 props 정의
 type Props = {
   value: string;
-  selected: boolean;
-  onClick: () => void;
+  selected?: boolean;
+  onClick?: () => void;
   width?: string;
   height?: string;
 };
@@ -74,6 +74,13 @@ const CardLabel = styled.span`
   color: ${({ theme }) => theme.colors.black};
 `;
 
+// 텍스트 스타일 : Inform섹션용
+const InfoCardLabel = styled.span`
+  font-size: ${({ theme }) => theme.fontSize.m};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  color: ${({ theme }) => theme.colors.black};
+`;
+
 // ================= Card Component =================
 /**
  * 개별 가치(선택지)를 카드 형태로 시각화하는 컴포넌트
@@ -84,9 +91,35 @@ export default function Card({ value, selected, onClick, width, height }: Props)
   const icon = iconMap[value];
 
   return (
-    <CardWrapper selected={selected} onClick={onClick} width={width} height={height}>
+    <CardWrapper
+      selected={selected ?? false}
+      onClick={() => {
+        if (onClick) onClick(); // undefined 방지
+      }}
+      width={width}
+      height={height}
+    >
       <CardIcon src={icon} alt={`${value} 아이콘`} />
       <CardLabel>{value}</CardLabel>
+    </CardWrapper>
+  );
+}
+
+export function InfoCard({ value, selected, width, height }: Props) {
+  // value에 해당하는 아이콘 불러오기
+  const icon = iconMap[value];
+
+  return (
+    <CardWrapper
+      selected={selected ?? false}
+      onClick={(e) => {
+        e.preventDefault(); // 클릭 무시
+      }}
+      width={width}
+      height={height}
+    >
+      <CardIcon src={icon} alt={`${value} 아이콘`} />
+      <InfoCardLabel>{value}</InfoCardLabel>
     </CardWrapper>
   );
 }
