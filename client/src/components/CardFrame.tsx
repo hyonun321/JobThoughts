@@ -70,16 +70,17 @@ export default function CardFrame({
   const [topCard, setTopCard] = useState({
     id: step,
     color: theme.colors.deco2,
+
     rotation: 0,
   });
   const [middleCard, setMiddleCard] = useState({
     id: step - 1,
-    color: theme.colors.area,
+    color: 'rgba(220, 234, 255, 1)',
     rotation: -3,
   });
   const [backCard, setBackCard] = useState({
     id: step - 2,
-    color: theme.colors.background,
+    color: 'rgba(213, 229, 255, 1)',
     rotation: 3,
   });
 
