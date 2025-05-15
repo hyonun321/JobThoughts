@@ -153,7 +153,12 @@ export default function StartCTASection() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.98 }}
       >
-        <Button onClick={() => navigate('/test')} variant="main" text="지금 시작하기" />
+        <Button
+          onClick={() => navigate('/test')}
+          variant="main"
+          text="지금 시작하기"
+          fontWeight="bold"
+        />
       </ButtonWrapper>
 
       {/* 캐릭터 이미지 */}
