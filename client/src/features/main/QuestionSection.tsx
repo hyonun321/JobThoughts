@@ -9,35 +9,25 @@ import Text from '../../components/Text';
 // ================= styled components =================
 const Section = styled.section`
   display: flex;
-  gap: 8rem;
+  gap: clamp(2rem, 5vw, 8rem);
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
+  height: 150vh;
   padding: 0 20px;
   background: #fff;
   overflow: hidden;
-  color: @media (max-width: 768px) {
-    gap: 1rem;
-  }
 
   @media (max-width: 480px) {
     flex-direction: column;
-    gap: 0.25rem;
   }
 `;
 
 const ImgWrapper = styled.div`
-  width: 400px;
+  width: clamp(200px, 25vw, 400px); // 반응형 곰돌이 크기 자동 조정
   img {
     width: 100%;
     object-fit: contain;
-  }
-  @media (max-width: 768px) {
-    width: 300px;
-  }
-  @media (max-width: 480px) {
-    width: 200px;
   }
 `;
 
@@ -46,17 +36,12 @@ const WordWrapper = styled.div`
   flex-direction: column;
   gap: 2rem;
   h1 {
-    font-size: 40px;
+    font-size: clamp(20px, 4vw, 40px);
     white-space: nowrap;
   }
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 30px;
-    }
-  }
+
   @media (max-width: 480px) {
     h1 {
-      font-size: 20px;
       text-align: center;
     }
   }
