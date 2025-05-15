@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import JobListHeader from '../features/jobs/JobListHeader';
 import JobCardList from '../features/jobs/JobCardList';
-import FullScreenSection from '../components/FullScreenSection';
 import Image from '../components/Image';
 import holdingBear from '../assets/bears/job-holding-bear.svg';
 import styled from 'styled-components';
@@ -11,10 +10,10 @@ import pin from '../assets/icons/icon-pin.svg';
 
 const BackgroundWrapper = styled.div`
   position: relative;
+  display: flex;
   width: 100%;
   min-height: 200vh;
   background: linear-gradient(to bottom, #ffffff 35%, rgba(172, 196, 255, 0.75) 71%, #d8cfff 100%);
-  overflow: hidden;
 `;
 
 const Icon = styled.div<{ top: string; left?: string; right?: string }>`
@@ -43,13 +42,20 @@ const BearImage = styled.div`
   z-index: 1;
 `;
 
+const SectionWrapper = styled.section`
+  width: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 export default function JobListPage() {
   const location = useLocation();
   const selectedJob = location.state?.selectedJob || '웹 디자이너';
 
   return (
     <BackgroundWrapper>
-      <FullScreenSection style={{ alignItems: 'center', padding: '2rem', zIndex: 1 }}>
+      <SectionWrapper>
         <HeaderWithBear>
           <BearImage>
             <Image src={holdingBear} alt="job-holding-bear" width="100%" />
@@ -57,7 +63,7 @@ export default function JobListPage() {
           <JobListHeader selectedJob={selectedJob} />
         </HeaderWithBear>
         <JobCardList selectedJob={selectedJob} />
-      </FullScreenSection>
+      </SectionWrapper>
       <Icon top="25%" left="0%">
         <Image src={tool} width="15vw" motion="float" />
       </Icon>
