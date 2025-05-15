@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const ResultSection = styled.div`
   padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ResultTopWrapper = styled.div`
@@ -23,9 +25,9 @@ const ResultTopWrapper = styled.div`
 
 // ======================= animation variants =======================
 const layoutSpring = {
-  type: 'spring',
-  stiffness: 40,
-  damping: 20,
+  type: 'spring', // spring 애니메이션 적용
+  stiffness: 40, // 낮을수록 부드럽고 천천히 감
+  damping: 20, // 감쇠율을 높이면 느리게 멈춤, 기본적으로 20
 };
 
 const slideInVariants = {
@@ -33,34 +35,25 @@ const slideInVariants = {
   visible: {
     x: 0,
     opacity: 1,
-    transition: {
-      type: 'spring', // spring 애니메이션 적용
-      stiffness: 40, // 낮을수록 부드럽고 천천히 감
-      damping: 20, // 감쇠율을 높이면 느리게 멈춤, 기본적으로 20
-    },
+    transition: layoutSpring,
   },
   exit: {
     x: -100,
     opacity: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 40,
-      damping: 20,
-    },
+    transition: layoutSpring,
   },
 };
 
+// ======================= components =======================
 export default function ResultPage() {
-  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+  const [selectedLabel, setSelectedLabel] = useState<boolean>(false);
   return (
     <ResultSection>
       <ResultTopWrapper>
-        <motion.div layout transition={layoutSpring}>
-          {/* Chart가 밀리게 애니메이션 */}
-          <ResultChart onLabelClick={(label) => setSelectedLabel(label)} />
-        </motion.div>
-
         <AnimatePresence>
+          <motion.div key="chart" layout transition={layoutSpring}>
+            <ResultChart onLabelClick={(label) => setSelectedLabel(label)} />
+          </motion.div>
           {selectedLabel && (
             <motion.div
               key="description"
@@ -68,13 +61,11 @@ export default function ResultPage() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              transition={{
-                type: 'spring',
-                stiffness: 40,
-                damping: 20,
-              }}
             >
-              <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(null)} />
+              <ResultDescriptionCard
+                label={selectedLabel}
+                onClose={() => setSelectedLabel(false)}
+              />
             </motion.div>
           )}
         </AnimatePresence>
