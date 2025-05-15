@@ -9,7 +9,7 @@ const ListWrapper = styled.div`
 `;
 
 export default function JobCardList({ selectedJob }: { selectedJob: string }) {
-  const filteredJobs = jobs.filter((job) => job.title.includes(selectedJob));
+  const filteredJobs = jobs.filter((jobs) => jobs.job.includes(selectedJob));
 
   return (
     <ListWrapper>
