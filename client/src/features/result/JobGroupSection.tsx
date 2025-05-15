@@ -28,7 +28,7 @@ const categoryImages: Record<string, string> = {
 const Section = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 50px;
+  padding: clamp(20px, 5vw, 50px);
 `;
 
 const JobInfoArea = styled.div`
@@ -36,18 +36,18 @@ const JobInfoArea = styled.div`
   align-items: center;
 
   img {
-    width: 20vw;
-    transform: translateY(5px);
+    width: clamp(100px, 30vw, 300px);
+    transform: translateY(12px);
   }
 `;
 
 const SmallTitle = styled.span`
   background-color: #f5f9ff;
   color: ${theme.colors.primary};
-  padding: 16px 24px;
+  padding: clamp(10px, 2vw, 16px) clamp(16px, 3vw, 24px);
   border-radius: 100px;
-  box-shadow: 2px 3px 1px rgb(200, 224, 255, 1);
-  font-size: ${theme.fontSize.ml};
+  box-shadow: 2px 3px 1px rgba(200, 224, 255, 1);
+  font-size: clamp(14px, 2vw, ${theme.fontSize.ml});
   font-weight: ${theme.fontWeight.medium};
 `;
 
@@ -55,11 +55,12 @@ const SmallTitle = styled.span`
 const TextArea = styled.div`
   ${SmallTitle} {
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: clamp(12px, 2vw, 20px);
   }
 
   h2 {
-    margin: 5px 0;
+    font-size: clamp(18px, 3vw, 28px);
+    margin: clamp(5px, 1vw, 10px) 0;
   }
 
   h2 span {
@@ -67,8 +68,9 @@ const TextArea = styled.div`
   }
 
   h3 {
+    font-size: clamp(14px, 2vw, 20px);
     font-weight: ${theme.fontWeight.medium};
-    margin: 0 0 60px 0;
+    margin: 0 0 clamp(30px, 5vw, 60px) 0;
   }
 `;
 
@@ -84,20 +86,20 @@ const Group = styled.div`
 const Category = styled.div`
   display: flex;
   align-items: center;
-  width: 250px;
+  width: clamp(180px, 20vw, 250px);
   flex-shrink: 0;
   background-color: #e0ecff;
   border-radius: 30px;
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 
   img {
-    width: 150px;
-    height: 170px;
+    width: clamp(100px, 12vw, 150px);
+    height: clamp(120px, 15vw, 170px);
     object-fit: contain;
   }
 
   h4 {
-    font-size: 22px;
+    font-size: clamp(16px, 2vw, 22px);
     margin: 0;
     white-space: nowrap;
   }
@@ -107,10 +109,10 @@ const Category = styled.div`
 const JobList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: clamp(4px, 1vw, 12px);
   flex: 1;
   align-items: center;
-  padding-left: 20px;
+  padding-left: clamp(10px, 2vw, 20px);
   background-color: rgb(245, 249, 255);
   border-radius: 30px;
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
@@ -152,6 +154,7 @@ export default function JobGroupSection() {
                 text={job}
                 variant="job"
                 onClick={() => handleClick(job)}
+                padding="clamp(6px, 1vw, 12px) clamp(10px, 2vw, 20px)"
                 width="fit-content"
               >
                 {job}
