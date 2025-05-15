@@ -101,7 +101,7 @@ const Scrap = styled.button`
 const Dday = styled.div`
   position: absolute;
   top: 14%;
-  right: 8.9%;
+  right: 3.64rem;
   background: #f0f4ff;
   color: #333;
   padding: 0.2rem;
