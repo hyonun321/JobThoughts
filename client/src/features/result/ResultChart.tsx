@@ -1,6 +1,7 @@
 import { ResponsiveRadar } from '@nivo/radar';
 import styled from 'styled-components';
 import resultData from '../../data/resultData';
+import { theme } from '../../styles/theme';
 
 // resultData 타입 정의
 type ResultDataItem = {
@@ -8,10 +9,15 @@ type ResultDataItem = {
   score: number;
 };
 
+type ResultChartProps = {
+  onLabelClick: (label: string) => void;
+  activeLabel: string | null;
+};
+
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
-  max-width: 500px;
+  width: 50vw;
+  max-width: 450px;
   aspect-ratio: 1 / 1;
   margin: 70px;
   border-radius: 1px solid red;
@@ -20,15 +26,15 @@ const Wrapper = styled.div`
   }
 `;
 
-const Label = styled.div<{ x: number; y: number }>`
+const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   position: absolute;
   transform: translate(-50%, -50%);
   left: ${({ x }) => x}%;
   top: ${({ y }) => y}%;
   cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  user-select: none;
+  font-size: ${({ $active }) => ($active ? theme.fontSize.ml : theme.fontSize.m)};
+  color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.gray900)};
+  font-weight: ${({ $active }) => ($active ? theme.fontWeight.bold : theme.fontWeight.medium)};
   white-space: nowrap;
   transition: color 0.2s;
 
@@ -38,11 +44,7 @@ const Label = styled.div<{ x: number; y: number }>`
   }
 `;
 
-export default function ResultChart() {
-  const handleClickLabel = (label: string) => {
-    console.log(`라벨 클릭: ${label}`);
-  };
-
+export default function ResultChart({ onLabelClick, activeLabel }: ResultChartProps) {
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;
@@ -70,7 +72,7 @@ export default function ResultChart() {
         keys={['score']}
         indexBy="type"
         margin={{ top: 40, right: 40, bottom: 40, left: 60 }}
-        gridLabelOffset={170}
+        gridLabelOffset={400}
         enableDots={false}
         colors={['#4F63FF']}
         fillOpacity={0.4}
@@ -79,7 +81,13 @@ export default function ResultChart() {
         motionConfig="gentle"
       />
       {labels.map((l) => (
-        <Label key={l.label} x={l.x} y={l.y} onClick={() => handleClickLabel(l.label)}>
+        <Label
+          key={l.label}
+          x={l.x}
+          y={l.y}
+          $active={l.label === activeLabel}
+          onClick={() => onLabelClick(l.label)}
+        >
           {l.label}
         </Label>
       ))}
