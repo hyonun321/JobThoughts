@@ -93,9 +93,9 @@ function useScrollAnimation(amount = 0.5) {
 // ================= component =================
 export default function QuestionSection() {
   const lines = [
-    '이 길이 맞는지 고민만 하고 있어요',
-    '나랑 어울리는 일이 뭘까요?',
-    '막막한데, 어디서부터 봐야 하죠?',
+    '"이 길이 맞는지 고민만 하고 있어요"',
+    '"나랑 어울리는 일이 뭘까요?"',
+    '"막막한데, 어디서부터 봐야 하죠?"',
   ];
 
   const bearAnimation = useScrollAnimation();
