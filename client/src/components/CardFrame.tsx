@@ -10,6 +10,10 @@ type CardFrameProps = {
   backContent: React.ReactNode;
 };
 
+type LastCardProps = {
+  children: React.ReactNode;
+};
+
 // 전체 카드 프레임 영역
 const FrameWrapper = styled.div`
   position: relative;
@@ -70,7 +74,6 @@ export default function CardFrame({
   const [topCard, setTopCard] = useState({
     id: step,
     color: theme.colors.deco2,
-
     rotation: 0,
   });
   const [middleCard, setMiddleCard] = useState({
@@ -138,10 +141,28 @@ export default function CardFrame({
   );
 }
 
-export function LastCard({ children }: CardFrameProps) {
+// TopCard 스타일 추가
+export const TopCard = styled(AnimatedCard)`
+  z-index: 2;
+  background-color: ${({ theme }) => theme.colors.deco2};
+  pointer-events: auto;
+`;
+
+// LastCard 구현
+export function LastCard({ children }: LastCardProps) {
   return (
     <FrameWrapper>
-      <TopCard>{children}</TopCard>
+      <TopCard
+        z={2}
+        color="rgba(181, 231, 233, 1)"
+        initial={{ x: 0, opacity: 1, rotate: 0 }}
+        animate={{ x: 0, opacity: 1, rotate: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <ForegroundContent>
+          <ContentWrapper>{children}</ContentWrapper>
+        </ForegroundContent>
+      </TopCard>
     </FrameWrapper>
   );
 }
