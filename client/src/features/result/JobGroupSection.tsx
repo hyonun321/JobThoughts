@@ -154,9 +154,7 @@ export default function JobGroupSection() {
                 onClick={() => handleClick(job)}
                 padding="clamp(6px, 1vw, 12px) clamp(10px, 2vw, 20px)"
                 width="fit-content"
-              >
-                {job}
-              </Button>
+              />
             ))}
           </JobList>
         </Group>
