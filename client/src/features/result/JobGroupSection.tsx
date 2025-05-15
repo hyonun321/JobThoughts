@@ -142,9 +142,7 @@ export default function JobGroupSection() {
       {jobRecommendationData.map(({ category, jobs }) => (
         <Group key={category}>
           <Category>
-            <div>
-              <img src={categoryImages[category]} alt={category} />
-            </div>
+            <img src={categoryImages[category]} alt={category} />
             <h4>{category}</h4>
           </Category>
           <JobList>
