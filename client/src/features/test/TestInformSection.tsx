@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import FullScreenSection from '../../components/FullScreenSection';
 import CardFrame from '../../components/CardFrame';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
@@ -12,6 +11,18 @@ type Props = {
 };
 
 // ================= styled-components =================
+const FullScreenSection = styled.section`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* 필요시 row로 바꿔도 됨 */
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start; /* 선택 사항 */
+`;
+
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
