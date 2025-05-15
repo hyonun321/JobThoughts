@@ -42,9 +42,6 @@ const ImgWrapper = styled.div`
 `;
 
 const WordWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
   h1 {
     font-size: 40px;
     white-space: nowrap;
@@ -68,14 +65,14 @@ const fadeInVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 };
 
-const typingVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: (custom: { index: number; baseDelay: number }) => ({
+const wordVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: custom.baseDelay + custom.index * 0.09,
-      duration: 0.1,
+      duration: 0.6,
+      delay: i * 0.25,
     },
   }),
 };
@@ -100,12 +97,13 @@ export default function QuestionSection() {
     '나랑 어울리는 일이 뭘까요?',
     '막막한데, 어디서부터 봐야 하죠?',
   ];
-  const bearAnimation = useScrollAnimation();
-  const anim0 = useScrollAnimation();
-  const anim1 = useScrollAnimation();
-  const anim2 = useScrollAnimation();
 
-  const animations = [anim0, anim1, anim2];
+  const bearAnimation = useScrollAnimation();
+  const sentence1 = useScrollAnimation();
+  const sentence2 = useScrollAnimation();
+  const sentence3 = useScrollAnimation();
+
+  const animations = [sentence1, sentence2, sentence3];
 
   return (
     <Section>
@@ -121,29 +119,21 @@ export default function QuestionSection() {
         </motion.div>
       </ImgWrapper>
 
-      {/* 타이핑 문장 */}
+      {/* 순서대로 등장하는 문장 */}
       <WordWrapper>
-        {lines.map((line, lineIndex) => {
-          const { controls, ref } = animations[lineIndex];
-          const baseDelay = lineIndex * line.length * 0.09;
-
+        {lines.map((line, i) => {
+          const { ref, controls } = animations[i]; // 각 문장마다 ref & controls 사용
           return (
-            <motion.div key={lineIndex} ref={ref} initial="hidden" animate={controls}>
-              <Text as="h1" weight="bold" color="black">
-                {line.split('').map((char, i) => (
-                  <motion.span
-                    key={i}
-                    custom={{ index: i, baseDelay }}
-                    initial="hidden"
-                    animate={controls}
-                    variants={typingVariants}
-                    style={{ display: 'inline-block' }}
-                  >
-                    {char === ' ' ? '\u00A0' : char} {/* 공백 문자 안전하게 처리 */}
-                  </motion.span>
-                ))}
-              </Text>
-            </motion.div>
+            <motion.h1
+              key={i}
+              ref={ref} // 각 문장에 스크롤 감지 ref 걸기
+              custom={i}
+              initial="hidden"
+              animate={controls} // 각 문장마다 애니메이션 상태 연동
+              variants={wordVariants}
+            >
+              {line}
+            </motion.h1>
           );
         })}
       </WordWrapper>
