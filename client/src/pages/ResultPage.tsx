@@ -16,7 +16,7 @@ const LayoutTitle = styled.div`
   h1 {
     text-align: center;
     color: ${theme.colors.gray900};
-    font-size: clamp(12px, 3vw, ${theme.fontSize.xl});
+    font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
     font-weight: normal;
     transform: translateX(40px);
   }
