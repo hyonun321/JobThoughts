@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import jobRecommendationData from '../../data/jobRecommendationData';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Button';
 
 const Section = styled.div`
   margin-top: 32px;
@@ -14,13 +15,6 @@ const JobList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-`;
-
-const JobTag = styled.button`
-  background: #eef2ff;
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 14px;
 `;
 
 export default function JobGroupSection() {
@@ -40,9 +34,15 @@ export default function JobGroupSection() {
           </h4>
           <JobList>
             {jobs.map((job) => (
-              <JobTag key={job} onClick={() => handleClick(job)}>
+              <Button
+                key={job}
+                text={job}
+                variant="job"
+                onClick={() => handleClick(job)}
+                width="fit-content"
+              >
                 {job}
-              </JobTag>
+              </Button>
             ))}
           </JobList>
         </Group>
