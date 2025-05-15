@@ -1,11 +1,11 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import styled from 'styled-components';
 import Text from '../../components/Text';
 import spaceBear from '../../assets/space-bear.png';
 
-// ===== styled-components =====
+/* ===== styled-components ===== */
 const Section = styled.section`
   width: 100vw;
   height: 90vh;
@@ -29,16 +29,11 @@ const Bear = styled(motion.img)`
   pointer-events: none;
 `;
 
-// ===== 애니메이션 Variants =====
+/* ===== 애니메이션 Variants ===== */
 const containerVariants: Variants = { hidden: {}, visible: {} };
 
 const shapeVariants: Variants = {
-  hidden: () => ({
-    x: 0,
-    y: 0,
-    scale: 0.1,
-    opacity: 0,
-  }),
+  hidden: () => ({ x: 0, y: 0, scale: 0.1, opacity: 0 }),
   visible: (pos) => ({
     x: pos.x * 700,
     y: pos.y * 700,
@@ -66,45 +61,36 @@ const bearVariants: Variants = {
   },
 };
 
-// ===== 컴포넌트 =====
+/* ===== 컴포넌트 ===== */
 export default function TitleSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.2, once: false });
+  const inView = useInView(ref, { amount: 0.2, once: false }); // 스크롤 진입·이탈 감지
   const controls = useAnimation();
+
+  /* ⭐ 좌표를 state로 관리: inView 가 true일 때만 새로 만든다 */
+  const [circles, setCircles] = useState<{ x: number; y: number; size: number }[]>([]);
 
   useEffect(() => {
     controls.start(inView ? 'visible' : 'hidden');
+
+    if (inView) {
+      /* 진입할 때마다 새 좌표 생성 */
+      const newCircles = Array.from({ length: 30 }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.random();
+        const size = Math.random() * 0.6 + 0.4;
+        return {
+          x: Math.cos(angle) * radius,
+          y: Math.sin(angle) * radius,
+          size,
+        };
+      });
+      setCircles(newCircles);
+    } else {
+      /* 뷰포트를 벗어나면 좌표를 비워 재생성 준비 */
+      setCircles([]);
+    }
   }, [inView, controls]);
-
-  //1) 매 스크롤 진입시마다 원(우주 별 역할)을 랜덤으로 흩뿌리고 싶을 경우 사용 --> 현재는 이 방식 적용
-  const circles = Array.from({ length: 30 }, () => {
-    const angle = Math.random() * Math.PI * 2;
-    const radius = Math.random();
-    const size = Math.random() * 0.6 + 0.4;
-    return {
-      x: Math.cos(angle) * radius,
-      y: Math.sin(angle) * radius,
-      size,
-    };
-  });
-
-  //2) 첫 렌더링 이후에, 스크롤 진입시에는 원(우주 별 역할)을 고정시키고 싶을 경우 사용
-  /*
-  const circlesRef = useRef(
-    Array.from({ length: 30 }, () => {
-      const angle = Math.random() * Math.PI * 2;
-      const radius = Math.random();
-      const size = Math.random() * 0.6 + 0.4;
-      return {
-        x: Math.cos(angle) * radius,
-        y: Math.sin(angle) * radius,
-        size,
-      };
-    })
-  );
-
-  const circles = circlesRef.current;
-  */
 
   return (
     <Section>
@@ -117,7 +103,7 @@ export default function TitleSection() {
       >
         {circles.map((pos, i) => (
           <Shape
-            key={`${i}-${inView}`}
+            key={i}
             variants={shapeVariants}
             initial="hidden"
             animate="visible"
