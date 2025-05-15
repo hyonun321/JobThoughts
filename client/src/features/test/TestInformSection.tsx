@@ -104,6 +104,51 @@ const InfoCardWrapper = styled.div`
 
 const { left, right } = testData[0];
 
+// 🔁 카드에 들어갈 공통 콘텐츠 정의
+const renderCardContent = () => (
+  <CardContent>
+    <InfoBlock>
+      <TextWrapper>
+        <Text as="h2" size="ml" weight="bold" color="black" align="center">
+          직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
+          여기는가를 살펴보고,
+        </Text>
+        <Text as="h2" size="ml" weight="bold" color="black" align="center">
+          그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
+        </Text>
+      </TextWrapper>
+
+      <ExampleBlock>
+        <InfoTag>검사 진행방법</InfoTag>
+        <Text as="p" size="m" weight="medium" color="gray900" align="center">
+          각 문항별로 짝을 지어 제시되는 두 가지 항목 중에서 자신에게 더 중요한 것에 응답해
+          주십시오.
+        </Text>
+
+        <SampleWrapper>
+          <Text as="p" size="s" weight="medium" color="black" align="center">
+            두 가치 중 자신에게 더 중요한 가치를 선택하세요.
+          </Text>
+          <Text
+            as="p"
+            size="s"
+            weight="light"
+            color="black"
+            align="center"
+            style={{ marginTop: '0.1rem', marginBottom: '2rem' }}
+          >
+            "아래의 답변을 클릭해 보세요"
+          </Text>
+          <InfoCardWrapper>
+            <InfoCard value={left} width="120px" height="125px" />
+            <InfoCard value={right} width="120px" height="125px" />
+          </InfoCardWrapper>
+        </SampleWrapper>
+      </ExampleBlock>
+    </InfoBlock>
+  </CardContent>
+);
+
 export default function TestInformSection({ onStart }: Props) {
   return (
     <FullScreenSection>
@@ -113,48 +158,12 @@ export default function TestInformSection({ onStart }: Props) {
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <CardFrame>
-          <CardContent>
-            <InfoBlock>
-              <TextWrapper>
-                <Text as="h2" size="ml" weight="bold" color="black" align="center">
-                  직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더
-                  중요하게 여기는가를 살펴보고, 그 가치가 충족될 가능성이 높은 직업을 탐색할 수
-                  있도록 도움을 주는 검사입니다.
-                </Text>
-              </TextWrapper>
-
-              <ExampleBlock>
-                <InfoTag>검사 진행방법</InfoTag>
-                <Text as="p" size="m" weight="medium" color="gray900" align="center">
-                  각 문항별로 짝을 지어 제시되는 두 가지 항목 중에서 자신에게 더 중요한 것에 응답해
-                  주십시오.
-                </Text>
-                <SampleWrapper>
-                  {/* 질문 제목 */}
-                  <Text as="p" size="s" weight="medium" color="black" align="center">
-                    두 가치 중 자신에게 더 중요한 가치를 선택하세요.
-                  </Text>
-                  {/* 안내 문구 */}
-                  <Text
-                    as="p"
-                    size="s"
-                    weight="light"
-                    color="black"
-                    align="center"
-                    style={{ marginTop: '0.1rem', marginBottom: '2rem' }}
-                  >
-                    "아래의 답변을 클릭해 보세요"
-                  </Text>
-                  <InfoCardWrapper>
-                    <InfoCard value={left} width="120px" height="125px" />
-                    <InfoCard value={right} width="120px" height="125px" />
-                  </InfoCardWrapper>
-                </SampleWrapper>
-              </ExampleBlock>
-            </InfoBlock>
-          </CardContent>
-        </CardFrame>
+        <CardFrame
+          step={0} // 설명 페이지는 애니메이션이 필요 없으므로 step 고정
+          topContent={renderCardContent()}
+          middleContent={renderCardContent()}
+          backContent={renderCardContent()}
+        />
         <ButtonWrapper>
           <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />
         </ButtonWrapper>
