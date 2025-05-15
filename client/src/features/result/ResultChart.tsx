@@ -10,6 +10,7 @@ type ResultDataItem = {
 
 type ResultChartProps = {
   onLabelClick: (label: string) => void;
+  activeLabel: string | null;
 };
 
 const Wrapper = styled.div`
@@ -24,15 +25,15 @@ const Wrapper = styled.div`
   }
 `;
 
-const Label = styled.div<{ x: number; y: number }>`
+const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   position: absolute;
   transform: translate(-50%, -50%);
   left: ${({ x }) => x}%;
   top: ${({ y }) => y}%;
   cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  user-select: none;
+  font-size: ${({ $active }) => ($active ? '18px' : '14px')};
+  color: ${({ $active }) => ($active ? '#4f63ff' : '#333')};
+  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
   white-space: nowrap;
   transition: color 0.2s;
 
@@ -42,7 +43,7 @@ const Label = styled.div<{ x: number; y: number }>`
   }
 `;
 
-export default function ResultChart({ onLabelClick }: ResultChartProps) {
+export default function ResultChart({ onLabelClick, activeLabel }: ResultChartProps) {
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;
@@ -79,7 +80,13 @@ export default function ResultChart({ onLabelClick }: ResultChartProps) {
         motionConfig="gentle"
       />
       {labels.map((l) => (
-        <Label key={l.label} x={l.x} y={l.y} onClick={() => onLabelClick(l.label)}>
+        <Label
+          key={l.label}
+          x={l.x}
+          y={l.y}
+          $active={l.label === activeLabel}
+          onClick={() => onLabelClick(l.label)}
+        >
           {l.label}
         </Label>
       ))}

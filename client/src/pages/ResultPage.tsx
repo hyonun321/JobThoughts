@@ -51,7 +51,10 @@ export default function ResultPage() {
     <ResultSection>
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
-          <ResultChart onLabelClick={(label) => setSelectedLabel(label)} />
+          <ResultChart
+            onLabelClick={(label) => setSelectedLabel(label)}
+            activeLabel={selectedLabel}
+          />
         </motion.div>
         {selectedLabel && (
           <motion.div
