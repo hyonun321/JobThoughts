@@ -15,7 +15,7 @@ const LayoutTitle = styled.div`
 
   h1 {
     text-align: center;
-    color: ${theme.colors.gray900}
+    color: ${theme.colors.gray900};
     font-size: ${theme.fontSize.xl};
     font-weight: normal;
     transform: translateX(30px);
@@ -25,7 +25,7 @@ const LayoutTitle = styled.div`
     color: ${theme.colors.primary};
   }
 
-.image-wrapper {
+  .image-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
