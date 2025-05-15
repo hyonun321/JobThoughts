@@ -16,7 +16,7 @@ const Section = styled.section`
 const BearWrapper = styled.div`
   position: absolute;
   right: 0;
-  width: 320px;
+  width: 400px;
   height: auto;
   z-index: 1;
 `;
@@ -36,7 +36,7 @@ const StepWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  padding-left: 25vw;
+  padding-left: 20vw;
   left: 0;
 `;
 
@@ -107,7 +107,7 @@ export default function FlowButtonSection() {
             variants={motionVariants}
             style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative' }}
           >
-            <Image src={flowBear} alt="flow bear" motion="float" width="300px" />
+            <Image src={flowBear} alt="flow bear" motion="float" width="450px" />
           </motion.div>
         </BearWrapper>
       </StickyWrapper>

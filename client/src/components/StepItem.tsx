@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 
 const Number = styled.div<{ active: boolean }>`
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 700;
   color: ${({ active }) => (active ? '#5668FF' : '#A0A3FF')};
   margin-right: 1rem;
@@ -24,8 +24,8 @@ const Label = styled.div<{ active: boolean }>`
   justify-content: center;
   display: flex;
   min-width: 300px;
-  max-width: 300px;
-  font-size: 2rem;
+  max-width: 400px;
+  font-size: 3rem;
   font-weight: 500;
   opacity: ${({ active }) => (active ? 1 : 0.5)};
   transition:
