@@ -61,7 +61,7 @@ export default function ResultPage() {
             animate="visible"
             exit="exit"
           >
-            <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(false)} />
+            <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(null)} />
           </motion.div>
         )}
       </ResultTopWrapper>

@@ -40,17 +40,18 @@ const SectionTitle = styled.h3`
 `;
 
 type ResultDescriptionCardProps = {
+  label: string;
   onClose: () => void;
 };
 
-export default function ResultDescriptionCard({ onClose }: ResultDescriptionCardProps) {
+export default function ResultDescriptionCard({ label, onClose }: ResultDescriptionCardProps) {
   return (
     <Card>
       <CloseButton onClick={onClose}>
         <img src={closeButton} alt="닫기 버튼" style={{ width: '20px', height: '20px' }} />
       </CloseButton>
       <div>
-        <SectionTitle>특징</SectionTitle>
+        <SectionTitle>{label} 특징</SectionTitle>
         <p>나의 능력을 충분히 발휘할 수 있을 때 보람과 만족을 느낍니다.</p>
       </div>
       <div>
