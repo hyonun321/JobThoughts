@@ -17,6 +17,7 @@ const variantStyles: Record<
     padding: string;
     boxShadow: string;
     size: keyof typeof theme.fontSize;
+    fontWeight?: keyof typeof theme.fontWeight | number;
     transition?: string;
     hoverColor?: keyof typeof theme.colors;
     disabledColor: keyof typeof theme.colors;
@@ -31,6 +32,7 @@ const variantStyles: Record<
     padding: '20px 72px',
     boxShadow: '0px 0px 10px rgba(79, 99, 255, 0.4)',
     size: 'xl',
+    fontWeight: 'bold',
     transition: 'all 0.3s ease',
     hoverColor: 'primary',
     disabledColor: 'gray400',
@@ -44,6 +46,7 @@ const variantStyles: Record<
     padding: '16px 24px',
     boxShadow: 'none',
     size: 'm',
+    fontWeight: 'medium',
     disabledColor: 'gray400',
   },
   link: {
@@ -55,6 +58,7 @@ const variantStyles: Record<
     padding: '16px 24px',
     boxShadow: 'none',
     size: 'lg',
+    fontWeight: 'medium',
     disabledColor: 'gray400',
   },
   job: {
@@ -66,6 +70,7 @@ const variantStyles: Record<
     padding: '12px 16px',
     boxShadow: '4px 4px 4px rgba(79, 99, 255, 0.4)',
     size: 'm',
+    fontWeight: 'medium',
     transition: 'all 0.3s ease',
     hoverColor: 'primary',
     disabledColor: 'gray300',
@@ -85,6 +90,7 @@ type ButtonProps = {
   padding?: string;
   boxShadow?: string;
   size?: keyof typeof theme.fontSize | string;
+  fontWeight?: keyof typeof theme.fontWeight | number;
   transition?: string;
   hoverColor?: keyof typeof theme.colors | string;
   disabledColor?: keyof typeof theme.colors | string;
@@ -99,6 +105,7 @@ const ButtonStyle = styled.button<{
   $border: string;
   $boxShadow: string;
   $fontSize: string;
+  $fontWeight: number;
   $transition: string;
   $hoverColor?: string;
   $disabledColor: string;
@@ -116,6 +123,7 @@ const ButtonStyle = styled.button<{
   border-radius: 100px;
   box-shadow: ${({ $boxShadow }) => $boxShadow};
   font-size: ${({ $fontSize }) => $fontSize};
+  font-weight: ${({ $fontWeight }) => $fontWeight};
   transition: ${({ $transition }) => $transition};
 
   &:hover:enabled {
@@ -166,6 +174,13 @@ export default function Button({
       $border={border || style.border}
       $boxShadow={boxShadow || style.boxShadow}
       $fontSize={theme.fontSize[(size || style.size) as keyof typeof theme.fontSize]}
+      $fontWeight={
+        typeof fontWeight === 'number'
+          ? fontWeight
+          : fontWeight
+            ? theme.fontWeight[fontWeight as keyof typeof theme.fontWeight]
+            : undefined
+      }
       $transition={transition || style.transition || 'all 0.3s ease'}
       $hoverColor={hoverColor || style.hoverColor}
       $disabledColor={disabledColor || style.disabledColor}
