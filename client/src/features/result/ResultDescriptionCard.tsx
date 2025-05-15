@@ -10,7 +10,7 @@ const Card = styled.div`
   flex-direction: column;
   background: #f9fbff;
   border-radius: 16px;
-  padding: 5px 24px;
+  padding: 5px 30px 5px 24px;
   box-shadow:
     inset 10px 10px 10px 4px rgba(255, 255, 255, 0.6),
     inset -5px -5px 15px 4px rgba(193, 215, 249, 1);
