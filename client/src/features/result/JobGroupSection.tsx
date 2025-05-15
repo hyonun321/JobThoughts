@@ -116,10 +116,6 @@ const JobList = styled.div`
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 `;
 
-const CustomButton = styled(Button)`
-  border-radius: 24px;
-`;
-
 export default function JobGroupSection() {
   const navigate = useNavigate();
 
@@ -151,7 +147,7 @@ export default function JobGroupSection() {
           </Category>
           <JobList>
             {jobs.map((job) => (
-              <CustomButton
+              <Button
                 key={job}
                 text={job}
                 variant="job"
@@ -159,7 +155,7 @@ export default function JobGroupSection() {
                 width="fit-content"
               >
                 {job}
-              </CustomButton>
+              </Button>
             ))}
           </JobList>
         </Group>
