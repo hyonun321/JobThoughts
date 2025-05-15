@@ -50,25 +50,20 @@ export default function ResultPage() {
   return (
     <ResultSection>
       <ResultTopWrapper>
-        <AnimatePresence>
-          <motion.div key="chart" layout transition={layoutSpring}>
-            <ResultChart onLabelClick={(label) => setSelectedLabel(label)} />
+        <motion.div key="chart" layout transition={layoutSpring}>
+          <ResultChart onLabelClick={(label) => setSelectedLabel(label)} />
+        </motion.div>
+        {selectedLabel && (
+          <motion.div
+            key="description"
+            variants={slideInVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(false)} />
           </motion.div>
-          {selectedLabel && (
-            <motion.div
-              key="description"
-              variants={slideInVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <ResultDescriptionCard
-                label={selectedLabel}
-                onClose={() => setSelectedLabel(false)}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        )}
       </ResultTopWrapper>
       <JobGroupSection />
     </ResultSection>
