@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import closeButton from '../../assets/icons/icon-close-button.png';
 
 const Card = styled.div`
+  position: relative;
   width: clamp(200px, 40vw, 500px);
   min-height: 300px;
   display: flex;
@@ -16,6 +18,16 @@ const Card = styled.div`
     padding-left: 10px;
   }
 `;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}`;
 
 const SectionTitle = styled.h3`
   width: 120px;
@@ -36,9 +48,9 @@ export default function ResultDescriptionCard({
 }) {
   return (
     <Card>
-      <button onClick={onClose} style={{ alignSelf: 'flex-end' }}>
-        X
-      </button>
+      <CloseButton onClick={onClose}>
+        <img src={closeButton} style={{ width: '20px', height: '20px' }} />
+      </CloseButton>
       <div>
         <SectionTitle>특징</SectionTitle>
         <p>나의 능력을 충분히 발휘할 수 있을 때 보람과 만족을 느낍니다.</p>
