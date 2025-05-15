@@ -16,8 +16,7 @@ const Section = styled.section`
   padding: 0 20px;
   background: #fff;
   overflow: hidden;
-
-  @media (max-width: 768px) {
+  color: @media (max-width: 768px) {
     gap: 1rem;
   }
 
@@ -42,6 +41,9 @@ const ImgWrapper = styled.div`
 `;
 
 const WordWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   h1 {
     font-size: 40px;
     white-space: nowrap;
@@ -119,7 +121,7 @@ export default function QuestionSection() {
         {lines.map((line, i) => {
           const { ref, controls } = animations[i]; // 각 문장마다 ref & controls 사용
           return (
-            <motion.h1
+            <motion.div
               key={i}
               ref={ref} // 각 문장에 스크롤 감지 ref 걸기
               custom={i}
@@ -127,8 +129,10 @@ export default function QuestionSection() {
               animate={controls} // 각 문장마다 애니메이션 상태 연동
               variants={wordVariants}
             >
-              {line}
-            </motion.h1>
+              <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
+                {line}
+              </Text>
+            </motion.div>
           );
         })}
       </WordWrapper>
