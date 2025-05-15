@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import FullScreenSection from '../../components/FullScreenSection';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
 import CardFrame from '../../components/CardFrame';
-import TestCompleteSection from './TestCompleteSection';
 import testData from '../../data/testData';
+
+// ============ Props Type ============
+type Props = {
+  currentIndex: number;
+  onAnswer: (value: string) => void;
+};
 
 // ============ Styled Components ============
 const Wrapper = styled.div`
@@ -17,6 +23,9 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+// ✅ Motion 적용한 Wrapper
+const MotionWrapper = motion(Wrapper);
 
 const CardContainer = styled.div`
   width: 100%;
@@ -49,35 +58,20 @@ const ResponsiveButton = styled(Button)`
 `;
 
 // ============ Main Component ============
-export default function TestQuestionSection() {
-  const [currentIndex, setCurrentIndex] = useState(0); // 현재 질문 인덱스
-  const [selected, setSelected] = useState<string | null>(null); // 선택된 답변
-  const [step, setStep] = useState(0); // 카드 애니메이션 단계
-  const [answers, setAnswers] = useState<string[]>([]); // 전체 답변 목록
-  const [isComplete, setIsComplete] = useState(false); // 설문 완료 여부
-  const [displayIndex, setDisplayIndex] = useState(0); // 카드 콘텐츠 인덱스
+export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const [step, setStep] = useState(0);
 
-  // 질문 전환 시 선택 초기화
   useEffect(() => {
-    setSelected(null);
+    setSelected(null); // 질문이 바뀌면 선택 초기화
   }, [currentIndex]);
 
   const handleNext = () => {
     if (!selected) return;
-
-    setStep((prev) => prev + 1); // 카드 애니메이션 트리거
-
+    setStep((prev) => prev + 1);
     setTimeout(() => {
-      setAnswers((prev) => [...prev, selected]); // 답변 저장
-
-      const nextIndex = currentIndex + 1;
-      if (nextIndex >= testData.length) {
-        setIsComplete(true); // 모든 질문 완료 시
-      } else {
-        setCurrentIndex(nextIndex);
-        setDisplayIndex(nextIndex);
-      }
-    }, 600); // 카드 애니메이션과 동기화
+      onAnswer(selected); // 상위 컴포넌트로 선택한 답변 전달
+    }, 600);
   };
 
   const renderQuestion = (index: number) => {
@@ -149,18 +143,21 @@ export default function TestQuestionSection() {
     );
   };
 
-  return isComplete ? (
-    <TestCompleteSection answers={answers} />
-  ) : (
+  return (
     <FullScreenSection>
-      <Wrapper>
+      <MotionWrapper
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+      >
         <CardFrame
           step={step}
-          topContent={renderQuestion(displayIndex)}
-          middleContent={renderQuestion(displayIndex + 1)}
-          backContent={renderQuestion(displayIndex + 2)}
+          topContent={renderQuestion(currentIndex)}
+          middleContent={renderQuestion(currentIndex + 1)}
+          backContent={renderQuestion(currentIndex + 2)}
         />
-      </Wrapper>
+      </MotionWrapper>
     </FullScreenSection>
   );
 }
