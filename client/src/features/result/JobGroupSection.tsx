@@ -5,14 +5,14 @@ import Button from '../../components/Button';
 import { theme } from '../../styles/theme';
 
 // 곰돌이 이미지
-import JobIntroBear from '../../assets/bears/job-introduce-bear.png';
+import JobIntroBear from '../../assets/bears/job-introduce-bear.svg';
 import WorkBear from '../../assets/bears/bears-1.svg';
 import LookingBear from '../../assets/bears/bears-2.svg';
 import Bookbear from '../../assets/bears/bears-3.svg';
 import MedicalBear from '../../assets/bears/bears-4.svg';
 import NatureBear from '../../assets/bears/bears-5.svg';
-import EngineerBear from '../../assets/bears/bears-6.png';
-import ArtBear from '../../assets/bears/bears-7.png';
+import EngineerBear from '../../assets/bears/bears-6.svg';
+import ArtBear from '../../assets/bears/bears-7.svg';
 
 const categoryImages: Record<string, string> = {
   계열무관: LookingBear,
