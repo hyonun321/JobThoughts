@@ -44,6 +44,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     font-size: ${({ theme }) => theme.fontSize.m};
     line-height: 1.5;
+    overflow-x:hidden;
   }
   
   a {
