@@ -59,7 +59,7 @@ const Highlight = styled.span`
 const Group = styled.div`
   border: 1px solid blue;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 15px;
   margin-bottom: 24px;
 `;
@@ -70,6 +70,9 @@ const Category = styled.div`
   align-items: center;
   width: 250px;
   flex-shrink: 0;
+  background-color: #e0ecff;
+  border-radius: 30px;
+  box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 
   img {
     width: 150px;
@@ -80,7 +83,7 @@ const Category = styled.div`
   h4 {
     font-size: 22px;
     margin: 0;
-    white-space: nowrap; /* 줄바꿈 방지 */
+    white-space: nowrap;
   }
 `;
 
@@ -91,6 +94,11 @@ const JobList = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   flex: 1;
+  align-items: center;
+  padding-left: 20px;
+  background-color: rgb(245, 249, 255);
+  border-radius: 30px;
+  box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 `;
 
 export default function JobGroupSection() {
