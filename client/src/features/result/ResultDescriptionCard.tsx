@@ -39,7 +39,12 @@ const SectionTitle = styled.h3`
   font-size: 20px;
 `;
 
-export default function ResultDescriptionCard({ onClose }: { onClose: () => void }) {
+type ResultDescriptionCardProps = {
+  label: string;
+  onClose: () => void;
+};
+
+export default function ResultDescriptionCard({ label, onClose }: ResultDescriptionCardProps) {
   return (
     <Card>
       <CloseButton onClick={onClose}>

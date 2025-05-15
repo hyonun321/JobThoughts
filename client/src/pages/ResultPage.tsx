@@ -46,7 +46,7 @@ const slideInVariants = {
 
 // ======================= components =======================
 export default function ResultPage() {
-  const [selectedLabel, setSelectedLabel] = useState<boolean>(false);
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   return (
     <ResultSection>
       <ResultTopWrapper>
