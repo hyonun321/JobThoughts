@@ -6,6 +6,7 @@ const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 60vw;
 `;
 
 export default function JobCardList({ selectedJob }: { selectedJob: string }) {
