@@ -16,9 +16,9 @@ const LayoutTitle = styled.div`
   h1 {
     text-align: center;
     color: ${theme.colors.gray900};
-    font-size: ${theme.fontSize.xl};
+    font-size: clamp(12px, 3vw, ${theme.fontSize.xl});
     font-weight: normal;
-    transform: translateX(30px);
+    transform: translateX(40px);
   }
 
   span {
@@ -26,16 +26,31 @@ const LayoutTitle = styled.div`
   }
 
   .image-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-32px, -22px); /* 이미지만 살짝 왼쪽/위로 */
+    width: clamp(40px, 18vw, 200px);
+    margin-left: -35px;
+    margin-top: -50px;
+  }
+
+  @media (max-width: 768px) {
+    .image-wrapper {
+      margin-left: -25px;
+      margin-top: -40px;
+    }
+  }
+  @media (max-width: 485px) {
+    .image-wrapper {
+      margin-left: -15px;
+      margin-top: -30px;
+    }
+    h1 {
+      transform: translateX(20px);
+    }
   }
 `;
 
 const ResultSection = styled.div`
   padding: 0px 20px;
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
 `;
