@@ -3,7 +3,7 @@ import ResultDescriptionCard from '../features/result/ResultDescriptionCard';
 import JobGroupSection from '../features/result/JobGroupSection';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const ResultSection = styled.div`
   padding: 0px 20px;

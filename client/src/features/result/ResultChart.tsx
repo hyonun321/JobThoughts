@@ -8,6 +8,10 @@ type ResultDataItem = {
   score: number;
 };
 
+type ResultChartProps = {
+  onLabelClick: (label: string) => void;
+};
+
 const Wrapper = styled.div`
   position: relative;
   width: 50vw;
@@ -38,7 +42,7 @@ const Label = styled.div<{ x: number; y: number }>`
   }
 `;
 
-export default function ResultChart({ onLabelClick }) {
+export default function ResultChart({ onLabelClick }: ResultChartProps) {
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;

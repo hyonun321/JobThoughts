@@ -39,17 +39,11 @@ const SectionTitle = styled.h3`
   font-size: 20px;
 `;
 
-export default function ResultDescriptionCard({
-  label,
-  onClose,
-}: {
-  label: string;
-  onClose: () => void;
-}) {
+export default function ResultDescriptionCard({ onClose }: { onClose: () => void }) {
   return (
     <Card>
       <CloseButton onClick={onClose}>
-        <img src={closeButton} style={{ width: '20px', height: '20px' }} />
+        <img src={closeButton} alt="닫기 버튼" style={{ width: '20px', height: '20px' }} />
       </CloseButton>
       <div>
         <SectionTitle>특징</SectionTitle>
