@@ -1,20 +1,29 @@
-import FullScreenSection from '../../components/FullScreenSection';
 import StepItem from '../../components/StepItem';
 import Image from '../../components/Image';
 import flowBear from '../../assets/bears/flow-bear.svg';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { useRef, useState, useEffect } from 'react';
+
+const Section = styled.section`
+  width: 100vw;
+  height: 500vh;
+  background-color: ${({ theme }) => theme.colors.white};
+  position: relative;
+`;
 
 const BearWrapper = styled.div`
   position: absolute;
   right: 0;
   width: 320px;
   height: auto;
-  z-index: 1; // 필요 시
+  z-index: 1;
 `;
 
 const StickyWrapper = styled.div`
+  position: sticky;
+  top: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -23,7 +32,14 @@ const StickyWrapper = styled.div`
   align-items: center;
 `;
 
-const StepWrapper = styled.div``;
+const StepWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  padding-left: 25vw;
+  left: 0;
+`;
+
 const motionVariants = {
   hidden: {
     transform: 'translateX(300px)',
@@ -35,33 +51,66 @@ const motionVariants = {
     transition: { type: 'spring', stiffness: 80, damping: 12 },
   },
 };
+
 export default function FlowButtonSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const steps = [
     { step: 1, text: '직업 가치관 검사' },
     { step: 2, text: '직무 추천' },
     { step: 3, text: '채용 공고 연결' },
   ];
+
   const { ref, controls } = useScrollAnimation(0);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!sectionRef.current) return;
+
+      const scrollY = window.scrollY;
+      const sectionTop = sectionRef.current.offsetTop;
+      const sectionHeight = sectionRef.current.offsetHeight;
+
+      const relativeY = scrollY - sectionTop;
+
+      if (relativeY < 0) return;
+
+      const effectiveHeight = sectionHeight * 0.6; // ✅ 80%까지만 step 변화
+
+      if (relativeY > effectiveHeight) {
+        setActiveStep(steps.length - 1); // ✅ 마지막 step 유지
+        return;
+      }
+
+      const progress = relativeY / effectiveHeight;
+      const currentStep = Math.floor(progress * steps.length);
+      const clampedStep = Math.min(currentStep, steps.length - 1);
+
+      setActiveStep(clampedStep);
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [steps.length]);
 
   return (
-    <FullScreenSection style={{ position: 'relative' }}>
+    <Section ref={sectionRef}>
       <StickyWrapper>
         <StepWrapper>
-          {steps.map(({ step, text }) => (
-            <StepItem key={step} step={step} text={text} />
+          {steps.map(({ step, text }, index) => (
+            <StepItem key={step} step={step} text={text} active={activeStep === index} />
           ))}
         </StepWrapper>
-        <BearWrapper>
+        <BearWrapper ref={ref}>
           <motion.div
-            ref={ref}
             animate={controls}
             variants={motionVariants}
-            style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative' }} // ✅ 이 부분
+            style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative' }}
           >
             <Image src={flowBear} alt="flow bear" motion="float" width="300px" />
           </motion.div>
         </BearWrapper>
       </StickyWrapper>
-    </FullScreenSection>
+    </Section>
   );
 }
