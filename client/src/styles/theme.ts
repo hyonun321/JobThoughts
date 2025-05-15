@@ -31,5 +31,5 @@ export const theme = {
     medium: 500,
     bold: 700,
   },
-  fontFamily: "'Paperlogy-5Medium', sans-serif",
+  fontFamily: "'Paperlogy', sans-serif",
 };
