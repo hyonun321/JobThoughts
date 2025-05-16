@@ -16,10 +16,10 @@ type ResultChartProps = {
 
 const Wrapper = styled.div`
   position: relative;
-  width: 50vw;
+  width: clamp(250px, 50vw, 700px);
   max-width: 450px;
   aspect-ratio: 1 / 1;
-  margin: 70px;
+  margin: 50px;
   border-radius: 1px solid red;
   .nivo-radar .grid text {
     display: none;
@@ -32,7 +32,8 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   left: ${({ x }) => x}%;
   top: ${({ y }) => y}%;
   cursor: pointer;
-  font-size: ${({ $active }) => ($active ? theme.fontSize.ml : theme.fontSize.m)};
+  font-size: ${({ $active }) =>
+    $active ? `clamp(14px, 2vw, ${theme.fontSize.ml})` : `clamp(12px, 1.8vw, ${theme.fontSize.m})`};
   color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.gray900)};
   font-weight: ${({ $active }) => ($active ? theme.fontWeight.bold : theme.fontWeight.medium)};
   white-space: nowrap;

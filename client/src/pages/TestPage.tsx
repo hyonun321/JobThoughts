@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TestInformSection from '../features/test/TestInformSection';
 import TestQuestionSection from '../features/test/TestQuestionSection';
 import TestCompleteSection from '../features/test/TestCompleteSection';
-import testData from '../data/testData';
+
+import { fetchQuestions } from '../api/questions';
+import type { Question } from '../api/questions';
+import Loading from '../components/Loading';
+
 import Image from '../components/Image';
 import cubeIcon from '../assets/icons/icon-cube.png';
 import ringIcon from '../assets/icons/icon-ring.png';
@@ -28,8 +32,21 @@ const BackgroundFloatWrapper = styled.div`
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]); // ✅ 실제 질문
+  const [loading, setLoading] = useState(true);
 
-  const isComplete = currentIndex > testData.length;
+  // ✅ API로 질문 불러오기
+  useEffect(() => {
+    fetchQuestions()
+      .then((data) => setQuestions(data))
+      .catch((err) => {
+        console.error(err);
+        alert('질문 데이터를 불러올 수 없습니다.');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const isComplete = currentIndex > questions.length;
 
   const handleAnswer = (value: string) => {
     setAnswers((prev) => [...prev, value]);
@@ -64,11 +81,15 @@ export default function TestPage() {
       </BackgroundFloatWrapper>
 
       {/* 본문 콘텐츠 */}
-      {currentIndex === 0 && <TestInformSection onStart={() => setCurrentIndex(1)} />}
-      {!isComplete && currentIndex > 0 && (
+      {loading ? (
+        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
+      ) : currentIndex === 0 ? (
+        <TestInformSection onStart={() => setCurrentIndex(1)} />
+      ) : !isComplete ? (
         <TestQuestionSection currentIndex={currentIndex - 1} onAnswer={handleAnswer} />
+      ) : (
+        <TestCompleteSection answers={answers} />
       )}
-      {isComplete && <TestCompleteSection answers={answers} />}
     </div>
   );
 }
