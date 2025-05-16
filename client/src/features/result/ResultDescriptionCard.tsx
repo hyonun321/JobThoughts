@@ -5,19 +5,27 @@ import { theme } from '../../styles/theme';
 
 const Card = styled.div`
   position: relative;
-  width: clamp(200px, 42vw, 500px);
+  width: clamp(200px, 40vw, 500px);
   min-height: clamp(300px, 50vw, 400px);
   display: flex;
   flex-direction: column;
   background: #f9fbff;
   border-radius: 16px;
-  padding: clamp(5px, 1vw, 10px) clamp(20px, 3vw, 30px) clamp(5px, 1vw, 10px) clamp(15px, 2vw, 24px);
+  padding: 16px 24px;
   box-shadow:
     inset 10px 10px 10px 4px rgba(255, 255, 255, 0.6),
     inset -5px -5px 15px 4px rgba(193, 215, 249, 1);
 
   & p {
     padding-left: clamp(8px, 1vw, 10px);
+  }
+  @media (max-width: 768px) {
+    width: 80vw;
+    min-height: 400px;
+  }
+  @media (max-width: 485px) {
+    width: 80vw;
+    min-height: 300px;
   }
 `;
 
