@@ -71,15 +71,27 @@ const ResultSection = styled.div`
 `;
 
 const ResultTopWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem;
+  gap: 2vw;
   justify-content: center;
   align-items: center;
-  margin-top: -70px;
-  > * {
-    flex: 1 1 300px; /* 최소 300px까지 줄어듦 */
-    max-width: 600px; /* (선택) 너무 커지지 않게 제한 */
+  margin-top: -30px;
+  min-height: clamp(400px, 60vw, 500px);
+`;
+
+const DescriptionWrapper = styled(motion.div)`
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -158,18 +170,22 @@ export default function ResultPage() {
           />
         </motion.div>
         {selectedLabel && (
-          <motion.div
+          <DescriptionWrapper
             key="description"
             variants={slideInVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(null)} />
-          </motion.div>
+            <ResultDescriptionCard
+              label={selectedLabel}
+              onClose={() => setSelectedLabel(null)}
+              chartData={chartData}
+            />
+          </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection />
+      <JobGroupSection jobsByMajor={jobsByMajor} topValues={topValues} />
     </ResultSection>
   );
 }

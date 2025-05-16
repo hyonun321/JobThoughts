@@ -22,20 +22,12 @@ const fadeSlideOut = keyframes`
 const Wrapper = styled.div`
   position: relative;
   display: inline-block;
-`;
-
-const Button = styled.button<{ isOpen: boolean; isPlaceholder: boolean }>`
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.fontSize.m};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  min-width: 136px;
-  min-height: 48px;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  width: 100%;
+  max-width: 200px;
+  z-index: 3;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const Icon = styled.img<{ isOpen: boolean }>`
@@ -58,23 +50,58 @@ const Menu = styled.ul<{ isOpen: boolean }>`
   animation: ${({ isOpen }) => (isOpen ? fadeSlideIn : fadeSlideOut)} 0.2s ease-out forwards;
   transform-origin: top center;
   pointer-events: ${({ isOpen }) => (isOpen ? 'auto' : 'none')};
+  @media (max-width: 768px) {
+    border-radius: 0.5rem;
+  }
+`;
+const Button = styled.button<{ isOpen: boolean; isPlaceholder: boolean }>`
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  min-height: 48px;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSize.m};
+    border-radius: 0.5rem;
+    width: 100%;
+    min-height: 42px;
+  }
+  @media (max-width: 640px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
+  }
 `;
 
 const MenuItem = styled.li<{ selected: boolean }>`
   margin: 6px auto;
-  width: 120px;
+  width: 90%;
+  max-width: 180px;
   height: 40px;
   text-align: center;
   border-radius: 1rem;
   line-height: 40px;
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: ${({ theme }) => theme.fontSize.ml};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ selected, theme }) => (selected ? theme.colors.primary : theme.colors.gray900)};
   background-color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
-
+  z-index: 10;
   &:hover {
     background-color: ${({ theme }) => theme.colors.gray100};
+  }
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSize.s};
+    border-radius: 0.6rem;
+  }
+  @media (max-width: 640px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;
 

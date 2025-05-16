@@ -22,12 +22,14 @@ declare module 'styled-components' {
       white: string;
     };
     fontSize: {
+      xxs: string;
       xs: string;
       s: string;
       m: string;
       ml: string;
       lg: string;
       xl: string;
+      xxl: string;
     };
     fontWeight: {
       light: number;

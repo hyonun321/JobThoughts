@@ -15,7 +15,10 @@ import type { Question } from '../../api/questions';
 // ============ Props Type ============
 type Props = {
   currentIndex: number;
+  step: number;
+  direction: 'forward' | 'backward';
   onAnswer: (value: string) => void;
+  onBack: () => void;
 };
 
 // ============ Styled Components ============
@@ -61,13 +64,18 @@ const ResponsiveButton = styled(Button)`
 `;
 
 // ============ Main Component ============
-export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
+export default function TestQuestionSection({
+  currentIndex,
+  step,
+  direction,
+  onAnswer,
+  onBack,
+}: Props) {
   const [selected, setSelected] = useState<string | null>(null);
-  const [step, setStep] = useState(0);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 질문 데이터 fetch
+  // ✅ 질문 데이터 fetch
   useEffect(() => {
     const loadQuestions = async () => {
       try {
@@ -92,7 +100,6 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
     if (!selected || !questions[currentIndex]) return;
 
     setStep((prev) => prev + 1); // 카드 전환 애니메이션 트리거
-
     setTimeout(() => {
       onAnswer(selected); // 기존 상위 컴포넌트 호출
     }, 600);
@@ -102,7 +109,7 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
     const data = questions[index];
     if (!data) return null;
 
-    const { answer01: left, answer02: right } = data;
+    const { answer01: left, answer02: right, answer03, answer04 } = data;
 
     return (
       <div
@@ -182,9 +189,9 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
         >
           <CardFrame
             step={step}
-            topContent={renderQuestion(currentIndex)}
-            middleContent={renderQuestion(currentIndex + 1)}
-            backContent={renderQuestion(currentIndex + 2)}
+            renderContent={(s) => renderQuestion(s)}
+            onBack={onBack}
+            direction={direction}
           />
         </MotionWrapper>
       )}

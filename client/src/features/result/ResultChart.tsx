@@ -16,10 +16,10 @@ type ResultChartProps = {
 
 const Wrapper = styled.div`
   position: relative;
-  width: 50vw;
+  width: clamp(250px, 50vw, 700px);
   max-width: 450px;
   aspect-ratio: 1 / 1;
-  margin: 70px;
+  margin: 50px;
   border-radius: 1px solid red;
   .nivo-radar .grid text {
     display: none;
@@ -32,7 +32,8 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   left: ${({ x }) => x}%;
   top: ${({ y }) => y}%;
   cursor: pointer;
-  font-size: ${({ $active }) => ($active ? theme.fontSize.ml : theme.fontSize.m)};
+  font-size: ${({ $active }) =>
+    $active ? `clamp(14px, 2vw, ${theme.fontSize.ml})` : `clamp(12px, 1.8vw, ${theme.fontSize.m})`};
   color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.gray900)};
   font-weight: ${({ $active }) => ($active ? theme.fontWeight.bold : theme.fontWeight.medium)};
   white-space: nowrap;
@@ -44,7 +45,10 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   }
 `;
 
+
 export default function ResultChart({ data, onLabelClick, activeLabel }: ResultChartProps) {
+  if (!chartData || chartData.length === 0) return <div>차트 데이터가 없습니다</div>;
+
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;
@@ -53,9 +57,9 @@ export default function ResultChart({ data, onLabelClick, activeLabel }: ResultC
   };
 
   // 라벨 좌표 계산 (반응형 기준 % 좌표)
-  const labels: LabelPosition[] = data.map((d: ResultDataItem, i: number) => {
-    const angle = (i / data.length) * 2 * Math.PI - Math.PI / 2;
 
+  const labels: LabelPosition[] = data.map((data, i) => {
+    const angle = (i / chartData.length) * 2 * Math.PI - Math.PI / 2; // 12시 기준 시작
     const r = Math.abs(Math.sin(angle)) > 0.95 ? 47 : 49;
     const centerX = 52;
     const centerY = 50;
@@ -63,7 +67,7 @@ export default function ResultChart({ data, onLabelClick, activeLabel }: ResultC
     const x = centerX + r * Math.cos(angle);
     const y = centerY + r * Math.sin(angle);
 
-    return { label: d.type, x, y };
+    return { label: data.type, x, y };
   });
 
   return (

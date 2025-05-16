@@ -34,7 +34,6 @@ export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
-
   const { addAnswer, resetAnswers, answers } = useTestStore();
 
   useEffect(() => {
@@ -56,7 +55,22 @@ export default function TestPage() {
       value === question.answer01 ? question.answerScore01 : question.answerScore02;
 
     addAnswer({ qitemNo: question.qitemNo, answerScore: selectedScore });
+
     setCurrentIndex((prev) => prev + 1);
+    setStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (currentIndex === 0) return;
+
+    setDirection('backward');
+    setAnswers((prev) => {
+      const updated = prev.slice(0, -1);
+      console.log('↩️ 되돌린 후 답변 배열:', updated); // 되돌린 후 상태 출력
+      return updated;
+    });
+    setCurrentIndex((prev) => prev - 1);
+    setStep((prev) => prev - 1);
   };
 
   useEffect(() => {
@@ -97,7 +111,13 @@ export default function TestPage() {
       ) : currentIndex === 0 ? (
         <TestInformSection onStart={() => setCurrentIndex(1)} />
       ) : !isComplete ? (
-        <TestQuestionSection currentIndex={currentIndex - 1} onAnswer={handleAnswer} />
+        <TestQuestionSection
+          currentIndex={currentIndex - 1}
+          onAnswer={handleAnswer}
+          onBack={handleBack}
+          step={step}
+          direction={direction}
+        />
       ) : (
         <TestCompleteSection answers={answers} />
       )}

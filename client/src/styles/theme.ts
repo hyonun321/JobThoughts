@@ -19,12 +19,14 @@ export const theme = {
     white: '#FFFFFF',
   },
   fontSize: {
+    xxs: '0.625rem',
     xs: '0.75rem',
     s: '0.875rem',
     m: '1rem',
     ml: '1.125rem',
     lg: '1.5rem',
     xl: '2rem',
+    xxl: '3rem',
   },
   fontWeight: {
     light: 300,

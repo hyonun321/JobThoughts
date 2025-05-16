@@ -12,7 +12,7 @@ import lyingBear from '../../assets/lying-bear.png';
 // ======================= styled components =======================
 const NextSection = styled.section`
   width: 100vw;
-  height: 210vh;
+  height: auto;
   background: linear-gradient(to bottom, #000000 0%, #4f63ff 50%, #ffffff 100%);
   position: relative;
   display: flex;

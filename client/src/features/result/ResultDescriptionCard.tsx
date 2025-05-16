@@ -6,18 +6,26 @@ import { theme } from '../../styles/theme';
 const Card = styled.div`
   position: relative;
   width: clamp(200px, 40vw, 500px);
-  min-height: 300px;
+  min-height: clamp(300px, 50vw, 400px);
   display: flex;
   flex-direction: column;
   background: #f9fbff;
   border-radius: 16px;
-  padding: 5px 30px 5px 24px;
+  padding: 16px 24px;
   box-shadow:
     inset 10px 10px 10px 4px rgba(255, 255, 255, 0.6),
     inset -5px -5px 15px 4px rgba(193, 215, 249, 1);
 
   & p {
-    padding-left: 10px;
+    padding-left: clamp(8px, 1vw, 10px);
+  }
+  @media (max-width: 768px) {
+    width: 80vw;
+    min-height: 400px;
+  }
+  @media (max-width: 485px) {
+    width: 80vw;
+    min-height: 300px;
   }
 `;
 
@@ -32,23 +40,24 @@ const CloseButton = styled.button`
 }`;
 
 const SectionTitle = styled.h3`
-  width: 100px;
+  width: clamp(80px, 20vw, 100px);
   background-color: white;
   border-radius: 100px;
   box-shadow: 0px 1px 3px rgba(79, 99, 255, 0.5);
-  padding: 5px 0px;
+  padding: clamp(3px, 0.8vw, 5px) clamp(8px, 1vw, 12px);
   text-align: center;
-  font-size: ${theme.fontSize.m};
+  font-size: clamp(12px, 2vw, ${theme.fontSize.m});
 `;
 
 const SectionContent = styled.p`
-  font-size: ${theme.fontSize.m};
-  line-height: 28px;
+  font-size: clamp(12px, 2vw, ${theme.fontSize.m});
+  line-height: clamp(18px, 4vw, 28px);
 `;
 
 type ResultDescriptionCardProps = {
   label: string;
   onClose: () => void;
+  chartData: { type: string; score: number; description?: string }[];
 };
 
 export default function ResultDescriptionCard({ label, onClose }: ResultDescriptionCardProps) {
