@@ -1,17 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+
 import FullScreenSection from '../../components/FullScreenSection';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
 import CardFrame from '../../components/CardFrame';
-import testData from '../../data/testData';
+
+import { fetchQuestions } from '../../api/questions';
+import type { Question } from '../../api/questions';
+import Loading from '../../components/Loading';
 
 // ============ Props Type ============
 type Props = {
   currentIndex: number;
+  step: number;
+  direction: 'forward' | 'backward';
   onAnswer: (value: string) => void;
+  onBack: () => void;
 };
 
 // ============ Styled Components ============
@@ -24,7 +31,6 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-// ✅ Motion 적용한 Wrapper
 const MotionWrapper = motion(Wrapper);
 
 const CardContainer = styled.div`
@@ -58,9 +64,33 @@ const ResponsiveButton = styled(Button)`
 `;
 
 // ============ Main Component ============
-export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
+export default function TestQuestionSection({
+  currentIndex,
+  step,
+  direction,
+  onAnswer,
+  onBack,
+}: Props) {
   const [selected, setSelected] = useState<string | null>(null);
-  const [step, setStep] = useState(0);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ 질문 데이터 fetch
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        const data = await fetchQuestions();
+        setQuestions(data);
+      } catch (err) {
+        console.error(err);
+        alert('질문지를 불러오지 못했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadQuestions();
+  }, []);
 
   useEffect(() => {
     setSelected(null); // 질문이 바뀌면 선택 초기화
@@ -68,17 +98,16 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
 
   const handleNext = () => {
     if (!selected) return;
-    setStep((prev) => prev + 1);
     setTimeout(() => {
       onAnswer(selected); // 상위 컴포넌트로 선택한 답변 전달
     }, 600);
   };
 
   const renderQuestion = (index: number) => {
-    const data = testData[index];
+    const data = questions[index];
     if (!data) return null;
 
-    const { left, right } = data;
+    const { answer01: left, answer02: right, answer03, answer04 } = data;
 
     return (
       <div
@@ -123,11 +152,13 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
             value={left}
             selected={selected === left}
             onClick={() => setSelected(left)}
+            description={answer03}
           />
           <ResponsiveCard
             value={right}
             selected={selected === right}
             onClick={() => setSelected(right)}
+            description={answer04}
           />
         </CardContainer>
 
@@ -145,19 +176,23 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
 
   return (
     <FullScreenSection>
-      <MotionWrapper
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        <CardFrame
-          step={step}
-          topContent={renderQuestion(currentIndex)}
-          middleContent={renderQuestion(currentIndex + 1)}
-          backContent={renderQuestion(currentIndex + 2)}
-        />
-      </MotionWrapper>
+      {loading ? (
+        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
+      ) : (
+        <MotionWrapper
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <CardFrame
+            step={step}
+            renderContent={(s) => renderQuestion(s)}
+            onBack={onBack}
+            direction={direction}
+          />
+        </MotionWrapper>
+      )}
     </FullScreenSection>
   );
 }

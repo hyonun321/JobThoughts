@@ -32,11 +32,12 @@ const Wrapper = styled.div`
   justify-content: center;
   position: relative;
 `;
+
 //이전 페이지에서 넘어올때 부드러운 화면 전환 추가를 위한 MotionSection
 const MotionSection = motion(Wrapper);
 
 const CardContent = styled.div`
-  max-width: 85%;
+  max-width: 90%;
 `;
 
 // 검사 설명/예시 묶음
@@ -70,7 +71,7 @@ const SampleWrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
-  width: 100%;
+  width: 850px;
   padding: 0 1rem;
   box-sizing: border-box;
 `;
@@ -93,7 +94,7 @@ const ButtonWrapper = styled.div`
   top: calc(88%);
 `;
 
-//검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
+// 검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
 const InfoCardWrapper = styled.div`
   display: flex;
   gap: 30px;
@@ -111,10 +112,8 @@ const renderCardContent = () => (
       <TextWrapper>
         <Text as="h2" size="ml" weight="bold" color="black" align="center">
           직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
-          여기는가를 살펴보고,
-        </Text>
-        <Text as="h2" size="ml" weight="bold" color="black" align="center">
-          그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
+          여기는가를 살펴보고, 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는
+          검사입니다.
         </Text>
       </TextWrapper>
 
@@ -158,12 +157,7 @@ export default function TestInformSection({ onStart }: Props) {
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <CardFrame
-          step={0} // 설명 페이지는 애니메이션이 필요 없으므로 step 고정
-          topContent={renderCardContent()}
-          middleContent={renderCardContent()}
-          backContent={renderCardContent()}
-        />
+        <CardFrame step={0} direction="forward" renderContent={() => renderCardContent()} />
         <ButtonWrapper>
           <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />
         </ButtonWrapper>
