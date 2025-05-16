@@ -15,9 +15,23 @@ const HeaderWrapper = styled.div`
 
 type Props = {
   selectedJob: string;
+  locationFilter: string;
+  setLocationFilter: (value: string) => void;
+  typeFilter: string;
+  setTypeFilter: (value: string) => void;
+  sortFilter: string;
+  setSortFilter: (value: string) => void;
 };
 
-export default function JobListHeader({ selectedJob }: Props) {
+export default function JobListHeader({
+  selectedJob,
+  locationFilter,
+  setLocationFilter,
+  typeFilter,
+  setTypeFilter,
+  sortFilter,
+  setSortFilter,
+}: Props) {
   return (
     <HeaderWrapper>
       <Text as="span" size="xl" weight="bold">
@@ -28,7 +42,14 @@ export default function JobListHeader({ selectedJob }: Props) {
       <Text as="span" size="ml" weight="medium">
         직무에 맞는 기업만 모아서 보여드려요
       </Text>
-      <FilterBar />
+      <FilterBar
+        locationFilter={locationFilter}
+        setLocationFilter={setLocationFilter}
+        typeFilter={typeFilter}
+        setTypeFilter={setTypeFilter}
+        sortFilter={sortFilter}
+        setSortFilter={setSortFilter}
+      />
     </HeaderWrapper>
   );
 }

@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import tool from '../assets/icons/icon-tool.svg';
 import megaphone from '../assets/icons/icon-megaphone.svg';
 import pin from '../assets/icons/icon-pin.svg';
+import { useState } from 'react';
 
 const BackgroundWrapper = styled.div`
   position: relative;
@@ -52,7 +53,9 @@ const SectionWrapper = styled.section`
 export default function JobListPage() {
   const location = useLocation();
   const selectedJob = location.state?.selectedJob || '웹 디자이너';
-
+  const [locationFilter, setLocationFilter] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+  const [sortFilter, setSortFilter] = useState('');
   return (
     <BackgroundWrapper>
       <SectionWrapper>
@@ -60,9 +63,22 @@ export default function JobListPage() {
           <BearImage>
             <Image src={holdingBear} alt="job-holding-bear" width="100%" />
           </BearImage>
-          <JobListHeader selectedJob={selectedJob} />
+          <JobListHeader
+            selectedJob={selectedJob}
+            locationFilter={locationFilter}
+            setLocationFilter={setLocationFilter}
+            typeFilter={typeFilter}
+            setTypeFilter={setTypeFilter}
+            sortFilter={sortFilter}
+            setSortFilter={setSortFilter}
+          />
         </HeaderWithBear>
-        <JobCardList selectedJob={selectedJob} />
+        <JobCardList
+          selectedJob={selectedJob}
+          locationFilter={locationFilter}
+          typeFilter={typeFilter}
+          sortFilter={sortFilter}
+        />
       </SectionWrapper>
       <Icon top="25%" left="0%">
         <Image src={tool} width="15vw" motion="float" />
