@@ -10,6 +10,8 @@ import shareIcon from '../../assets/icons/icon-share.svg';
 import starIcon from '../../assets/icons/icon-star.svg';
 import { theme } from '../../styles/theme';
 import type { Job } from '../../types';
+import { motion } from 'framer-motion';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
 
 type Props = {
   job: Job;
@@ -28,7 +30,7 @@ const Card = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   cursor: default;
-  z-index: 2;
+  z-index: 1;
 `;
 
 const Top = styled.div`
@@ -45,13 +47,13 @@ const TitleInfo = styled.div`
 `;
 
 const Company = styled.div`
-  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
   font-weight: 500;
   color: #555;
 `;
 
 const Title = styled.div`
-  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-size: clamp(1.2rem, 3vw, 2rem);
   font-weight: 700;
 `;
 
@@ -113,12 +115,11 @@ const Dday = styled.div`
   background-color: ${theme.colors.white};
   font-weight: light;
   cursor: default;
-  z-index: 2;
+  z-index: 1;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 640px) {
     right: 25px;
-    top: -15px;
   }
 `;
 
@@ -132,7 +133,7 @@ const ApplyButton = styled.a`
   height: 48px;
   width: 120px;
   border: none;
-  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
   cursor: pointer;
   text-decoration: none;
   transition: all 0.02s ease-in;
@@ -167,7 +168,7 @@ const DetailGrid = styled.div`
 const DetailItem = styled.div`
   display: flex;
   gap: 0.6rem;
-  font-size: 14px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   align-items: center;
   color: ${theme.colors.gray900};
 `;
@@ -185,11 +186,23 @@ const Label = styled.div`
 const HighlightDesc = styled.div`
   color: ${theme.colors.primary};
 `;
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+const MotionCard = motion(Card);
 
 export default function JobCard({ job, dDay }: Props) {
   const isScrapButton = false;
+  const { ref, controls } = useScrollAnimation(0.1, true);
   return (
-    <Card>
+    <MotionCard
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={cardVariants}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
       <Top>
         <TitleInfo>
           <Company>{job.company}</Company>
@@ -247,6 +260,6 @@ export default function JobCard({ job, dDay }: Props) {
           <div>{job.location}</div>
         </DetailItem>
       </DetailGrid>
-    </Card>
+    </MotionCard>
   );
 }

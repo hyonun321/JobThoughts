@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   display: inline-block;
   width: 100%;
   max-width: 200px;
-
+  z-index: 3;
   @media (max-width: 768px) {
     max-width: 100%;
   }
@@ -88,7 +88,7 @@ const MenuItem = styled.li<{ selected: boolean }>`
   color: ${({ selected, theme }) => (selected ? theme.colors.primary : theme.colors.gray900)};
   background-color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
-
+  z-index: 10;
   &:hover {
     background-color: ${({ theme }) => theme.colors.gray100};
   }

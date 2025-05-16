@@ -14,6 +14,7 @@ const HeaderWrapper = styled.div`
   margin-bottom: 2rem;
   max-width: 1000px;
   width: 80vw;
+  z-index: 2;
 `;
 
 const MobileOnlyBr = styled.span`
