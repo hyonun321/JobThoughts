@@ -47,7 +47,6 @@ const InfoBlock = styled.div`
   gap: 28px; // 제목과 아래 요소 간격
   padding-top: 20px;
   padding-bottom: 10px;
-  max-width: 850px;
 `;
 
 // 검사 진행방법, 설명 텍스트, 샘플 묶음
@@ -72,7 +71,7 @@ const SampleWrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
-  width: 100%;
+  width: 850px;
   padding: 0 1rem;
   box-sizing: border-box;
 `;
