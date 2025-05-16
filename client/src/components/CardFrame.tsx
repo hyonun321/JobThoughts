@@ -58,6 +58,7 @@ const ContentWrapper = styled.div`
   gap: 2rem;
 `;
 
+// 이전 질문 이동 버튼
 const BackButton = styled.button`
   position: absolute;
   top: 1rem;
@@ -142,6 +143,7 @@ export default function CardFrame({
     }
   }, [step]);
 
+  // 카드 하나를 렌더링하는 함수
   const renderCard = (
     card: typeof topCard,
     z: number,
