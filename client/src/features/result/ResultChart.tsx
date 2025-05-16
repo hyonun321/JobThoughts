@@ -21,9 +21,6 @@ const Wrapper = styled.div`
   aspect-ratio: 1 / 1;
   margin: 70px;
   border-radius: 1px solid red;
-  .nivo-radar .grid text {
-    display: none;
-  }
 `;
 
 const Label = styled.div<{ x: number; y: number; $active: boolean }>`
