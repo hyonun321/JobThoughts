@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import jobRecommendationData from '../../data/jobRecommendationData';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { theme } from '../../styles/theme';
@@ -118,7 +117,15 @@ const JobList = styled.div`
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 `;
 
-export default function JobGroupSection() {
+type JobsByMajor = {
+  [major: string]: string[];
+};
+
+type ResultJobListProps = {
+  jobsByMajor: JobsByMajor;
+};
+
+export default function JobGroupSection({ jobsByMajor }: ResultJobListProps) {
   const navigate = useNavigate();
 
   const handleClick = (job: string) => {
@@ -139,7 +146,7 @@ export default function JobGroupSection() {
           <img src={JobIntroBear} alt="직업을 소개하는 곰돌이" />
         </div>
       </JobInfoArea>
-      {jobRecommendationData.map(({ category, jobs }) => (
+      {Object.entries(jobsByMajor).map(([category, jobs]) => (
         <Group key={category}>
           <Category>
             <img src={categoryImages[category]} alt={category} />
