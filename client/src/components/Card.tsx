@@ -15,6 +15,7 @@ type Props = {
   onClick?: () => void;
   width?: string;
   height?: string;
+  description?: string;
 };
 
 // 텍스트 값과 아이콘을 매핑하는 객체
@@ -25,7 +26,7 @@ const iconMap: Record<string, string> = {
   보수: pay,
   자기계발: selfDevelopment,
   사회봉사: socialContribution,
-  사회의인정: socialRecognition,
+  '사회적 인정': socialRecognition, //사회의인정 -> 사회적인정: 커리어넷 api대로 수정
   안정성: stability,
 };
 
@@ -62,13 +63,14 @@ const CardWrapper = styled.div<{
 
 // 아이콘 스타일
 const CardIcon = styled.img`
-  width: 70%;
-  height: 70%;
-  margin-bottom: 0.5rem;
+  margin-top: -18px;
+  width: 65%;
+  height: 65%;
 `;
 
 // 텍스트 스타일
 const CardLabel = styled.span`
+  margin-top: -10px;
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.colors.black};
@@ -81,12 +83,22 @@ const InfoCardLabel = styled.span`
   color: ${({ theme }) => theme.colors.black};
 `;
 
+// 가치 설명 텍스트용 스타일
+const CardDescription = styled.span`
+  max-width: 180px;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  color: ${({ theme }) => theme.colors.gray700};
+  text-align: center;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+`;
+
 // ================= Card Component =================
 /**
  * 개별 가치(선택지)를 카드 형태로 시각화하는 컴포넌트
  * 선택 여부에 따라 스타일이 달라지고, 클릭 시 상위에서 전달된 콜백을 실행함
  */
-export default function Card({ value, selected, onClick, width, height }: Props) {
+export default function Card({ value, selected, onClick, width, height, description }: Props) {
   // value에 해당하는 아이콘 불러오기
   const icon = iconMap[value];
 
@@ -101,6 +113,7 @@ export default function Card({ value, selected, onClick, width, height }: Props)
     >
       <CardIcon src={icon} alt={`${value} 아이콘`} />
       <CardLabel>{value}</CardLabel>
+      {description && <CardDescription>{description}</CardDescription>}
     </CardWrapper>
   );
 }
