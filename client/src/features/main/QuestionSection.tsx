@@ -4,6 +4,7 @@ import { motion, useInView, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
 
 // 이미지
 import worriedBear from '../../assets/bears/worried-bear.svg';
@@ -88,19 +89,6 @@ const wordVariants: Variants = {
     },
   }),
 };
-
-// ================= custom hook =================
-function useScrollAnimation(amount = 0.5) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start(inView ? 'visible' : 'hidden');
-  }, [inView, controls]);
-
-  return { ref, controls };
-}
 
 // ================= component =================
 export default function QuestionSection() {
