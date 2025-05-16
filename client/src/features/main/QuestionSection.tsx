@@ -6,11 +6,12 @@ import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 
-// 이미지
+// 이미지 리소스
 import worriedBear from '../../assets/bears/worried-bear.svg';
 import dot from '../../assets/worried-bear-dot.png';
 
 // ================= styled components =================
+// 전체 레이아웃 스타일
 const Section = styled.section`
   display: flex;
   gap: clamp(0.75rem, 1vw, 1rem);
@@ -24,6 +25,7 @@ const Section = styled.section`
   }
 `;
 
+// 이미지 스타일
 const ImgWrapper = styled.div`
   width: clamp(250px, 30vw, 600px); // 반응형 곰돌이 크기 자동 조정
   img {
@@ -32,6 +34,7 @@ const ImgWrapper = styled.div`
   }
 `;
 
+// 문장 스타일
 const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,6 +51,7 @@ const WordWrapper = styled.div`
   }
 `;
 
+// 곰돌이 머리 위 점 스타일
 const DotWrapper = styled.div`
   position: relative;
 `;
@@ -68,7 +72,7 @@ const dotVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.4,
-      delay: i * 0.5, // 점 하나씩 0.2초 간격 등장
+      delay: i * 0.5, // 점 하나씩 0.5초 간격 등장
     },
   }),
 };
