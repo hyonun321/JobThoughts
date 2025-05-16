@@ -111,10 +111,8 @@ const renderCardContent = () => (
       <TextWrapper>
         <Text as="h2" size="ml" weight="bold" color="black" align="center">
           직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
-          여기는가를 살펴보고,
-        </Text>
-        <Text as="h2" size="ml" weight="bold" color="black" align="center">
-          그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
+          여기는가를 살펴보고, 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는
+          검사입니다.
         </Text>
       </TextWrapper>
 
