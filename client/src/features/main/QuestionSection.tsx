@@ -102,13 +102,8 @@ export default function QuestionSection() {
     '"막막한데, 어디서부터 봐야 하죠?"',
   ];
 
-  const bearAnimation = useScrollAnimation();
-  const dotAnimation = useScrollAnimation();
-  const sentence1 = useScrollAnimation();
-  const sentence2 = useScrollAnimation();
-  const sentence3 = useScrollAnimation();
-
-  const animations = [sentence1, sentence2, sentence3];
+  const [dotAnimation, bearAnimation] = [useScrollAnimation(), useScrollAnimation()];
+  const animations = Array.from({ length: lines.length }, () => useScrollAnimation());
 
   return (
     <Section>
