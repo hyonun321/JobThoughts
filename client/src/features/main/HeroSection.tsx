@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { jobRows } from '../../data/jobRows';
 const Section = styled.section`
-  width: 100vw;
+  width: 100%;
   height: 400vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: relative;
@@ -45,7 +45,7 @@ const JobText = styled(motion.span)<{ $outline?: boolean }>`
 `;
 
 const BlackSection = styled(motion.div)`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: fixed;
