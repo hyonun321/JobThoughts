@@ -30,10 +30,12 @@ type Props = {
 };
 
 const Card = styled.div`
-  background: white;
-  border-radius: 24px;
+  background: ${theme.colors.deco2};
+  border-radius: 3rem;
   padding: 2.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    8px 12px 30px rgba(63, 94, 255, 0.15),
+    inset -1px -1px 3px ${theme.colors.background + '80'}; /* 안쪽 그림자 */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -66,11 +68,15 @@ const Title = styled.div`
 
 const Share = styled.div`
   font-size: 12px;
-  color: #888;
+  color: ${theme.colors.gray500};
   display: flex;
+  width: 80px;
   align-items: center;
   gap: 0.3rem;
   cursor: pointer;
+  &:hover {
+    color: ${theme.colors.gray800}; // 또는 다른 색상
+  }
 `;
 
 const Right = styled.div`
@@ -83,8 +89,8 @@ const Right = styled.div`
   height: 100%;
 `;
 
-const Scrap = styled.button`
-  background: white;
+const ScrapButton = styled.button`
+  background-color: ${theme.colors.deco2};
   border: 1px solid #ccc;
   border-radius: 30%;
   font-size: ${theme.fontSize.xs};
@@ -96,6 +102,10 @@ const Scrap = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  &:hover {
+    background-color: ${theme.colors.white}; // 또는 hover 시 색상
+  }
 `;
 
 const Dday = styled.div`
@@ -164,6 +174,7 @@ const HighlightDesc = styled.div`
 `;
 
 export default function JobCard({ job, dDay }: Props) {
+  const isScrapButton = false;
   return (
     <Card>
       <Top>
@@ -177,10 +188,12 @@ export default function JobCard({ job, dDay }: Props) {
         </TitleInfo>
         <Right>
           <Dday>{dDay}</Dday>
-          <Scrap>
-            <Image src={starIcon} width="20px" style={{ cursor: 'pointer' }} />
-            스크랩
-          </Scrap>
+          {isScrapButton && (
+            <ScrapButton>
+              <Image src={starIcon} width="20px" style={{ cursor: 'pointer' }} />
+              스크랩
+            </ScrapButton>
+          )}
           <ApplyButton>입사 지원</ApplyButton>
         </Right>
       </Top>
@@ -208,7 +221,7 @@ export default function JobCard({ job, dDay }: Props) {
         </DetailItem>
         <DetailItem>
           <Image src={typeIcon} width="20px" />
-          <Label>근무형태</Label>
+          <Label>고용형태</Label>
           <HighlightDesc>{job.type}</HighlightDesc>
         </DetailItem>
         <DetailItem>
