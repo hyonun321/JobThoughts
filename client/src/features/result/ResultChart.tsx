@@ -16,10 +16,10 @@ type ResultChartProps = {
 
 const Wrapper = styled.div`
   position: relative;
-  width: 50vw;
+  width: clamp(250px, 40vw, 700px);
   max-width: 450px;
   aspect-ratio: 1 / 1;
-  margin: 70px;
+  margin: 50px;
   border-radius: 1px solid red;
   .nivo-radar .grid text {
     display: none;
