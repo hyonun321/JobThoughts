@@ -16,7 +16,7 @@ const LayoutTitle = styled.div`
   h1 {
     text-align: center;
     color: ${theme.colors.gray900};
-    font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
+    font-size: clamp(10px, 3vw, ${theme.fontSize.lg});
     font-weight: normal;
     transform: translateX(clamp(20px, 2.5vw, 40px));
   }
@@ -27,21 +27,7 @@ const LayoutTitle = styled.div`
 
   .image-wrapper {
     width: clamp(40px, 18vw, 200px);
-    margin-left: -35px;
-    margin-top: -50px;
-  }
-
-  @media (max-width: 768px) {
-    .image-wrapper {
-      margin-left: -25px;
-      margin-top: -40px;
-    }
-  }
-  @media (max-width: 485px) {
-    .image-wrapper {
-      margin-left: -15px;
-      margin-top: -30px;
-    }
+    transform: translate(clamp(-10px, -3vw, -35px), clamp(-15px, -4vw, -10px));
   }
 `;
 
@@ -58,7 +44,6 @@ const ResultTopWrapper = styled.div`
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  margin-top: -70px;
   > * {
     flex: 1 1 300px; /* 최소 300px까지 줄어듦 */
     max-width: 600px; /* (선택) 너무 커지지 않게 제한 */
