@@ -2,10 +2,12 @@ import ResultChart from '../features/result/ResultChart';
 import ResultDescriptionCard from '../features/result/ResultDescriptionCard';
 import JobGroupSection from '../features/result/JobGroupSection';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ClickFinger from '../../src/assets/icons/icon-click-finger.svg';
 import { theme } from '../../src/styles/theme';
+import axios from 'axios';
+import { mockAnswersData } from '../data/mockAnswersData';
 
 const LayoutTitle = styled.div`
   display: flex;
@@ -104,6 +106,42 @@ const slideInVariants = {
 // ======================= components =======================
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+  const [chartData, setChartData] = useState([]);
+  const [topValues, setTopValues] = useState([]);
+  const [jobsByMajor, setJobsByMajor] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchResultData = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.post('/api/report', { answer: mockAnswersData });
+        console.log(data);
+        setChartData(
+          data.results.scores.map(
+            (item: { name: string; score: number; description?: string }) => ({
+              type: item.name,
+              score: item.score,
+              description: item.description,
+            })
+          )
+        );
+        setTopValues(data.results.topValues);
+        setJobsByMajor(data.results.jobsByMajor);
+      } catch (error) {
+        console.error('결과 가져오기 실패:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResultData();
+  }, []);
+
+  if (loading) {
+    return <div>결과를 불러오는 중입니다...</div>;
+  }
+
   return (
     <ResultSection>
       <LayoutTitle>
@@ -117,6 +155,7 @@ export default function ResultPage() {
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
           <ResultChart
+            chartData={chartData}
             onLabelClick={(label) => setSelectedLabel(label)}
             activeLabel={selectedLabel}
           />
@@ -129,11 +168,15 @@ export default function ResultPage() {
             animate="visible"
             exit="exit"
           >
-            <ResultDescriptionCard label={selectedLabel} onClose={() => setSelectedLabel(null)} />
+            <ResultDescriptionCard
+              label={selectedLabel}
+              onClose={() => setSelectedLabel(null)}
+              chartData={chartData}
+            />
           </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection />
+      <JobGroupSection jobsByMajor={jobsByMajor} topValues={topValues} />
     </ResultSection>
   );
 }

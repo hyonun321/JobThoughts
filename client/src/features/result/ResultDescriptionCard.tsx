@@ -57,6 +57,7 @@ const SectionContent = styled.p`
 type ResultDescriptionCardProps = {
   label: string;
   onClose: () => void;
+  chartData: { type: string; score: number; description?: string }[];
 };
 
 export default function ResultDescriptionCard({ label, onClose }: ResultDescriptionCardProps) {
