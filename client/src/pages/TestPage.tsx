@@ -6,6 +6,7 @@ import TestCompleteSection from '../features/test/TestCompleteSection';
 
 import { fetchQuestions } from '../api/questions';
 import type { Question } from '../api/questions';
+import Loading from '../components/Loading';
 
 import Image from '../components/Image';
 import cubeIcon from '../assets/icons/icon-cube.png';
@@ -81,7 +82,7 @@ export default function TestPage() {
 
       {/* 본문 콘텐츠 */}
       {loading ? (
-        <p style={{ textAlign: 'center', marginTop: '30vh' }}>문항을 불러오는 중입니다...</p>
+        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
       ) : currentIndex === 0 ? (
         <TestInformSection onStart={() => setCurrentIndex(1)} />
       ) : !isComplete ? (

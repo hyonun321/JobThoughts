@@ -10,6 +10,7 @@ import CardFrame from '../../components/CardFrame';
 
 import { fetchQuestions } from '../../api/questions';
 import type { Question } from '../../api/questions';
+import Loading from '../../components/Loading';
 
 // ============ Props Type ============
 type Props = {
@@ -169,9 +170,7 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
   return (
     <FullScreenSection>
       {loading ? (
-        <Text as="p" size="m" weight="medium" color="gray700">
-          질문지를 불러오는 중입니다...
-        </Text>
+        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
       ) : (
         <MotionWrapper
           initial={{ opacity: 0, y: 20 }}
