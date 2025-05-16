@@ -11,7 +11,10 @@ import testData from '../../data/testData';
 // ============ Props Type ============
 type Props = {
   currentIndex: number;
+  step: number;
+  direction: 'forward' | 'backward';
   onAnswer: (value: string) => void;
+  onBack: () => void;
 };
 
 // ============ Styled Components ============
@@ -58,9 +61,14 @@ const ResponsiveButton = styled(Button)`
 `;
 
 // ============ Main Component ============
-export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
+export default function TestQuestionSection({
+  currentIndex,
+  step,
+  direction,
+  onAnswer,
+  onBack,
+}: Props) {
   const [selected, setSelected] = useState<string | null>(null);
-  const [step, setStep] = useState(0);
 
   useEffect(() => {
     setSelected(null); // 질문이 바뀌면 선택 초기화
@@ -68,7 +76,6 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
 
   const handleNext = () => {
     if (!selected) return;
-    setStep((prev) => prev + 1);
     setTimeout(() => {
       onAnswer(selected); // 상위 컴포넌트로 선택한 답변 전달
     }, 600);
@@ -153,9 +160,10 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
       >
         <CardFrame
           step={step}
-          topContent={renderQuestion(currentIndex)}
-          middleContent={renderQuestion(currentIndex + 1)}
-          backContent={renderQuestion(currentIndex + 2)}
+          renderContent={(s) => renderQuestion(s)}
+          showBackButton={step > 0}
+          onBack={onBack}
+          direction={direction}
         />
       </MotionWrapper>
     </FullScreenSection>

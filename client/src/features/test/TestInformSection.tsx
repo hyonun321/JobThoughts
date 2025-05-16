@@ -32,6 +32,7 @@ const Wrapper = styled.div`
   justify-content: center;
   position: relative;
 `;
+
 //이전 페이지에서 넘어올때 부드러운 화면 전환 추가를 위한 MotionSection
 const MotionSection = motion(Wrapper);
 
@@ -93,7 +94,7 @@ const ButtonWrapper = styled.div`
   top: calc(88%);
 `;
 
-//검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
+// 검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
 const InfoCardWrapper = styled.div`
   display: flex;
   gap: 30px;
@@ -159,10 +160,10 @@ export default function TestInformSection({ onStart }: Props) {
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
         <CardFrame
-          step={0} // 설명 페이지는 애니메이션이 필요 없으므로 step 고정
-          topContent={renderCardContent()}
-          middleContent={renderCardContent()}
-          backContent={renderCardContent()}
+          step={0}
+          direction="forward"
+          renderContent={() => renderCardContent()}
+          showBackButton={false}
         />
         <ButtonWrapper>
           <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />

@@ -27,13 +27,32 @@ const BackgroundFloatWrapper = styled.div`
 
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [step, setStep] = useState(0); // 질문 step 조정용
   const [answers, setAnswers] = useState<string[]>([]);
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
 
   const isComplete = currentIndex > testData.length;
 
   const handleAnswer = (value: string) => {
-    setAnswers((prev) => [...prev, value]);
+    setDirection('forward');
+    setAnswers((prev) => {
+      const updated = [...prev, value];
+      return updated;
+    });
     setCurrentIndex((prev) => prev + 1);
+    setStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (currentIndex === 0) return;
+
+    setDirection('backward');
+    setAnswers((prev) => {
+      const updated = prev.slice(0, -1);
+      return updated;
+    });
+    setCurrentIndex((prev) => prev - 1);
+    setStep((prev) => prev - 1);
   };
 
   return (
@@ -66,7 +85,13 @@ export default function TestPage() {
       {/* 본문 콘텐츠 */}
       {currentIndex === 0 && <TestInformSection onStart={() => setCurrentIndex(1)} />}
       {!isComplete && currentIndex > 0 && (
-        <TestQuestionSection currentIndex={currentIndex - 1} onAnswer={handleAnswer} />
+        <TestQuestionSection
+          currentIndex={currentIndex - 1}
+          onAnswer={handleAnswer}
+          onBack={handleBack}
+          step={step}
+          direction={direction}
+        />
       )}
       {isComplete && <TestCompleteSection answers={answers} />}
     </div>
