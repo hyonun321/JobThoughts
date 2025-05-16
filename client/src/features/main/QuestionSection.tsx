@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
@@ -72,7 +72,7 @@ const dotVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.4,
-      delay: i * 0.5, // 점 하나씩 0.5초 간격 등장
+      delay: i * 0.5,
     },
   }),
 };
@@ -103,26 +103,53 @@ export default function QuestionSection() {
   ];
 
   const [dotAnimation, bearAnimation] = [useScrollAnimation(), useScrollAnimation()];
-  const animations = Array.from({ length: lines.length }, () => useScrollAnimation());
+  const sentenceAnimations = Array.from({ length: lines.length }, () => useScrollAnimation());
+
+  const dots = useCallback(
+    () =>
+      [0, 1, 2].map((i) => (
+        <Dot
+          key={i}
+          index={i}
+          src={dot}
+          alt="곰돌이점"
+          initial="hidden"
+          animate={dotAnimation.controls}
+          custom={i}
+          variants={dotVariants}
+        />
+      )),
+    [dotAnimation.controls]
+  );
+
+  const sentences = useCallback(
+    () =>
+      lines.map((line, i) => {
+        const { ref, controls } = sentenceAnimations[i]; // 각 문장마다 ref & controls 사용
+        return (
+          <motion.div
+            key={i}
+            ref={ref} // 각 문장에 스크롤 감지 ref 걸기
+            custom={i}
+            initial="hidden"
+            animate={controls} // 각 문장마다 애니메이션 상태 연동
+            variants={wordVariants}
+          >
+            <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
+              {line}
+            </Text>
+          </motion.div>
+        );
+      }),
+    [sentenceAnimations, lines]
+  );
 
   return (
     <Section>
       {/* 곰돌이 & 점 찍기 */}
       <DotWrapper ref={dotAnimation.ref}>
         {/* 점 3개 순서대로 찍기 */}
-        {[0, 1, 2].map((i) => (
-          <Dot
-            key={i}
-            index={i}
-            src={dot}
-            alt="곰돌이점"
-            initial="hidden"
-            animate={dotAnimation.controls}
-            custom={i}
-            variants={dotVariants}
-          />
-        ))}
-
+        {dots()}
         <ImgWrapper ref={bearAnimation.ref}>
           <motion.div initial="hidden" animate={bearAnimation.controls} variants={fadeInVariants}>
             <img src={worriedBear} alt="곰돌이" />
@@ -131,25 +158,7 @@ export default function QuestionSection() {
       </DotWrapper>
 
       {/* 순서대로 등장하는 문장 */}
-      <WordWrapper>
-        {lines.map((line, i) => {
-          const { ref, controls } = animations[i]; // 각 문장마다 ref & controls 사용
-          return (
-            <motion.div
-              key={i}
-              ref={ref} // 각 문장에 스크롤 감지 ref 걸기
-              custom={i}
-              initial="hidden"
-              animate={controls} // 각 문장마다 애니메이션 상태 연동
-              variants={wordVariants}
-            >
-              <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
-                {line}
-              </Text>
-            </motion.div>
-          );
-        })}
-      </WordWrapper>
+      <WordWrapper>{sentences()}</WordWrapper>
     </Section>
   );
 }
