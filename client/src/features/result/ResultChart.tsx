@@ -19,8 +19,7 @@ const Wrapper = styled.div`
   width: 50vw;
   max-width: 450px;
   aspect-ratio: 1 / 1;
-  margin: 70px;
-  border-radius: 1px solid red;
+  margin: auto;
 `;
 
 const Label = styled.div<{ x: number; y: number; $active: boolean }>`
