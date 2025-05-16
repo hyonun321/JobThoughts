@@ -6,6 +6,7 @@ import { theme } from '../../styles/theme';
 // 곰돌이 이미지
 import JobIntroBear from '../../assets/bears/job-introduce-bear.svg';
 import WorkBear from '../../assets/bears/bears-1.svg';
+import EducationBear from '../../assets/bears/bears-8.svg';
 import LookingBear from '../../assets/bears/bears-2.svg';
 import Bookbear from '../../assets/bears/bears-3.svg';
 import MedicalBear from '../../assets/bears/bears-4.svg';
@@ -17,6 +18,7 @@ const categoryImages: Record<string, string> = {
   계열무관: LookingBear,
   인문: Bookbear,
   사회: WorkBear,
+  교육: EducationBear,
   공학: EngineerBear,
   의학: MedicalBear,
   자연: NatureBear,
