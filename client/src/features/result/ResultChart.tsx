@@ -32,7 +32,8 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   left: ${({ x }) => x}%;
   top: ${({ y }) => y}%;
   cursor: pointer;
-  font-size: ${({ $active }) => ($active ? theme.fontSize.ml : theme.fontSize.m)};
+  font-size: ${({ $active }) =>
+    $active ? `clamp(14px, 2vw, ${theme.fontSize.ml})` : `clamp(12px, 1.8vw, ${theme.fontSize.m})`};
   color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.gray900)};
   font-weight: ${({ $active }) => ($active ? theme.fontWeight.bold : theme.fontWeight.medium)};
   white-space: nowrap;
