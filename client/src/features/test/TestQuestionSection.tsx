@@ -7,10 +7,10 @@ import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
 import CardFrame from '../../components/CardFrame';
+import Loading from '../../components/Loading';
 
 import { fetchQuestions } from '../../api/questions';
 import type { Question } from '../../api/questions';
-import Loading from '../../components/Loading';
 
 // ============ Props Type ============
 type Props = {
@@ -89,10 +89,12 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
   }, [currentIndex]);
 
   const handleNext = () => {
-    if (!selected) return;
-    setStep((prev) => prev + 1);
+    if (!selected || !questions[currentIndex]) return;
+
+    setStep((prev) => prev + 1); // 카드 전환 애니메이션 트리거
+
     setTimeout(() => {
-      onAnswer(selected); // 상위 컴포넌트로 선택한 답변 전달
+      onAnswer(selected); // 기존 상위 컴포넌트 호출
     }, 600);
   };
 
@@ -145,13 +147,13 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
             value={left}
             selected={selected === left}
             onClick={() => setSelected(left)}
-            description={questions[index].answer03} // ✅ 선택지 설명 1번
+            description={data.answer03}
           />
           <ResponsiveCard
             value={right}
             selected={selected === right}
             onClick={() => setSelected(right)}
-            description={questions[index].answer04} // ✅ 선택지 설명 2번
+            description={data.answer04}
           />
         </CardContainer>
 

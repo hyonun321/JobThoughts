@@ -1,6 +1,5 @@
 import { ResponsiveRadar } from '@nivo/radar';
 import styled from 'styled-components';
-import resultData from '../../data/resultData';
 import { theme } from '../../styles/theme';
 
 // resultData 타입 정의
@@ -10,6 +9,7 @@ type ResultDataItem = {
 };
 
 type ResultChartProps = {
+  data: { type: string; score: number }[];
   onLabelClick: (label: string) => void;
   activeLabel: string | null;
 };
@@ -44,7 +44,7 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   }
 `;
 
-export default function ResultChart({ onLabelClick, activeLabel }: ResultChartProps) {
+export default function ResultChart({ data, onLabelClick, activeLabel }: ResultChartProps) {
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;
@@ -53,8 +53,9 @@ export default function ResultChart({ onLabelClick, activeLabel }: ResultChartPr
   };
 
   // 라벨 좌표 계산 (반응형 기준 % 좌표)
-  const labels: LabelPosition[] = resultData.map((d: ResultDataItem, i: number) => {
-    const angle = (i / resultData.length) * 2 * Math.PI - Math.PI / 2; // 12시 기준 시작
+  const labels: LabelPosition[] = data.map((d: ResultDataItem, i: number) => {
+    const angle = (i / data.length) * 2 * Math.PI - Math.PI / 2;
+
     const r = Math.abs(Math.sin(angle)) > 0.95 ? 47 : 49;
     const centerX = 52;
     const centerY = 50;
@@ -68,7 +69,7 @@ export default function ResultChart({ onLabelClick, activeLabel }: ResultChartPr
   return (
     <Wrapper>
       <ResponsiveRadar
-        data={resultData}
+        data={data}
         keys={['score']}
         indexBy="type"
         margin={{ top: 40, right: 40, bottom: 40, left: 60 }}

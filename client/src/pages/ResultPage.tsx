@@ -2,10 +2,25 @@ import ResultChart from '../features/result/ResultChart';
 import ResultDescriptionCard from '../features/result/ResultDescriptionCard';
 import JobGroupSection from '../features/result/JobGroupSection';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import ClickFinger from '../../src/assets/icons/icon-click-finger.svg';
 import { theme } from '../../src/styles/theme';
+import { useTestStore } from '../store/useTestStore';
+import { postReport } from '../api/report';
+import Loading from '../components/Loading';
+import Text from '../components/Text';
+
+interface Score {
+  name: string;
+  score: number;
+}
+
+interface ReportResponse {
+  scores: Score[];
+  topValues: string[];
+  jobsByMajor: Record<string, string[]>;
+}
 
 const LayoutTitle = styled.div`
   display: flex;
@@ -92,6 +107,38 @@ const slideInVariants = {
 // ======================= components =======================
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+  const [reportData, setReportData] = useState<ReportResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const { answers } = useTestStore(); // 사용자가 선택한 답변
+
+  useEffect(() => {
+    postReport(answers)
+      .then((res) => {
+        console.log('✅ report 응답:', res);
+        setReportData(res.results);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('결과를 불러오지 못했습니다.');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
+  if (!reportData || !reportData.scores)
+    return (
+      <Text as="p" color="gray800" align="center">
+        결과가 없습니다.
+      </Text>
+    );
+
+  // ✅ ResultChart에 맞는 형식으로 변환
+  const chartData = reportData.scores.map((s) => ({
+    type: s.name,
+    score: s.score,
+  }));
+
   return (
     <ResultSection>
       <LayoutTitle>
@@ -105,6 +152,7 @@ export default function ResultPage() {
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
           <ResultChart
+            data={chartData}
             onLabelClick={(label) => setSelectedLabel(label)}
             activeLabel={selectedLabel}
           />

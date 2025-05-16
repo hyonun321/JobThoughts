@@ -6,14 +6,15 @@ import TestCompleteSection from '../features/test/TestCompleteSection';
 
 import { fetchQuestions } from '../api/questions';
 import type { Question } from '../api/questions';
-import Loading from '../components/Loading';
+import { useTestStore } from '../store/useTestStore';
+import { formatAnswers } from '../api/report';
 
+import Loading from '../components/Loading';
 import Image from '../components/Image';
 import cubeIcon from '../assets/icons/icon-cube.png';
 import ringIcon from '../assets/icons/icon-ring.png';
 import waveIcon from '../assets/icons/icon-wave.png';
 
-// 📌 배경 이미지 전용 래퍼
 const BackgroundFloatWrapper = styled.div`
   position: absolute;
   width: 100%;
@@ -31,12 +32,13 @@ const BackgroundFloatWrapper = styled.div`
 
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [questions, setQuestions] = useState<Question[]>([]); // ✅ 실제 질문
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ API로 질문 불러오기
+  const { addAnswer, resetAnswers, answers } = useTestStore();
+
   useEffect(() => {
+    resetAnswers();
     fetchQuestions()
       .then((data) => setQuestions(data))
       .catch((err) => {
@@ -49,13 +51,23 @@ export default function TestPage() {
   const isComplete = currentIndex > questions.length;
 
   const handleAnswer = (value: string) => {
-    setAnswers((prev) => [...prev, value]);
+    const question = questions[currentIndex - 1];
+    const selectedScore =
+      value === question.answer01 ? question.answerScore01 : question.answerScore02;
+
+    addAnswer({ qitemNo: question.qitemNo, answerScore: selectedScore });
     setCurrentIndex((prev) => prev + 1);
   };
 
+  useEffect(() => {
+    if (isComplete) {
+      const formatted = formatAnswers(answers);
+      console.log('✅ formatted answers string:', formatted);
+    }
+  }, [isComplete]);
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {/* 배경 이미지 레이어 */}
       <BackgroundFloatWrapper>
         <Image
           src={waveIcon}
@@ -80,7 +92,6 @@ export default function TestPage() {
         />
       </BackgroundFloatWrapper>
 
-      {/* 본문 콘텐츠 */}
       {loading ? (
         <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
       ) : currentIndex === 0 ? (
