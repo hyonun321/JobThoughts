@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import styled from 'styled-components';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
@@ -103,7 +103,11 @@ export default function QuestionSection() {
   ];
 
   const [dotAnimation, bearAnimation] = [useScrollAnimation(), useScrollAnimation()];
-  const sentenceAnimations = Array.from({ length: lines.length }, () => useScrollAnimation());
+  const sentenceAnimation1 = useScrollAnimation();
+  const sentenceAnimation2 = useScrollAnimation();
+  const sentenceAnimation3 = useScrollAnimation();
+
+  const sentenceAnimations = [sentenceAnimation1, sentenceAnimation2, sentenceAnimation3];
 
   const dots = useCallback(
     () =>
