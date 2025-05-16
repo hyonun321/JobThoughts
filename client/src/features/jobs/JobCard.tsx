@@ -28,6 +28,7 @@ const Card = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   cursor: default;
+  z-index: 2;
 `;
 
 const Top = styled.div`
@@ -44,13 +45,13 @@ const TitleInfo = styled.div`
 `;
 
 const Company = styled.div`
-  font-size: 14px;
+  font-size: clamp(0.8rem, 2vw, 1rem);
   font-weight: 500;
   color: #555;
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
   font-weight: 700;
 `;
 
@@ -98,14 +99,14 @@ const ScrapButton = styled.button`
 
 const Dday = styled.div`
   position: absolute;
-  top: 14%;
-  right: 3.64rem;
+  top: -20px;
+  right: 18px;
   background: #f0f4ff;
-  color: #333;
+  color: ${theme.colors.black};
   padding: 0.2rem;
-  font-size: ${theme.fontSize.xs};
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
   border-radius: 12px;
-  width: 5rem;
+  width: clamp(4rem, 15vw, 5rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +115,13 @@ const Dday = styled.div`
   cursor: default;
   z-index: 2;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 640px) {
+    right: 25px;
+    top: -15px;
+  }
 `;
+
 const ApplyButton = styled.a`
   background: ${theme.colors.primary};
   color: ${theme.colors.white};
@@ -125,7 +132,7 @@ const ApplyButton = styled.a`
   height: 48px;
   width: 120px;
   border: none;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   cursor: pointer;
   text-decoration: none;
   transition: all 0.02s ease-in;
@@ -152,6 +159,9 @@ const DetailGrid = styled.div`
   grid-template-columns: repeat(2, 1fr);
   row-gap: 1rem;
   column-gap: 1.5rem;
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const DetailItem = styled.div`
@@ -160,6 +170,10 @@ const DetailItem = styled.div`
   font-size: 14px;
   align-items: center;
   color: ${theme.colors.gray900};
+`;
+const ButtonWrapper = styled.div`
+  position: relative;
+  display: inline-block;
 `;
 
 const Label = styled.div`
@@ -186,16 +200,18 @@ export default function JobCard({ job, dDay }: Props) {
           </Share>
         </TitleInfo>
         <Right>
-          <Dday>{dDay}</Dday>
-          {isScrapButton && (
-            <ScrapButton>
-              <Image src={starIcon} width="20px" style={{ cursor: 'pointer' }} />
-              스크랩
-            </ScrapButton>
-          )}
-          <ApplyButton href={job.link} target="_blank" rel="noopener noreferrer">
-            입사 지원
-          </ApplyButton>
+          <ButtonWrapper>
+            <Dday>{dDay}</Dday>
+            {isScrapButton && (
+              <ScrapButton>
+                <Image src={starIcon} width="20px" style={{ cursor: 'pointer' }} />
+                스크랩
+              </ScrapButton>
+            )}
+            <ApplyButton href={job.link} target="_blank" rel="noopener noreferrer">
+              입사 지원
+            </ApplyButton>
+          </ButtonWrapper>
         </Right>
       </Top>
       <Divider />

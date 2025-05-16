@@ -6,6 +6,10 @@ const FilterBarWrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 2rem;
+
+  @media (max-width: 640px) {
+    gap: 1rem;
+  }
   }
 `;
 type Props = {

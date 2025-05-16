@@ -50,6 +50,9 @@ const Menu = styled.ul<{ isOpen: boolean }>`
   animation: ${({ isOpen }) => (isOpen ? fadeSlideIn : fadeSlideOut)} 0.2s ease-out forwards;
   transform-origin: top center;
   pointer-events: ${({ isOpen }) => (isOpen ? 'auto' : 'none')};
+  @media (max-width: 768px) {
+    border-radius: 0.5rem;
+  }
 `;
 const Button = styled.button<{ isOpen: boolean; isPlaceholder: boolean }>`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -92,6 +95,7 @@ const MenuItem = styled.li<{ selected: boolean }>`
 
   @media (max-width: 768px) {
     font-size: ${({ theme }) => theme.fontSize.xs};
+    border-radius: 0.6rem;
   }
 `;
 

@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import FilterBar from './FilterBar';
 import Text from '../../components/Text';
+import { theme } from '../../styles/theme';
 
 const HeaderWrapper = styled.div`
-  background: #f0f4ff;
+  background: ${theme.colors.deco2};
   padding: 2rem;
   border-radius: 20px;
+  box-shadow:
+    8px 12px 30px rgba(63, 94, 255, 0.15),
+    inset -1px -1px 3px ${theme.colors.background + '80'}; /* 안쪽 그림자 */
   text-align: center;
   margin-bottom: 2rem;
   max-width: 1000px;

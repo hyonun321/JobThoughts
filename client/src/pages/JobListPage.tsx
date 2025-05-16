@@ -15,6 +15,8 @@ const BackgroundWrapper = styled.div`
   display: flex;
   width: 100%;
   min-height: 200vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(to bottom, #ffffff 35%, rgba(172, 196, 255, 0.75) 71%, #d8cfff 100%);
 `;
 
@@ -50,6 +52,11 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Divider = styled.div`
+  width: 100vw;
+  height: 10vh;
 `;
 export default function JobListPage() {
   const location = useLocation();
@@ -98,12 +105,13 @@ export default function JobListPage() {
       <Icon top="25%" left="0%">
         <Image src={tool} width="15vw" motion="float" />
       </Icon>
-      <Icon top="90%" left="5%">
+      <Icon top="90%" left="0%">
         <Image src={pin} width="15vw" motion="float" />
       </Icon>
       <Icon top="60%" left="85%">
         <Image src={megaphone} width="15vw" motion="float" />
       </Icon>
+      <Divider />
     </BackgroundWrapper>
   );
 }
