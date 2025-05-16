@@ -57,7 +57,7 @@ const Menu = styled.ul<{ isOpen: boolean }>`
 const Button = styled.button<{ isOpen: boolean; isPlaceholder: boolean }>`
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   min-height: 48px;
   border-radius: 1rem;
@@ -68,10 +68,13 @@ const Button = styled.button<{ isOpen: boolean; isPlaceholder: boolean }>`
   width: 100%;
 
   @media (max-width: 768px) {
-    font-size: ${({ theme }) => theme.fontSize.xxs};
+    font-size: ${({ theme }) => theme.fontSize.m};
     border-radius: 0.5rem;
     width: 100%;
     min-height: 42px;
+  }
+  @media (max-width: 640px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;
 
@@ -83,7 +86,7 @@ const MenuItem = styled.li<{ selected: boolean }>`
   text-align: center;
   border-radius: 1rem;
   line-height: 40px;
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: ${({ theme }) => theme.fontSize.ml};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ selected, theme }) => (selected ? theme.colors.primary : theme.colors.gray900)};
   background-color: ${({ theme }) => theme.colors.white};
@@ -94,8 +97,11 @@ const MenuItem = styled.li<{ selected: boolean }>`
   }
 
   @media (max-width: 768px) {
-    font-size: ${({ theme }) => theme.fontSize.xs};
+    font-size: ${({ theme }) => theme.fontSize.s};
     border-radius: 0.6rem;
+  }
+  @media (max-width: 640px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;
 
