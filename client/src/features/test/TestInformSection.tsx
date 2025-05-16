@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 const MotionSection = motion(Wrapper);
 
 const CardContent = styled.div`
-  max-width: 85%;
+  max-width: 90%;
 `;
 
 // 검사 설명/예시 묶음
@@ -46,6 +46,7 @@ const InfoBlock = styled.div`
   gap: 28px; // 제목과 아래 요소 간격
   padding-top: 20px;
   padding-bottom: 10px;
+  max-width: 850px;
 `;
 
 // 검사 진행방법, 설명 텍스트, 샘플 묶음
