@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import FilterBar from './FilterBar';
 import Text from '../../components/Text';
-import { theme } from '../../styles/theme';
 
 const HeaderWrapper = styled.div`
   background: #f0f4ff;
@@ -10,8 +9,18 @@ const HeaderWrapper = styled.div`
   text-align: center;
   margin-bottom: 2rem;
   max-width: 1000px;
-  width: 60vw;
+  width: 80vw;
 `;
+
+const MobileOnlyBr = styled.span`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    height: 0;
+  }
+`;
+
 type Props = {
   selectedJob: string;
   jobCount: number;
@@ -37,8 +46,11 @@ export default function JobListHeader({
 }: Props) {
   return (
     <HeaderWrapper>
-      <Text as="span" size="xl" weight="bold">
-        <span style={{ color: `${theme.colors.primary}`, fontWeight: 'bold' }}>{selectedJob}</span>
+      <Text as="span" size="clamp(1.5rem, 4vw, 2.5rem)" weight="bold" color="black">
+        <Text as="span" size="clamp(1.5rem, 4vw, 2.5rem)" weight="bold" color="primary">
+          {selectedJob}
+        </Text>
+        <MobileOnlyBr />
         {jobCount > 0 ? ' 채용공고를 모아봤어요!' : ' 채용공고가 없어요'}
       </Text>
       <br />

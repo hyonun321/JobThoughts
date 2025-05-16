@@ -69,7 +69,7 @@ export default function JobListPage() {
   if (typeFilter) {
     filteredJobs = filteredJobs.filter((job) => job.type === typeFilter);
   }
-  if (sortFilter === '등록오름차순') {
+  if (sortFilter === '오름차순') {
     filteredJobs.sort((a, b) => new Date(a.postedAt).getTime() - new Date(b.postedAt).getTime());
   } else {
     filteredJobs.sort((a, b) => new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime());

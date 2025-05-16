@@ -5,7 +5,8 @@ const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  width: 60vw;
+  max-width: 1000px;
+  width: 80vw;
 `;
 
 function getDday(postedAt: string): string {

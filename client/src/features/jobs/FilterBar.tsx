@@ -5,7 +5,8 @@ const FilterBarWrapper = styled.div`
   margin-top: 1rem;
   display: flex;
   justify-content: center;
-  gap: 4rem;
+  gap: 2rem;
+  }
 `;
 type Props = {
   locationFilter: string;
@@ -39,7 +40,7 @@ export default function FilterBar({
         placeholder="고용형태"
       />
       <Dropdown
-        options={['등록오름차순', '등록내림차순']}
+        options={['오름차순', '내림차순']}
         selected={sortFilter}
         onSelect={setSortFilter}
         placeholder="정렬"
