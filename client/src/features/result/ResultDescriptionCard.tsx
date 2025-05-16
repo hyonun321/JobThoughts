@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import closeButton from '../../assets/icons/icon-close-button.png';
 import resultValuesData from '../../data/resultValuesData';
+import { theme } from '../../styles/theme';
 
 const Card = styled.div`
   position: relative;
@@ -31,13 +32,18 @@ const CloseButton = styled.button`
 }`;
 
 const SectionTitle = styled.h3`
-  width: 120px;
+  width: 100px;
   background-color: white;
   border-radius: 100px;
   box-shadow: 0px 1px 3px rgba(79, 99, 255, 0.5);
   padding: 5px 0px;
   text-align: center;
-  font-size: 20px;
+  font-size: ${theme.fontSize.m};
+`;
+
+const SectionContent = styled.p`
+  font-size: ${theme.fontSize.m};
+  line-height: 28px;
 `;
 
 type ResultDescriptionCardProps = {
@@ -57,15 +63,15 @@ export default function ResultDescriptionCard({ label, onClose }: ResultDescript
       </CloseButton>
       <div>
         <SectionTitle>특징</SectionTitle>
-        <p>{value}</p>
+        <SectionContent>{value}</SectionContent>
       </div>
       <div>
         <SectionTitle>직업 선택</SectionTitle>
-        <p>{choice}</p>
+        <SectionContent>{choice}</SectionContent>
       </div>
       <div>
         <SectionTitle>직업 생활</SectionTitle>
-        <p>{work}</p>
+        <SectionContent>{work}</SectionContent>
       </div>
     </Card>
   );
