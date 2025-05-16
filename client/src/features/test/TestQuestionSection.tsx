@@ -144,11 +144,13 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
             value={left}
             selected={selected === left}
             onClick={() => setSelected(left)}
+            description={questions[index].answer03} // ✅ 선택지 설명 1번
           />
           <ResponsiveCard
             value={right}
             selected={selected === right}
             onClick={() => setSelected(right)}
+            description={questions[index].answer04} // ✅ 선택지 설명 2번
           />
         </CardContainer>
 
