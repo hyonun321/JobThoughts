@@ -56,6 +56,7 @@ const ResultSection = styled.div`
 `;
 
 const ResultTopWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 2vw;
