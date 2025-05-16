@@ -18,7 +18,7 @@ const LayoutTitle = styled.div`
     color: ${theme.colors.gray900};
     font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
     font-weight: normal;
-    transform: translateX(40px);
+    transform: translateX(clamp(20px, 2.5vw, 40px));
   }
 
   span {
@@ -41,9 +41,6 @@ const LayoutTitle = styled.div`
     .image-wrapper {
       margin-left: -15px;
       margin-top: -30px;
-    }
-    h1 {
-      transform: translateX(20px);
     }
   }
 `;
