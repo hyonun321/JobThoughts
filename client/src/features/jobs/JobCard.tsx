@@ -9,21 +9,7 @@ import locationIcon from '../../assets/icons/icon-map.svg';
 import shareIcon from '../../assets/icons/icon-share.svg';
 import starIcon from '../../assets/icons/icon-star.svg';
 import { theme } from '../../styles/theme';
-
-type Job = {
-  id: number;
-  job: string;
-  company: string;
-  title: string;
-  career: string;
-  education: string;
-  salary: string;
-  workDays: string;
-  location: string;
-  type: string;
-  postedAt: string;
-  link: string;
-};
+import type { Job } from '../../types';
 
 type Props = {
   job: Job;

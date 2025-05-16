@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import tool from '../assets/icons/icon-tool.svg';
 import megaphone from '../assets/icons/icon-megaphone.svg';
 import pin from '../assets/icons/icon-pin.svg';
+import jobs from '../data/mockJobData';
 import { useState } from 'react';
 
 const BackgroundWrapper = styled.div`
@@ -52,10 +53,27 @@ const SectionWrapper = styled.section`
 `;
 export default function JobListPage() {
   const location = useLocation();
-  const selectedJob = location.state?.selectedJob || '웹 디자이너';
+  const selectedJob = location.state?.selectedJob || '';
   const [locationFilter, setLocationFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [sortFilter, setSortFilter] = useState('');
+
+  const jobsForSelectedJob = jobs.filter((job) => job.job.includes(selectedJob));
+
+  // 2단계: 필터 적용
+  let filteredJobs = jobsForSelectedJob;
+
+  if (locationFilter) {
+    filteredJobs = filteredJobs.filter((job) => job.location.includes(locationFilter));
+  }
+  if (typeFilter) {
+    filteredJobs = filteredJobs.filter((job) => job.type === typeFilter);
+  }
+  if (sortFilter === '등록오름차순') {
+    filteredJobs.sort((a, b) => new Date(a.postedAt).getTime() - new Date(b.postedAt).getTime());
+  } else {
+    filteredJobs.sort((a, b) => new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime());
+  }
   return (
     <BackgroundWrapper>
       <SectionWrapper>
@@ -65,6 +83,8 @@ export default function JobListPage() {
           </BearImage>
           <JobListHeader
             selectedJob={selectedJob}
+            jobCount={filteredJobs.length}
+            totalCount={jobsForSelectedJob.length} // 👉 전체 중에서 필터 걸리기 전 개수
             locationFilter={locationFilter}
             setLocationFilter={setLocationFilter}
             typeFilter={typeFilter}
@@ -73,12 +93,7 @@ export default function JobListPage() {
             setSortFilter={setSortFilter}
           />
         </HeaderWithBear>
-        <JobCardList
-          selectedJob={selectedJob}
-          locationFilter={locationFilter}
-          typeFilter={typeFilter}
-          sortFilter={sortFilter}
-        />
+        <JobCardList jobs={filteredJobs} />
       </SectionWrapper>
       <Icon top="25%" left="0%">
         <Image src={tool} width="15vw" motion="float" />
