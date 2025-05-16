@@ -2,29 +2,29 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import worriedBear from '../../assets/worried-bear.png';
-import dot from '../../assets/worried-bear-dot.png';
+import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
+
+// 이미지
+import worriedBear from '../../assets/bears/worried-bear.svg';
+import dot from '../../assets/worried-bear-dot.png';
 
 // ================= styled components =================
 const Section = styled.section`
   display: flex;
-  gap: clamp(2rem, 5vw, 8rem);
+  gap: clamp(0.75rem, 1vw, 1rem);
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   height: 150vh;
-  padding: 0 20px;
-  background: #fff;
-  overflow: hidden;
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     flex-direction: column;
   }
 `;
 
 const ImgWrapper = styled.div`
-  width: clamp(200px, 25vw, 400px); // 반응형 곰돌이 크기 자동 조정
+  width: clamp(250px, 30vw, 600px); // 반응형 곰돌이 크기 자동 조정
   img {
     width: 100%;
     object-fit: contain;
@@ -34,13 +34,13 @@ const ImgWrapper = styled.div`
 const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(0.75rem, 4vw, 2rem);
   h1 {
-    font-size: clamp(20px, 4vw, 40px);
+    font-size: clamp(${theme.fontSize.s}, 4vw, ${theme.fontSize.xxl});
     white-space: nowrap;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     h1 {
       text-align: center;
     }
@@ -49,24 +49,14 @@ const WordWrapper = styled.div`
 
 const DotWrapper = styled.div`
   position: relative;
-  display: inline-block;
 `;
 
 const Dot = styled(motion.img)<{ index: number }>`
   position: absolute;
-  top: -10%; // 곰돌이 머리 위로 고정 위치
+  top: -25px;
   left: ${({ index }) => `${39 + index * 8}%`}; // 오른쪽으로 퍼지게
-  transform: translateX(-50%);
-  width: clamp(6px, 1.2vw, 10px);
+  width: clamp(8px, 1vw, 12px);
   height: auto;
-
-  @media (max-width: 768px) {
-    top: -45px;
-  }
-
-  @media (max-width: 480px) {
-    top: -35px;
-  }
 `;
 
 // ================= animation variants =================
@@ -130,7 +120,7 @@ export default function QuestionSection() {
 
   return (
     <Section>
-      {/* 곰돌이 + 점 찍기 */}
+      {/* 곰돌이 & 점 찍기 */}
       <DotWrapper ref={dotAnimation.ref}>
         {/* 점 3개 순서대로 찍기 */}
         {[0, 1, 2].map((i) => (
