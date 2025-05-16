@@ -2,12 +2,6 @@ import { ResponsiveRadar } from '@nivo/radar';
 import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 
-// resultData 타입 정의
-type ResultDataItem = {
-  type: string;
-  score: number;
-};
-
 type ResultChartProps = {
   data: { type: string; score: number }[];
   onLabelClick: (label: string) => void;
