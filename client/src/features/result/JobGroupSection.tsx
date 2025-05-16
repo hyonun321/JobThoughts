@@ -124,10 +124,11 @@ type JobsByMajor = {
 };
 
 type ResultJobListProps = {
+  topValues: string[];
   jobsByMajor: JobsByMajor;
 };
 
-export default function JobGroupSection({ jobsByMajor }: ResultJobListProps) {
+export default function JobGroupSection({ topValues, jobsByMajor }: ResultJobListProps) {
   const navigate = useNavigate();
 
   const handleClick = (job: string) => {
@@ -140,7 +141,8 @@ export default function JobGroupSection({ jobsByMajor }: ResultJobListProps) {
         <TextArea>
           <SmallTitle>나의 가치관과 관련이 높은 직업</SmallTitle>
           <h2>
-            <span>자율성</span>도 챙기고, <span>보수</span>도 놓치기 싫은 당신! 이런 직업은 어때요?
+            <span>{topValues[0]}</span>도 챙기고, <span>{topValues[1]}</span>도 놓치기 싫은 당신!
+            이런 직업은 어때요?
           </h2>
           <h3>직업을 클릭하면, 실시간 채용 공고까지 확인할 수 있어요.</h3>
         </TextArea>

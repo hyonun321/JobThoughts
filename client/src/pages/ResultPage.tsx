@@ -95,6 +95,7 @@ const slideInVariants = {
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const [chartData, setChartData] = useState([]);
+  const [topValues, setTopValues] = useState([]);
   const [jobsByMajor, setJobsByMajor] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -111,6 +112,7 @@ export default function ResultPage() {
             description: item.description,
           }))
         );
+        setTopValues(data.results.topValues);
         setJobsByMajor(data.results.jobsByMajor);
       } catch (error) {
         console.error('결과 가져오기 실패:', error);
@@ -160,7 +162,7 @@ export default function ResultPage() {
           </motion.div>
         )}
       </ResultTopWrapper>
-      <JobGroupSection jobsByMajor={jobsByMajor} />
+      <JobGroupSection jobsByMajor={jobsByMajor} topValues={topValues} />
     </ResultSection>
   );
 }
