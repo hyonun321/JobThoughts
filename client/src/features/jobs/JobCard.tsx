@@ -22,6 +22,7 @@ type Job = {
   location: string;
   type: string;
   postedAt: string;
+  link: string;
 };
 
 type Props = {
@@ -40,6 +41,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  cursor: default;
 `;
 
 const Top = styled.div`
@@ -123,12 +125,12 @@ const Dday = styled.div`
   align-items: center;
   background-color: ${theme.colors.white};
   font-weight: light;
-  cursor:
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: default;
+  z-index: 2;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
 `;
-
-const ApplyButton = styled.button`
-  background: #3f5eff;
+const ApplyButton = styled.a`
+  background: ${theme.colors.primary};
   color: ${theme.colors.white};
   display: flex;
   justify-content: center;
@@ -139,6 +141,17 @@ const ApplyButton = styled.button`
   border: none;
   font-size: 1rem;
   cursor: pointer;
+  text-decoration: none;
+  transition: all 0.02s ease-in;
+
+  &:hover {
+    background: ${theme.colors.area};
+  }
+
+  &:active {
+    box-shadow: inset 0 3px 3px rgba(0, 0, 0, 0.3);
+    transform: scale(0.98);
+  }
 `;
 
 const Divider = styled.hr`
@@ -194,7 +207,9 @@ export default function JobCard({ job, dDay }: Props) {
               스크랩
             </ScrapButton>
           )}
-          <ApplyButton>입사 지원</ApplyButton>
+          <ApplyButton href={job.link} target="_blank" rel="noopener noreferrer">
+            입사 지원
+          </ApplyButton>
         </Right>
       </Top>
       <Divider />
