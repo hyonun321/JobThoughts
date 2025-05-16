@@ -1,6 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import IconBack from '../assets/icons/icon-back.svg';
 
 // 카드 프레임 컴포넌트에서 받아올 props 정의 (질문/프론트/중간/백)
 type CardFrameProps = {
@@ -8,6 +9,8 @@ type CardFrameProps = {
   topContent: React.ReactNode;
   middleContent: React.ReactNode;
   backContent: React.ReactNode;
+  showBackButton?: boolean;
+  onBack?: () => void;
 };
 
 type LastCardProps = {
@@ -50,6 +53,7 @@ const ForegroundContent = styled.div`
 
 // 콘텐츠 내부 레이아웃
 const ContentWrapper = styled.div`
+  position: relative;
   width: 90%;
   height: 90%;
   display: flex;
@@ -60,11 +64,29 @@ const ContentWrapper = styled.div`
   gap: 2rem;
 `;
 
+// 이전 질문 이동 버튼
+const BackButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  left: -0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 5;
+
+  img {
+    width: 100%;
+  }
+`;
+
 export default function CardFrame({
   step,
   topContent,
   middleContent,
   backContent,
+  showBackButton = false,
+  onBack,
 }: CardFrameProps) {
   const theme = useTheme(); // ✅ theme 객체 사용
   const [internalStep, setInternalStep] = useState(step); // 내부 단계 상태 (렌더링 기준)
@@ -109,7 +131,13 @@ export default function CardFrame({
   }, [step]);
 
   // 카드 하나를 렌더링하는 함수
-  const renderCard = (card: typeof topCard, z: number, content: React.ReactNode, isTop = false) => (
+  const renderCard = (
+    card: typeof topCard,
+    z: number,
+    content: React.ReactNode,
+    isTop = false,
+    showBackBtn = false
+  ) => (
     <AnimatedCard
       key={`${isTop ? 'top' : 'card'}-${card.id}`} // 고유 key
       z={z}
@@ -126,7 +154,14 @@ export default function CardFrame({
       style={isTop ? { pointerEvents: animating ? 'none' : 'auto' } : undefined}
     >
       <ForegroundContent>
-        <ContentWrapper>{content}</ContentWrapper>
+        <ContentWrapper>
+          {isTop && showBackBtn && onBack && (
+            <BackButton onClick={onBack}>
+              <img src={IconBack} alt="이전" />
+            </BackButton>
+          )}
+          {content}
+        </ContentWrapper>
       </ForegroundContent>
     </AnimatedCard>
   );
@@ -136,7 +171,7 @@ export default function CardFrame({
     <FrameWrapper>
       {renderCard(backCard, 0, backContent)}
       {renderCard(middleCard, 1, middleContent)}
-      {renderCard(topCard, 2, topContent, true)}
+      {renderCard(topCard, 2, topContent, true, showBackButton)}
     </FrameWrapper>
   );
 }

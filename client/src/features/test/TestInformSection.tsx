@@ -163,6 +163,7 @@ export default function TestInformSection({ onStart }: Props) {
           topContent={renderCardContent()}
           middleContent={renderCardContent()}
           backContent={renderCardContent()}
+          showBackButton={false}
         />
         <ButtonWrapper>
           <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />

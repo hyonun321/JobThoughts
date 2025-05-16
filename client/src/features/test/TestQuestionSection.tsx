@@ -156,6 +156,8 @@ export default function TestQuestionSection({ currentIndex, onAnswer }: Props) {
           topContent={renderQuestion(currentIndex)}
           middleContent={renderQuestion(currentIndex + 1)}
           backContent={renderQuestion(currentIndex + 2)}
+          showBackButton={currentIndex > 0}
+          onBack={() => console.log('뒤로가기 버튼 클릭됨')}
         />
       </MotionWrapper>
     </FullScreenSection>
