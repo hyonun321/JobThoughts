@@ -1,18 +1,6 @@
 import { ResponsiveRadar } from '@nivo/radar';
 import styled from 'styled-components';
-import resultData from '../../data/resultData';
 import { theme } from '../../styles/theme';
-
-// resultData 타입 정의
-type ResultDataItem = {
-  type: string;
-  score: number;
-};
-
-type ResultChartProps = {
-  onLabelClick: (label: string) => void;
-  activeLabel: string | null;
-};
 
 const Wrapper = styled.div`
   position: relative;
@@ -44,7 +32,15 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   }
 `;
 
-export default function ResultChart({ onLabelClick, activeLabel }: ResultChartProps) {
+type ResultChartProps = {
+  chartData: { type: string; score: number }[];
+  onLabelClick: (label: string) => void;
+  activeLabel: string | null;
+};
+
+export default function ResultChart({ chartData, onLabelClick, activeLabel }: ResultChartProps) {
+  if (!chartData || chartData.length === 0) return <div>차트 데이터가 없습니다</div>;
+
   //라벨 좌표 타입 정의
   type LabelPosition = {
     label: string;
@@ -53,8 +49,8 @@ export default function ResultChart({ onLabelClick, activeLabel }: ResultChartPr
   };
 
   // 라벨 좌표 계산 (반응형 기준 % 좌표)
-  const labels: LabelPosition[] = resultData.map((d: ResultDataItem, i: number) => {
-    const angle = (i / resultData.length) * 2 * Math.PI - Math.PI / 2; // 12시 기준 시작
+  const labels = chartData.map((data, i) => {
+    const angle = (i / chartData.length) * 2 * Math.PI - Math.PI / 2; // 12시 기준 시작
     const r = Math.abs(Math.sin(angle)) > 0.95 ? 47 : 49;
     const centerX = 52;
     const centerY = 50;
@@ -62,13 +58,13 @@ export default function ResultChart({ onLabelClick, activeLabel }: ResultChartPr
     const x = centerX + r * Math.cos(angle);
     const y = centerY + r * Math.sin(angle);
 
-    return { label: d.type, x, y };
+    return { label: data.type, x, y };
   });
 
   return (
     <Wrapper>
       <ResponsiveRadar
-        data={resultData}
+        data={chartData}
         keys={['score']}
         indexBy="type"
         margin={{ top: 40, right: 40, bottom: 40, left: 60 }}
