@@ -25,7 +25,7 @@ const iconMap: Record<string, string> = {
   보수: pay,
   자기계발: selfDevelopment,
   사회봉사: socialContribution,
-  사회의인정: socialRecognition,
+  '사회적 인정': socialRecognition, //사회의인정 -> 사회적인정: 커리어넷 api대로 수정
   안정성: stability,
 };
 
