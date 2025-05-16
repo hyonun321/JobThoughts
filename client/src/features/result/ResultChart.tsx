@@ -50,7 +50,7 @@ export default function ResultChart({ chartData, onLabelClick, activeLabel }: Re
   };
 
   // 라벨 좌표 계산 (반응형 기준 % 좌표)
-  const labels = chartData.map((data, i) => {
+  const labels: LabelPosition[] = chartData.map((data, i) => {
     const angle = (i / chartData.length) * 2 * Math.PI - Math.PI / 2; // 12시 기준 시작
     const r = Math.abs(Math.sin(angle)) > 0.95 ? 47 : 49;
     const centerX = 52;

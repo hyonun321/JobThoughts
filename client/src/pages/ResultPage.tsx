@@ -118,11 +118,13 @@ export default function ResultPage() {
         const { data } = await axios.post('/api/report', { answer: mockAnswersData });
         console.log(data);
         setChartData(
-          data.results.scores.map((item) => ({
-            type: item.name,
-            score: item.score,
-            description: item.description,
-          }))
+          data.results.scores.map(
+            (item: { name: string; score: number; description?: string }) => ({
+              type: item.name,
+              score: item.score,
+              description: item.description,
+            })
+          )
         );
         setTopValues(data.results.topValues);
         setJobsByMajor(data.results.jobsByMajor);
@@ -159,7 +161,7 @@ export default function ResultPage() {
           />
         </motion.div>
         {selectedLabel && (
-          <motion.div
+          <DescriptionWrapper
             key="description"
             variants={slideInVariants}
             initial="hidden"
@@ -171,7 +173,7 @@ export default function ResultPage() {
               onClose={() => setSelectedLabel(null)}
               chartData={chartData}
             />
-          </motion.div>
+          </DescriptionWrapper>
         )}
       </ResultTopWrapper>
       <JobGroupSection jobsByMajor={jobsByMajor} topValues={topValues} />
