@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TestInformSection from '../features/test/TestInformSection';
 import TestQuestionSection from '../features/test/TestQuestionSection';
 import TestCompleteSection from '../features/test/TestCompleteSection';
-import testData from '../data/testData';
+
+import { fetchQuestions } from '../api/questions';
+import type { Question } from '../api/questions';
+import Loading from '../components/Loading';
+
 import Image from '../components/Image';
 import cubeIcon from '../assets/icons/icon-cube.png';
 import ringIcon from '../assets/icons/icon-ring.png';
@@ -31,12 +35,27 @@ export default function TestPage() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
 
-  const isComplete = currentIndex > testData.length;
+  const [questions, setQuestions] = useState<Question[]>([]); // ✅ 실제 질문
+  const [loading, setLoading] = useState(true);
+
+  // ✅ API로 질문 불러오기
+  useEffect(() => {
+    fetchQuestions()
+      .then((data) => setQuestions(data))
+      .catch((err) => {
+        console.error(err);
+        alert('질문 데이터를 불러올 수 없습니다.');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const isComplete = currentIndex > questions.length;
 
   const handleAnswer = (value: string) => {
     setDirection('forward');
     setAnswers((prev) => {
       const updated = [...prev, value];
+      console.log('✅ 선택된 답변 배열:', updated); // 선택 후 상태 출력
       return updated;
     });
     setCurrentIndex((prev) => prev + 1);
@@ -49,6 +68,7 @@ export default function TestPage() {
     setDirection('backward');
     setAnswers((prev) => {
       const updated = prev.slice(0, -1);
+      console.log('↩️ 되돌린 후 답변 배열:', updated); // 되돌린 후 상태 출력
       return updated;
     });
     setCurrentIndex((prev) => prev - 1);
@@ -83,8 +103,11 @@ export default function TestPage() {
       </BackgroundFloatWrapper>
 
       {/* 본문 콘텐츠 */}
-      {currentIndex === 0 && <TestInformSection onStart={() => setCurrentIndex(1)} />}
-      {!isComplete && currentIndex > 0 && (
+      {loading ? (
+        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
+      ) : currentIndex === 0 ? (
+        <TestInformSection onStart={() => setCurrentIndex(1)} />
+      ) : !isComplete ? (
         <TestQuestionSection
           currentIndex={currentIndex - 1}
           onAnswer={handleAnswer}
@@ -92,8 +115,9 @@ export default function TestPage() {
           step={step}
           direction={direction}
         />
+      ) : (
+        <TestCompleteSection answers={answers} />
       )}
-      {isComplete && <TestCompleteSection answers={answers} />}
     </div>
   );
 }

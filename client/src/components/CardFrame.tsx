@@ -6,7 +6,6 @@ import IconBack from '../assets/icons/icon-back.svg';
 type CardFrameProps = {
   step: number;
   renderContent: (step: number) => React.ReactNode;
-  showBackButton?: boolean;
   onBack?: () => void;
   direction?: 'forward' | 'backward';
 };
@@ -77,7 +76,6 @@ const BackButton = styled.button`
 export default function CardFrame({
   step,
   renderContent,
-  showBackButton = false,
   onBack,
   direction = 'forward',
 }: CardFrameProps) {
@@ -202,7 +200,13 @@ export default function CardFrame({
     <FrameWrapper>
       {renderCard(backCard, 0, renderContent(displayedStep + 2))}
       {renderCard(middleCard, 1, renderContent(displayedStep + 1))}
-      {renderCard(topCard, 2, renderContent(displayedStep), true, showBackButton)}
+      {renderCard(
+        topCard,
+        2,
+        renderContent(displayedStep),
+        true,
+        displayedStep > 0 // <- 현재 보여지고 있는 카드 기준으로 버튼 노출
+      )}
     </FrameWrapper>
   );
 }
