@@ -8,6 +8,7 @@ type CardFrameProps = {
   renderContent: (step: number) => React.ReactNode;
   onBack?: () => void;
   direction?: 'forward' | 'backward';
+  onAnimatingChange?: (animating: boolean) => void;
 };
 
 type LastCardProps = {
@@ -57,7 +58,6 @@ const ContentWrapper = styled.div`
   gap: 2rem;
 `;
 
-// 이전 질문 이동 버튼
 const BackButton = styled.button`
   position: absolute;
   top: 1rem;
@@ -78,53 +78,61 @@ export default function CardFrame({
   renderContent,
   onBack,
   direction = 'forward',
+  onAnimatingChange,
 }: CardFrameProps) {
   const theme = useTheme();
+
+  const colorCycle = [theme.colors.deco2, 'rgba(220, 234, 255, 1)', 'rgba(191, 217, 255, 1)'];
+  const getColor = (index: number) =>
+    colorCycle[((index % colorCycle.length) + colorCycle.length) % colorCycle.length];
 
   const [internalStep, setInternalStep] = useState(step);
   const [displayedStep, setDisplayedStep] = useState(step);
   const [animating, setAnimating] = useState(false);
   const [waitForTimeout, setWaitForTimeout] = useState(false);
 
-  const [topCard, setTopCard] = useState({ id: step, color: theme.colors.deco2, rotation: 0 });
+  const [topCard, setTopCard] = useState({ id: step, color: getColor(step), rotation: 0 });
   const [middleCard, setMiddleCard] = useState({
     id: step - 1,
-    color: 'rgba(220, 234, 255, 1)',
+    color: getColor(step - 1),
     rotation: -3,
   });
   const [backCard, setBackCard] = useState({
     id: step - 2,
-    color: 'rgba(191, 217, 255, 1)',
+    color: getColor(step - 2),
     rotation: 3,
   });
 
+  // animating 상태가 바뀔 때 외부에 알림
   useEffect(() => {
-    setTopCard({ id: step, color: theme.colors.deco2, rotation: 0 });
-    setMiddleCard({ id: step - 1, color: 'rgba(220, 234, 255, 1)', rotation: -3 });
-    setBackCard({ id: step - 2, color: 'rgba(191, 217, 255, 1)', rotation: 3 });
-  }, [theme]);
+    onAnimatingChange?.(animating);
+  }, [animating]);
+
+  useEffect(() => {
+    setTopCard({ id: step, color: getColor(step), rotation: 0 });
+    setMiddleCard({ id: step - 1, color: getColor(step - 1), rotation: -3 });
+    setBackCard({ id: step - 2, color: getColor(step - 2), rotation: 3 });
+  }, [theme, step]);
 
   useEffect(() => {
     if (step === internalStep) return;
     setAnimating(true);
 
     if (direction === 'forward') {
-      // forward: 중간 -> 탑, 백 -> 중간, 새 백 생성
       setMiddleCard((prev) => ({ ...prev, rotation: 0 }));
       setBackCard((prev) => ({ ...prev, rotation: -3 }));
 
       setTimeout(() => {
-        setTopCard({ ...middleCard, rotation: 0 });
-        setMiddleCard({ ...backCard, rotation: -3 });
-        setBackCard({ id: step - 2, color: topCard.color, rotation: 3 });
+        setTopCard({ ...middleCard, color: getColor(step), rotation: 0 });
+        setMiddleCard({ ...backCard, color: getColor(step - 1), rotation: -3 });
+        setBackCard({ id: step - 2, color: getColor(step - 2), rotation: 3 });
 
         setInternalStep(step);
         setDisplayedStep(step);
         setAnimating(false);
       }, 600);
     } else {
-      // backward: 백 -> 탑 (0), 탑 -> 중간 (-3), 중간 -> 백 (3)
-      const newTop = { id: step, color: backCard.color, rotation: 0 };
+      const newTop = { id: step, color: getColor(step), rotation: 0 };
       setTopCard(newTop);
       setDisplayedStep(step);
       setWaitForTimeout(false);
@@ -132,16 +140,15 @@ export default function CardFrame({
       setTimeout(() => {
         setWaitForTimeout(true);
         setTopCard(newTop);
-        setMiddleCard({ id: topCard.id, color: topCard.color, rotation: -3 });
-        setBackCard({ id: middleCard.id, color: middleCard.color, rotation: 3 });
+        setMiddleCard({ id: topCard.id, color: getColor(step + 1), rotation: -3 });
+        setBackCard({ id: middleCard.id, color: getColor(step + 2), rotation: 3 });
 
         setInternalStep(step);
         setAnimating(false);
       }, 600);
     }
-  }, [step]);
+  }, [step, direction, internalStep]); // ✅ 불필요한 상태 제거
 
-  // 카드 하나를 렌더링하는 함수
   const renderCard = (
     card: typeof topCard,
     z: number,
@@ -154,7 +161,7 @@ export default function CardFrame({
 
     return (
       <AnimatedCard
-        key={`${isTop ? 'top' : 'card'}-${card.id}`}
+        key={`${isTop ? 'top' : 'card'}-${card.id}-${z}`}
         z={z}
         color={card.color}
         initial={
@@ -200,13 +207,7 @@ export default function CardFrame({
     <FrameWrapper>
       {renderCard(backCard, 0, renderContent(displayedStep + 2))}
       {renderCard(middleCard, 1, renderContent(displayedStep + 1))}
-      {renderCard(
-        topCard,
-        2,
-        renderContent(displayedStep),
-        true,
-        displayedStep > 0 // <- 현재 보여지고 있는 카드 기준으로 버튼 노출
-      )}
+      {renderCard(topCard, 2, renderContent(displayedStep), true, displayedStep > 0)}
     </FrameWrapper>
   );
 }
