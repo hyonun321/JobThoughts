@@ -1,72 +1,66 @@
-import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import worriedBear from '../../assets/worried-bear.png';
-import dot from '../../assets/worried-bear-dot.png';
+import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
+
+// 이미지 리소스
+import worriedBear from '../../assets/bears/worried-bear.svg';
+import dot from '../../assets/worried-bear-dot.png';
 
 // ================= styled components =================
+// 전체 레이아웃 스타일
 const Section = styled.section`
   display: flex;
-  gap: clamp(2rem, 5vw, 8rem);
+  gap: clamp(0.75rem, 1vw, 1rem);
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   height: 150vh;
-  padding: 0 20px;
-  background: #fff;
-  overflow: hidden;
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     flex-direction: column;
   }
 `;
 
+// 이미지 스타일
 const ImgWrapper = styled.div`
-  width: clamp(200px, 25vw, 400px); // 반응형 곰돌이 크기 자동 조정
+  width: clamp(250px, 30vw, 600px); // 반응형 곰돌이 크기 자동 조정
   img {
     width: 100%;
     object-fit: contain;
   }
 `;
 
+// 문장 스타일
 const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(0.75rem, 4vw, 2rem);
   h1 {
-    font-size: clamp(20px, 4vw, 40px);
+    font-size: clamp(${theme.fontSize.s}, 4vw, ${theme.fontSize.xxl});
     white-space: nowrap;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     h1 {
       text-align: center;
     }
   }
 `;
 
+// 곰돌이 머리 위 점 스타일
 const DotWrapper = styled.div`
   position: relative;
-  display: inline-block;
 `;
 
 const Dot = styled(motion.img)<{ index: number }>`
   position: absolute;
-  top: -10%; // 곰돌이 머리 위로 고정 위치
+  top: -25px;
   left: ${({ index }) => `${39 + index * 8}%`}; // 오른쪽으로 퍼지게
-  transform: translateX(-50%);
-  width: clamp(6px, 1.2vw, 10px);
+  width: clamp(8px, 1vw, 12px);
   height: auto;
-
-  @media (max-width: 768px) {
-    top: -45px;
-  }
-
-  @media (max-width: 480px) {
-    top: -35px;
-  }
 `;
 
 // ================= animation variants =================
@@ -77,7 +71,7 @@ const dotVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.4,
-      delay: i * 0.5, // 점 하나씩 0.2초 간격 등장
+      delay: i * 0.5,
     },
   }),
 };
@@ -99,19 +93,6 @@ const wordVariants: Variants = {
   }),
 };
 
-// ================= custom hook =================
-function useScrollAnimation(amount = 0.5) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start(inView ? 'visible' : 'hidden');
-  }, [inView, controls]);
-
-  return { ref, controls };
-}
-
 // ================= component =================
 export default function QuestionSection() {
   const lines = [
@@ -120,32 +101,52 @@ export default function QuestionSection() {
     '"막막한데, 어디서부터 봐야 하죠?"',
   ];
 
-  const bearAnimation = useScrollAnimation();
-  const dotAnimation = useScrollAnimation();
-  const sentence1 = useScrollAnimation();
-  const sentence2 = useScrollAnimation();
-  const sentence3 = useScrollAnimation();
+  const [dotAnimation, bearAnimation] = [useScrollAnimation(), useScrollAnimation()];
+  const sentenceAnimation1 = useScrollAnimation();
+  const sentenceAnimation2 = useScrollAnimation();
+  const sentenceAnimation3 = useScrollAnimation();
 
-  const animations = [sentence1, sentence2, sentence3];
+  const sentenceAnimations = [sentenceAnimation1, sentenceAnimation2, sentenceAnimation3];
+
+  const dots = () =>
+    [0, 1, 2].map((i) => (
+      <Dot
+        key={i}
+        index={i}
+        src={dot}
+        alt="곰돌이점"
+        initial="hidden"
+        animate={dotAnimation.controls}
+        custom={i}
+        variants={dotVariants}
+      />
+    ));
+
+  const sentences = () =>
+    lines.map((line, i) => {
+      const { ref, controls } = sentenceAnimations[i]; // 각 문장마다 ref & controls 사용
+      return (
+        <motion.div
+          key={i}
+          ref={ref} // 각 문장에 스크롤 감지 ref 걸기
+          custom={i}
+          initial="hidden"
+          animate={controls} // 각 문장마다 애니메이션 상태 연동
+          variants={wordVariants}
+        >
+          <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
+            {line}
+          </Text>
+        </motion.div>
+      );
+    });
 
   return (
     <Section>
-      {/* 곰돌이 + 점 찍기 */}
+      {/* 곰돌이 & 점 찍기 */}
       <DotWrapper ref={dotAnimation.ref}>
         {/* 점 3개 순서대로 찍기 */}
-        {[0, 1, 2].map((i) => (
-          <Dot
-            key={i}
-            index={i}
-            src={dot}
-            alt="곰돌이점"
-            initial="hidden"
-            animate={dotAnimation.controls}
-            custom={i}
-            variants={dotVariants}
-          />
-        ))}
-
+        {dots()}
         <ImgWrapper ref={bearAnimation.ref}>
           <motion.div initial="hidden" animate={bearAnimation.controls} variants={fadeInVariants}>
             <img src={worriedBear} alt="곰돌이" />
@@ -154,25 +155,7 @@ export default function QuestionSection() {
       </DotWrapper>
 
       {/* 순서대로 등장하는 문장 */}
-      <WordWrapper>
-        {lines.map((line, i) => {
-          const { ref, controls } = animations[i]; // 각 문장마다 ref & controls 사용
-          return (
-            <motion.div
-              key={i}
-              ref={ref} // 각 문장에 스크롤 감지 ref 걸기
-              custom={i}
-              initial="hidden"
-              animate={controls} // 각 문장마다 애니메이션 상태 연동
-              variants={wordVariants}
-            >
-              <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
-                {line}
-              </Text>
-            </motion.div>
-          );
-        })}
-      </WordWrapper>
+      <WordWrapper>{sentences()}</WordWrapper>
     </Section>
   );
 }
