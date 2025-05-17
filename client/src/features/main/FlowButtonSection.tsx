@@ -38,6 +38,11 @@ const StepWrapper = styled.div`
   width: 100vw;
   padding-left: 20vw;
   left: 0;
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+    align-items: center;
+  }
 `;
 
 const motionVariants = {
@@ -107,7 +112,12 @@ export default function FlowButtonSection() {
             variants={motionVariants}
             style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative' }}
           >
-            <Image src={flowBear} alt="flow bear" motion="float" width="450px" />
+            <Image
+              style={{ width: 'clamp(200px, 25vw, 450px)', height: 'auto' }}
+              src={flowBear}
+              alt="flow bear"
+              motion="float"
+            />
           </motion.div>
         </BearWrapper>
       </StickyWrapper>

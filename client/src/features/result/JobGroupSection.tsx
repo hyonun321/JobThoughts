@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import jobRecommendationData from '../../data/jobRecommendationData';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { theme } from '../../styles/theme';
@@ -7,6 +6,7 @@ import { theme } from '../../styles/theme';
 // 곰돌이 이미지
 import JobIntroBear from '../../assets/bears/job-introduce-bear.svg';
 import WorkBear from '../../assets/bears/bears-1.svg';
+import EducationBear from '../../assets/bears/bears-8.svg';
 import LookingBear from '../../assets/bears/bears-2.svg';
 import Bookbear from '../../assets/bears/bears-3.svg';
 import MedicalBear from '../../assets/bears/bears-4.svg';
@@ -18,6 +18,7 @@ const categoryImages: Record<string, string> = {
   계열무관: LookingBear,
   인문: Bookbear,
   사회: WorkBear,
+  교육: EducationBear,
   공학: EngineerBear,
   의학: MedicalBear,
   자연: NatureBear,
@@ -118,7 +119,16 @@ const JobList = styled.div`
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 `;
 
-export default function JobGroupSection() {
+type JobsByMajor = {
+  [major: string]: string[];
+};
+
+type ResultJobListProps = {
+  topValues: string[];
+  jobsByMajor: JobsByMajor;
+};
+
+export default function JobGroupSection({ topValues, jobsByMajor }: ResultJobListProps) {
   const navigate = useNavigate();
 
   const handleClick = (job: string) => {
@@ -131,7 +141,8 @@ export default function JobGroupSection() {
         <TextArea>
           <SmallTitle>나의 가치관과 관련이 높은 직업</SmallTitle>
           <h2>
-            <span>자율성</span>도 챙기고, <span>보수</span>도 놓치기 싫은 당신! 이런 직업은 어때요?
+            <span>{topValues[0]}</span>도 챙기고, <span>{topValues[1]}</span>도 놓치기 싫은 당신!
+            이런 직업은 어때요?
           </h2>
           <h3>직업을 클릭하면, 실시간 채용 공고까지 확인할 수 있어요.</h3>
         </TextArea>
@@ -139,7 +150,7 @@ export default function JobGroupSection() {
           <img src={JobIntroBear} alt="직업을 소개하는 곰돌이" />
         </div>
       </JobInfoArea>
-      {jobRecommendationData.map(({ category, jobs }) => (
+      {Object.entries(jobsByMajor).map(([category, jobs]) => (
         <Group key={category}>
           <Category>
             <img src={categoryImages[category]} alt={category} />

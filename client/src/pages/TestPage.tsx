@@ -32,10 +32,12 @@ const BackgroundFloatWrapper = styled.div`
 
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [step, setStep] = useState(0);
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const { addAnswer, resetAnswers, answers } = useTestStore();
+  const { addAnswer, resetAnswers, removeLastAnswer, answers } = useTestStore();
 
   useEffect(() => {
     resetAnswers();
@@ -56,7 +58,17 @@ export default function TestPage() {
       value === question.answer01 ? question.answerScore01 : question.answerScore02;
 
     addAnswer({ qitemNo: question.qitemNo, answerScore: selectedScore });
+    setDirection('forward');
     setCurrentIndex((prev) => prev + 1);
+    setStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (currentIndex === 0) return;
+    removeLastAnswer();
+    setDirection('backward');
+    setCurrentIndex((prev) => prev - 1);
+    setStep((prev) => prev - 1);
   };
 
   useEffect(() => {
@@ -97,7 +109,13 @@ export default function TestPage() {
       ) : currentIndex === 0 ? (
         <TestInformSection onStart={() => setCurrentIndex(1)} />
       ) : !isComplete ? (
-        <TestQuestionSection currentIndex={currentIndex - 1} onAnswer={handleAnswer} />
+        <TestQuestionSection
+          currentIndex={currentIndex - 1}
+          onAnswer={handleAnswer}
+          onBack={handleBack}
+          step={step}
+          direction={direction}
+        />
       ) : (
         <TestCompleteSection answers={answers} />
       )}

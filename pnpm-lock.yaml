@@ -54,6 +54,9 @@ importers:
       '@nivo/radar':
         specifier: ^0.95.0
         version: 0.95.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      axios:
+        specifier: ^1.9.0
+        version: 1.9.0
       framer-motion:
         specifier: ^12.11.0
         version: 12.11.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

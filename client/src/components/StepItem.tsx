@@ -4,6 +4,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 `;
 
 const Number = styled.div<{ active: boolean }>`
@@ -12,6 +15,9 @@ const Number = styled.div<{ active: boolean }>`
   color: ${({ active }) => (active ? '#5668FF' : '#A0A3FF')};
   margin-right: 1rem;
   transition: color 0.3s;
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
 `;
 
 const Label = styled.div<{ active: boolean }>`
@@ -32,6 +38,10 @@ const Label = styled.div<{ active: boolean }>`
     background-color 0.3s,
     color 0.3s,
     opacity 0.3s;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    text-align: center;
+  }
 `;
 
 export default function StepItem({
