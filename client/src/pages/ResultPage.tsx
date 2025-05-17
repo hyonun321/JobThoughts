@@ -7,6 +7,7 @@ import JobGroupSection from '../features/result/JobGroupSection';
 import ClickFinger from '../../src/assets/icons/icon-click-finger.svg';
 import { theme } from '../../src/styles/theme';
 import { useTestStore } from '../store/useTestStore';
+import { useResultStore } from '../store/useResultStore';
 import { postReport } from '../api/report';
 import Loading from '../components/Loading';
 import Text from '../components/Text';
@@ -106,40 +107,44 @@ const slideInVariants = {
 
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
-  const [reportData, setReportData] = useState<{
-    scores: { name: string; score: number }[];
-    topValues: string[];
-    jobsByMajor: Record<string, string[]>;
-  } | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const { answers, setJobsByMajor, setTopValues } = useTestStore();
+  const { answers } = useTestStore();
+  const { result, setResult } = useResultStore();
 
   useEffect(() => {
+    if (result) {
+      setLoading(false);
+      return;
+    }
+
+    // ✅ answers가 없으면 리포트 요청하지 않음
+    if (!answers || answers.length === 0) {
+      setLoading(false);
+      return;
+    }
+
     postReport(answers)
       .then((res) => {
-        console.log(res);
-        const result = res.results;
-        setReportData(result);
-        setJobsByMajor(result.jobsByMajor);
-        setTopValues(result.topValues);
+        const resultData = res.results;
+        setResult(resultData);
       })
       .catch((err) => {
         console.error(err);
         alert('결과를 불러오지 못했습니다.');
       })
       .finally(() => setLoading(false));
-  }, [answers, setJobsByMajor, setTopValues]);
+  }, [answers, result, setResult]);
 
   if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
-  if (!reportData || !reportData.scores)
+  if (!result)
     return (
       <Text as="p" color="gray800" align="center">
         결과가 없습니다.
       </Text>
     );
 
-  const chartData = reportData.scores.map((s) => ({
+  const chartData = result.scores.map((s) => ({
     type: s.name,
     score: s.score,
   }));
@@ -178,7 +183,7 @@ export default function ResultPage() {
           </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection jobsByMajor={reportData.jobsByMajor} topValues={reportData.topValues} />
+      <JobGroupSection jobsByMajor={result.jobsByMajor} topValues={result.topValues} />
     </ResultSection>
   );
 }
