@@ -109,7 +109,7 @@ export default function QuestionSection() {
 
   const sentenceAnimations = [sentenceAnimation1, sentenceAnimation2, sentenceAnimation3];
 
-  const dots = useCallback(
+  const dots: () => JSX.Element[] = useCallback(
     () =>
       [0, 1, 2].map((i) => (
         <Dot
@@ -126,7 +126,7 @@ export default function QuestionSection() {
     [dotAnimation.controls]
   );
 
-  const sentences = useCallback(
+  const sentences: () => JSX.Element[] = useCallback(
     () =>
       lines.map((line, i) => {
         const { ref, controls } = sentenceAnimations[i]; // 각 문장마다 ref & controls 사용
