@@ -45,7 +45,6 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   }
 `;
 
-
 export default function ResultChart({ data, onLabelClick, activeLabel }: ResultChartProps) {
   //라벨 좌표 타입 정의
   type LabelPosition = {
@@ -64,7 +63,7 @@ export default function ResultChart({ data, onLabelClick, activeLabel }: ResultC
     const x = centerX + r * Math.cos(angle);
     const y = centerY + r * Math.sin(angle);
 
-    return { label: data.type, x, y };
+    return { label: d.type, x, y };
   });
 
   return (

@@ -8,15 +8,22 @@ export interface Answer {
 
 interface TestStore {
   answers: Answer[];
+  jobsByMajor: Record<string, string[]>;
+  topValues: string[];
   addAnswer: (answer: Answer) => void;
+  removeLastAnswer: () => void;
   resetAnswers: () => void;
+  setJobsByMajor: (data: Record<string, string[]>) => void;
+  setTopValues: (values: string[]) => void;
 }
 
 export const useTestStore = create<TestStore>((set) => ({
   answers: [],
-  addAnswer: (answer) =>
-    set((state) => ({
-      answers: [...state.answers, answer],
-    })),
+  jobsByMajor: {},
+  topValues: [],
+  addAnswer: (answer) => set((state) => ({ answers: [...state.answers, answer] })),
+  removeLastAnswer: () => set((state) => ({ answers: state.answers.slice(0, -1) })),
   resetAnswers: () => set({ answers: [] }),
+  setJobsByMajor: (data) => set({ jobsByMajor: data }),
+  setTopValues: (values) => set({ topValues: values }),
 }));

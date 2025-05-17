@@ -99,8 +99,6 @@ export default function TestQuestionSection({
   const handleNext = () => {
     if (!selected || !questions[currentIndex]) return;
 
-    setStep((prev) => prev + 1); // 카드 전환 애니메이션 트리거
-
     setTimeout(() => {
       onAnswer(selected); // 기존 상위 컴포넌트 호출
     }, 600);
@@ -110,7 +108,7 @@ export default function TestQuestionSection({
     const data = questions[index];
     if (!data) return null;
 
-    const { answer01: left, answer02: right, answer03, answer04 } = data;
+    const { answer01: left, answer02: right } = data;
 
     return (
       <div

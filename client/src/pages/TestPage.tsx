@@ -48,7 +48,7 @@ export default function TestPage() {
         alert('질문 데이터를 불러올 수 없습니다.');
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [resetAnswers]);
 
   const isComplete = currentIndex > questions.length;
 
@@ -76,7 +76,7 @@ export default function TestPage() {
       const formatted = formatAnswers(answers);
       console.log('✅ formatted answers string:', formatted);
     }
-  }, [isComplete]);
+  }, [isComplete, answers]);
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
