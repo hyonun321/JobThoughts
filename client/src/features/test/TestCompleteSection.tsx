@@ -6,9 +6,10 @@ import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Button from '../../components/Button';
 import IconCheck from '../../assets/icons/icon-check.png';
+import type { Answer } from '../../store/useTestStore';
 
 type Props = {
-  answers: string[];
+  answers: Answer[];
 };
 
 const Wrapper = styled.div`

@@ -6,14 +6,15 @@ import TestCompleteSection from '../features/test/TestCompleteSection';
 
 import { fetchQuestions } from '../api/questions';
 import type { Question } from '../api/questions';
-import Loading from '../components/Loading';
+import { useTestStore } from '../store/useTestStore';
+import { formatAnswers } from '../api/report';
 
+import Loading from '../components/Loading';
 import Image from '../components/Image';
 import cubeIcon from '../assets/icons/icon-cube.png';
 import ringIcon from '../assets/icons/icon-ring.png';
 import waveIcon from '../assets/icons/icon-wave.png';
 
-// 📌 배경 이미지 전용 래퍼
 const BackgroundFloatWrapper = styled.div`
   position: absolute;
   width: 100%;
@@ -31,15 +32,15 @@ const BackgroundFloatWrapper = styled.div`
 
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [step, setStep] = useState(0); // 질문 step 조정용
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [step, setStep] = useState(0);
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
-
-  const [questions, setQuestions] = useState<Question[]>([]); // ✅ 실제 질문
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ API로 질문 불러오기
+  const { addAnswer, resetAnswers, removeLastAnswer, answers } = useTestStore();
+
   useEffect(() => {
+    resetAnswers();
     fetchQuestions()
       .then((data) => setQuestions(data))
       .catch((err) => {
@@ -47,37 +48,38 @@ export default function TestPage() {
         alert('질문 데이터를 불러올 수 없습니다.');
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [resetAnswers]);
 
   const isComplete = currentIndex > questions.length;
 
   const handleAnswer = (value: string) => {
+    const question = questions[currentIndex - 1];
+    const selectedScore =
+      value === question.answer01 ? question.answerScore01 : question.answerScore02;
+
+    addAnswer({ qitemNo: question.qitemNo, answerScore: selectedScore });
     setDirection('forward');
-    setAnswers((prev) => {
-      const updated = [...prev, value];
-      console.log('✅ 선택된 답변 배열:', updated); // 선택 후 상태 출력
-      return updated;
-    });
     setCurrentIndex((prev) => prev + 1);
     setStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
     if (currentIndex === 0) return;
-
+    removeLastAnswer();
     setDirection('backward');
-    setAnswers((prev) => {
-      const updated = prev.slice(0, -1);
-      console.log('↩️ 되돌린 후 답변 배열:', updated); // 되돌린 후 상태 출력
-      return updated;
-    });
     setCurrentIndex((prev) => prev - 1);
     setStep((prev) => prev - 1);
   };
 
+  useEffect(() => {
+    if (isComplete) {
+      const formatted = formatAnswers(answers);
+      console.log('✅ formatted answers string:', formatted);
+    }
+  }, [isComplete, answers]);
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {/* 배경 이미지 레이어 */}
       <BackgroundFloatWrapper>
         <Image
           src={waveIcon}
@@ -102,7 +104,6 @@ export default function TestPage() {
         />
       </BackgroundFloatWrapper>
 
-      {/* 본문 콘텐츠 */}
       {loading ? (
         <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
       ) : currentIndex === 0 ? (

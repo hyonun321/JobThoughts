@@ -81,6 +81,7 @@ const Group = styled.div`
   align-items: stretch;
   gap: 15px;
   margin-bottom: 24px;
+  padding: 0px 14px 0px 14px;
 `;
 
 // 계열 레이아웃

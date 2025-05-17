@@ -7,10 +7,10 @@ import Card from '../../components/Card';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
 import CardFrame from '../../components/CardFrame';
+import Loading from '../../components/Loading';
 
 import { fetchQuestions } from '../../api/questions';
 import type { Question } from '../../api/questions';
-import Loading from '../../components/Loading';
 
 // ============ Props Type ============
 type Props = {
@@ -97,9 +97,10 @@ export default function TestQuestionSection({
   }, [currentIndex]);
 
   const handleNext = () => {
-    if (!selected) return;
+    if (!selected || !questions[currentIndex]) return;
+
     setTimeout(() => {
-      onAnswer(selected); // 상위 컴포넌트로 선택한 답변 전달
+      onAnswer(selected); // 기존 상위 컴포넌트 호출
     }, 600);
   };
 
@@ -107,7 +108,7 @@ export default function TestQuestionSection({
     const data = questions[index];
     if (!data) return null;
 
-    const { answer01: left, answer02: right, answer03, answer04 } = data;
+    const { answer01: left, answer02: right } = data;
 
     return (
       <div
@@ -152,13 +153,13 @@ export default function TestQuestionSection({
             value={left}
             selected={selected === left}
             onClick={() => setSelected(left)}
-            description={answer03}
+            description={data.answer03}
           />
           <ResponsiveCard
             value={right}
             selected={selected === right}
             onClick={() => setSelected(right)}
-            description={answer04}
+            description={data.answer04}
           />
         </CardContainer>
 

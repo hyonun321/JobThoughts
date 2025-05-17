@@ -50,7 +50,7 @@ const resultValuesData = [
     },
   },
   {
-    type: '사회의 인정',
+    type: '사회적 인정',
     description: {
       value: '나는 다른 사람들로부터 나의 능력과 성취를 충분히 인정받고 싶어합니다.',
       choice: '나는 많은 사람들로부터 주목받고 인정받을 수 있는 직업을 선택할 것입니다.',
