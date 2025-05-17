@@ -23,10 +23,10 @@ const FooterWrapper = styled.footer`
 const BearsRow = styled.div`
   display: flex;
   justify-content: center;
-  gap: 30px;
-  margin-bottom: 10px;
+  gap: 25px;
+  margin-bottom: 40px;
   flex-wrap: wrap;
-  max-width: 900px;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -35,14 +35,25 @@ const BearItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 16px;
+  justify-content: space-between;
+
+  img {
+    width: clamp(160px, 30vw, 250px);
+  }
 `;
 
-const LogoBox = styled.div``;
+const LogoBox = styled.div`
+  img {
+    width: clamp(80px, 20vw, 140px);
+    height: clamp(80px, 20vw, 140px);
+    display: block;
+    margin: 0 auto;
+  }
+`;
 
 const Copyright = styled.div`
   margin-bottom: 28px;
-  font-size: ${theme.fontSize.s};
+  font-size: clamp(${theme.fontSize.xxs}, 2vw, ${theme.fontSize.s});
   color: ${theme.colors.white};
 `;
 
@@ -53,7 +64,7 @@ const IconRow = styled.div`
 `;
 
 const BearName = styled.div`
-  font-size: ${theme.fontSize.ml};
+  font-size: clamp(${theme.fontSize.s}, 2vw, ${theme.fontSize.ml});
   color: ${theme.colors.white};
 `;
 
@@ -62,29 +73,29 @@ function Footer() {
     <FooterWrapper>
       <BearsRow>
         <BearItem>
-          <img src={Bear1} alt="곰돌이1" width={140} height={140} />
+          <img src={Bear1} alt="곰돌이1" />
           <BearName>김현훈</BearName>
         </BearItem>
         <BearItem>
-          <img src={Bear2} alt="곰돌이2" width={140} height={140} />
+          <img src={Bear2} alt="곰돌이2" />
           <BearName>김민서</BearName>
         </BearItem>
         <BearItem>
-          <img src={Bear3} alt="곰돌이3" width={140} height={140} />
+          <img src={Bear3} alt="곰돌이3" />
           <BearName>백세진</BearName>
         </BearItem>
         <BearItem>
-          <img src={Bear4} alt="곰돌이4" width={140} height={140} />
+          <img src={Bear4} alt="곰돌이4" />
           <BearName>염승아</BearName>
         </BearItem>
         <BearItem>
-          <img src={Bear5} alt="곰돌이5" width={140} height={140} />
+          <img src={Bear5} alt="곰돌이5" />
           <BearName>황주경</BearName>
         </BearItem>
       </BearsRow>
 
       <LogoBox>
-        <img src={Logo} alt="로고" width={120} height={120} />
+        <img src={Logo} alt="로고" />
       </LogoBox>
 
       <Copyright>© 2025 JobThoughts. All rights reserved.</Copyright>
