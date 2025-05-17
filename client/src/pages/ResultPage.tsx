@@ -1,13 +1,16 @@
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import ResultChart from '../features/result/ResultChart';
 import ResultDescriptionCard from '../features/result/ResultDescriptionCard';
 import JobGroupSection from '../features/result/JobGroupSection';
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import ClickFinger from '../../src/assets/icons/icon-click-finger.svg';
 import { theme } from '../../src/styles/theme';
-import axios from 'axios';
-import { mockAnswersData } from '../data/mockAnswersData';
+import { useTestStore } from '../store/useTestStore';
+import { useResultStore } from '../store/useResultStore';
+import { postReport } from '../api/report';
+import Loading from '../components/Loading';
+import Text from '../components/Text';
 
 const LayoutTitle = styled.div`
   display: flex;
@@ -82,11 +85,10 @@ const DescriptionWrapper = styled(motion.div)`
   }
 `;
 
-// ======================= animation variants =======================
 const layoutSpring = {
-  type: 'spring', // spring 애니메이션 적용
-  stiffness: 40, // 낮을수록 부드럽고 천천히 감
-  damping: 20, // 감쇠율을 높이면 느리게 멈춤, 기본적으로 20
+  type: 'spring',
+  stiffness: 40,
+  damping: 20,
 };
 
 const slideInVariants = {
@@ -103,44 +105,49 @@ const slideInVariants = {
   },
 };
 
-// ======================= components =======================
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
-  const [chartData, setChartData] = useState([]);
-  const [topValues, setTopValues] = useState([]);
-  const [jobsByMajor, setJobsByMajor] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const { answers } = useTestStore();
+  const { result, setResult } = useResultStore();
 
   useEffect(() => {
-    const fetchResultData = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.post('/api/report', { answer: mockAnswersData });
-        console.log(data);
-        setChartData(
-          data.results.scores.map(
-            (item: { name: string; score: number; description?: string }) => ({
-              type: item.name,
-              score: item.score,
-              description: item.description,
-            })
-          )
-        );
-        setTopValues(data.results.topValues);
-        setJobsByMajor(data.results.jobsByMajor);
-      } catch (error) {
-        console.error('결과 가져오기 실패:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (result) {
+      setLoading(false);
+      return;
+    }
 
-    fetchResultData();
-  }, []);
+    // ✅ answers가 없으면 리포트 요청하지 않음
+    if (!answers || answers.length === 0) {
+      setLoading(false);
+      return;
+    }
 
-  if (loading) {
-    return <div>결과를 불러오는 중입니다...</div>;
-  }
+    postReport(answers)
+      .then((res) => {
+        const resultData = res.results;
+        setResult(resultData);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('결과를 불러오지 못했습니다.');
+      })
+      .finally(() => setLoading(false));
+  }, [answers, result, setResult]);
+
+  if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
+  if (!result)
+    return (
+      <Text as="p" color="gray800" align="center">
+        결과가 없습니다.
+      </Text>
+    );
+
+  const chartData = result.scores.map((s) => ({
+    type: s.name,
+    score: s.score,
+  }));
 
   return (
     <ResultSection>
@@ -155,7 +162,7 @@ export default function ResultPage() {
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
           <ResultChart
-            chartData={chartData}
+            data={chartData}
             onLabelClick={(label) => setSelectedLabel(label)}
             activeLabel={selectedLabel}
           />
@@ -176,7 +183,7 @@ export default function ResultPage() {
           </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection jobsByMajor={jobsByMajor} topValues={topValues} />
+      <JobGroupSection jobsByMajor={result.jobsByMajor} topValues={result.topValues} />
     </ResultSection>
   );
 }
