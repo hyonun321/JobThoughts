@@ -109,44 +109,38 @@ export default function QuestionSection() {
 
   const sentenceAnimations = [sentenceAnimation1, sentenceAnimation2, sentenceAnimation3];
 
-  const dots = useCallback(
-    () =>
-      [0, 1, 2].map((i) => (
-        <Dot
-          key={i}
-          index={i}
-          src={dot}
-          alt="곰돌이점"
-          initial="hidden"
-          animate={dotAnimation.controls}
-          custom={i}
-          variants={dotVariants}
-        />
-      )),
-    [dotAnimation.controls]
-  );
+  const dots = () =>
+    [0, 1, 2].map((i) => (
+      <Dot
+        key={i}
+        index={i}
+        src={dot}
+        alt="곰돌이점"
+        initial="hidden"
+        animate={dotAnimation.controls}
+        custom={i}
+        variants={dotVariants}
+      />
+    ));
 
-  const sentences = useCallback(
-    () =>
-      lines.map((line, i) => {
-        const { ref, controls } = sentenceAnimations[i]; // 각 문장마다 ref & controls 사용
-        return (
-          <motion.div
-            key={i}
-            ref={ref} // 각 문장에 스크롤 감지 ref 걸기
-            custom={i}
-            initial="hidden"
-            animate={controls} // 각 문장마다 애니메이션 상태 연동
-            variants={wordVariants}
-          >
-            <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
-              {line}
-            </Text>
-          </motion.div>
-        );
-      }),
-    [sentenceAnimations, lines]
-  );
+  const sentences = () =>
+    lines.map((line, i) => {
+      const { ref, controls } = sentenceAnimations[i]; // 각 문장마다 ref & controls 사용
+      return (
+        <motion.div
+          key={i}
+          ref={ref} // 각 문장에 스크롤 감지 ref 걸기
+          custom={i}
+          initial="hidden"
+          animate={controls} // 각 문장마다 애니메이션 상태 연동
+          variants={wordVariants}
+        >
+          <Text as="h1" size="40px" weight="bold" color="gray900" align="left">
+            {line}
+          </Text>
+        </motion.div>
+      );
+    });
 
   return (
     <Section>
