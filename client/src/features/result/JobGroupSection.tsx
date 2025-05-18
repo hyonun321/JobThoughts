@@ -44,7 +44,7 @@ const TextArea = styled.div`
   justify-content: center;
 
   h2 {
-    font-size: clamp(${theme.fontSize.s}, 3vw, ${theme.fontSize.xl});
+    font-size: clamp(${theme.fontSize.m}, 3vw, ${theme.fontSize.xl});
     margin: clamp(5px, 1vw, 10px) 0;
   }
 
@@ -53,7 +53,7 @@ const TextArea = styled.div`
   }
 
   h3 {
-    font-size: clamp(${theme.fontSize.xs}, 2vw, ${theme.fontSize.lg});
+    font-size: clamp(${theme.fontSize.s}, 2vw, ${theme.fontSize.lg});
     margin: 0 0 clamp(10px, 5vw, 30px) 0;
   }
 `;
