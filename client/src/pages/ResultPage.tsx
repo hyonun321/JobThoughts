@@ -145,7 +145,7 @@ export default function ResultPage() {
   if (loading)
     return (
       <ErrorContainer>
-        <Loading message="결과를 불러오는 중이에요..." />;
+        <Loading message="결과를 불러오는 중이에요..." />
       </ErrorContainer>
     );
   if (!loading && !result)
