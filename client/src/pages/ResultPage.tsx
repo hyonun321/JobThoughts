@@ -145,7 +145,7 @@ export default function ResultPage() {
       </ErrorContainer>
     );
 
-  const chartData = result.scores.map((s) => ({
+  const chartData = result!.scores.map((s) => ({
     type: s.name,
     score: s.score,
   }));
@@ -183,7 +183,7 @@ export default function ResultPage() {
           </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection jobsByMajor={result.jobsByMajor} topValues={result.topValues} />
+      <JobGroupSection jobsByMajor={result!.jobsByMajor} topValues={result!.topValues} />
     </ResultSection>
   );
 }
