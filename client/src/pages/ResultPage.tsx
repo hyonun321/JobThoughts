@@ -85,6 +85,13 @@ const DescriptionWrapper = styled(motion.div)`
   }
 `;
 
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 const layoutSpring = {
   type: 'spring',
   stiffness: 40,
@@ -131,17 +138,25 @@ export default function ResultPage() {
       })
       .catch((err) => {
         console.error(err);
-        alert('결과를 불러오지 못했습니다.');
       })
       .finally(() => setLoading(false));
   }, [answers, result, setResult]);
 
-  if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
+  if (loading)
+    return (
+      <ErrorContainer>
+        <Loading message="결과를 불러오는 중이에요..." />;
+      </ErrorContainer>
+    );
   if (!loading && !result)
     return (
-      <Text as="p" color="gray800" align="center">
-        결과가 없습니다.
-      </Text>
+      <ErrorContainer>
+        <Text as="p" size={theme.fontSize.xl} color="gray800" align="center">
+          "결과가 보이지 않네요 🙈
+          <br />
+          테스트를 다시 진행해 주세요."
+        </Text>
+      </ErrorContainer>
     );
 
   const chartData = result.scores.map((s) => ({
