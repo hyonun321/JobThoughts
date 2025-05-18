@@ -25,7 +25,7 @@ export const theme = {
     m: '1rem',
     ml: '1.125rem',
     lg: '1.5rem',
-    xl: '2rem',
+    xl: 'clamp(1.5rem, 3vw, 2rem)',
     xxl: '3rem',
   },
   fontWeight: {
