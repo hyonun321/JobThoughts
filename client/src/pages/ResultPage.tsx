@@ -12,7 +12,16 @@ import { postReport } from '../api/report';
 import Loading from '../components/Loading';
 import Text from '../components/Text';
 
-const LayoutTitle = styled.div`
+const ResultSection = styled.div`
+  border: 1px solid red;
+  padding: 0px 20px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ChartInfoText = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -23,51 +32,39 @@ const LayoutTitle = styled.div`
     color: ${theme.colors.gray900};
     font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
     font-weight: normal;
-    transform: translateX(40px);
   }
 
   span {
     color: ${theme.colors.primary};
   }
 
-  .image-wrapper {
-    width: clamp(40px, 18vw, 200px);
-    margin-left: -35px;
-    margin-top: -50px;
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url(${ClickFinger});
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: clamp(40px, 18vw, 150px);
+    height: clamp(40px, 18vw, 200px);
+    top: -40%;
+    left: 66%;
+    transform: translateX(-50%);
+    z-index: 0;
   }
-
-  @media (max-width: 768px) {
-    .image-wrapper {
-      margin-left: -25px;
-      margin-top: -40px;
+  @media (max-width: 640px) {
+    &::after {
+      left: 83%;
     }
   }
-  @media (max-width: 485px) {
-    .image-wrapper {
-      margin-left: -15px;
-      margin-top: -30px;
-    }
-    h1 {
-      transform: translateX(20px);
-    }
-  }
-`;
-
-const ResultSection = styled.div`
-  padding: 0px 20px;
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
 `;
 
 const ResultTopWrapper = styled.div`
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: 4rem;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
   min-height: clamp(400px, 60vw, 500px);
 `;
 
@@ -166,14 +163,13 @@ export default function ResultPage() {
 
   return (
     <ResultSection>
-      <LayoutTitle>
+      <ChartInfoText>
         <h1>
           차트의 각 항목을 <span>클릭</span> 해보세요!
           <br />
           나의 직업 가치관에 대한 설명을 확인할 수 있어요
         </h1>
-        <img className="image-wrapper" src={ClickFinger} alt="클릭하는 손가락 아이콘" />
-      </LayoutTitle>
+      </ChartInfoText>
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
           <ResultChart
