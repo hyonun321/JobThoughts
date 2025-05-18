@@ -6,10 +6,10 @@ import { motion, type Variants } from 'framer-motion';
 import FullScreenSection from '../../components/FullScreenSection';
 import Button from '../../components/Button';
 import Image from '../../components/Image';
-import rocketImg from '../../assets/icons/icon-rocket.png';
-import keyImg from '../../assets/icons/icon-key.png';
-import bearImg from '../../assets/start-bear.png';
-import arrowImg from '../../assets/icons/icon-start-arrow.png';
+import rocketImg from '../../assets/icons/icon-rocket.svg';
+import keyImg from '../../assets/icons/icon-key.svg';
+import bearImg from '../../assets/start-bear.svg';
+import arrowImg from '../../assets/icons/icon-start-arrow.svg';
 
 // ======================== 타입 ========================
 type PositionedIconProps = {
