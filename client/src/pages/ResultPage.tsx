@@ -21,10 +21,7 @@ const ResultSection = styled.div`
 
 const ChartInfoText = styled.div`
   position: relative;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
+  margin: 0 auto;
 
   h1 {
     text-align: center;
@@ -46,14 +43,7 @@ const ChartInfoText = styled.div`
     width: clamp(40px, 18vw, 150px);
     height: clamp(40px, 18vw, 200px);
     top: -40%;
-    left: 66%;
-    transform: translateX(-50%);
-    z-index: 0;
-  }
-  @media (max-width: 640px) {
-    &::after {
-      left: 83%;
-    }
+    left: calc(100% - 40px);
   }
 `;
 
