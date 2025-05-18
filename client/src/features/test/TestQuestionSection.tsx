@@ -75,7 +75,7 @@ export default function TestQuestionSection({
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [animating, setAnimating] = useState(false);
-  const [clicked, setClicked] = useState(false); // 클릭 상태 추가
+  const [clicked, setClicked] = useState(false); // 중복 클릭 방지용
 
   // ✅ 질문 데이터 fetch
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function TestQuestionSection({
 
   useEffect(() => {
     setSelected(null); // 질문이 바뀌면 선택 초기화
-    setClicked(false); // 새 질문 도착 시 클릭 가능하도록 초기화
+    setClicked(false); // 다음 질문 도착 시 초기화
   }, [currentIndex]);
 
   const handleNext = () => {
@@ -105,6 +105,16 @@ export default function TestQuestionSection({
     setClicked(true); // 클릭 시 바로 재클릭 방지
     setTimeout(() => {
       onAnswer(selected); // 기존 상위 컴포넌트 호출
+    }, 600);
+  };
+
+  // Back 버튼 중복 클릭 방지용 핸들러
+  const handleBack = () => {
+    if (clicked || animating) return;
+
+    setClicked(true);
+    setTimeout(() => {
+      onBack();
     }, 600);
   };
 
@@ -193,7 +203,7 @@ export default function TestQuestionSection({
           <CardFrame
             step={step}
             renderContent={(s) => renderQuestion(s)}
-            onBack={onBack}
+            onBack={handleBack}
             direction={direction}
             onAnimatingChange={setAnimating}
           />
