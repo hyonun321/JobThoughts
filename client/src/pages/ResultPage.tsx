@@ -13,7 +13,6 @@ import Loading from '../components/Loading';
 import Text from '../components/Text';
 
 const ResultSection = styled.div`
-  border: 1px solid red;
   padding: 0px 20px;
   margin-top: 40px;
   display: flex;
