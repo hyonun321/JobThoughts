@@ -137,7 +137,7 @@ export default function ResultPage() {
   }, [answers, result, setResult]);
 
   if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
-  if (!result)
+  if (!loading && !result)
     return (
       <Text as="p" color="gray800" align="center">
         결과가 없습니다.
