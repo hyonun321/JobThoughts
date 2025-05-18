@@ -159,14 +159,7 @@ export default function JobGroupSection({ topValues, jobsByMajor }: ResultJobLis
           </Category>
           <JobList>
             {jobs.map((job) => (
-              <Button
-                key={job}
-                text={job}
-                variant="job"
-                onClick={() => handleClick(job)}
-                padding="clamp(6px, 1vw, 12px) clamp(10px, 2vw, 20px)"
-                width="fit-content"
-              />
+              <Button key={job} text={job} variant="job" onClick={() => handleClick(job)} />
             ))}
           </JobList>
         </Group>
