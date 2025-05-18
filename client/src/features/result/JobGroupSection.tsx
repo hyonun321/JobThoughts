@@ -27,7 +27,6 @@ const categoryImages: Record<string, string> = {
 
 // 전체 레이아웃
 const Section = styled.div`
-  border: 1px solid red;
   max-width: 1200px;
   margin: 0 auto;
   padding: clamp(20px, 5vw, 50px);
