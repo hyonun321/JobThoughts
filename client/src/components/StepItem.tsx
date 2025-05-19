@@ -10,12 +10,14 @@ const Container = styled.div`
 `;
 
 const Number = styled.div<{ active: boolean }>`
-  font-size: 4rem;
+  font-size: 4rem; // ✅ 기존 유지
   font-weight: 700;
   color: ${({ active }) => (active ? '#5668FF' : '#A0A3FF')};
   margin-right: 1rem;
   transition: color 0.3s;
+
   @media (max-width: 768px) {
+    font-size: 2.2rem; // ✅ 모바일에서만 작게
     margin-right: 0;
   }
 `;
@@ -31,14 +33,17 @@ const Label = styled.div<{ active: boolean }>`
   display: flex;
   min-width: 300px;
   max-width: 400px;
-  font-size: 3rem;
+  font-size: 3rem; // ✅ 기존 유지
   font-weight: 500;
   opacity: ${({ active }) => (active ? 1 : 0.5)};
   transition:
     background-color 0.3s,
     color 0.3s,
     opacity 0.3s;
+
   @media (max-width: 768px) {
+    font-size: 1.6rem; // ✅ 모바일에서만 작게
+    min-width: 200px;
     margin-left: 0;
     text-align: center;
   }
