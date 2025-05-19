@@ -108,6 +108,30 @@ export default function TestQuestionSection({
     }, 300);
   };
 
+  // ✅ 키보드 이벤트 처리
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!questions[currentIndex] || clicked || animating) return;
+
+      const { answer01: left, answer02: right } = questions[currentIndex];
+
+      switch (e.key) {
+        case 'ArrowLeft':
+          setSelected(left);
+          break;
+        case 'ArrowRight':
+          setSelected(right);
+          break;
+        case 'Enter':
+          if (selected) handleNext();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selected, questions, currentIndex, clicked, animating]);
+
   // Back 버튼 중복 클릭 방지용 핸들러
   const handleBack = () => {
     if (clicked || animating) return;
