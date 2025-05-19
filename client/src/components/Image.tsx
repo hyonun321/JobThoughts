@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 // 📌이미지컴포넌트 props 설정
 interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  motion?: 'float' | 'none';
+  motion?: 'float' | 'shake' | 'none';
 }
 
 // 📌자체 애니메이션 정의
@@ -11,6 +11,12 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+`;
+
+const shake = keyframes`
+  0% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+  100% { transform: rotate(-6deg); }
 `;
 
 // 📌Styled 컴포넌트
@@ -24,6 +30,13 @@ const StyledImage = styled.img<{ $motion?: ImageProps['motion'] }>`
     $motion === 'float' &&
     css`
       animation: ${float} 2.5s ease-in-out infinite;
+    `}
+
+  ${({ $motion }) =>
+    $motion === 'shake' &&
+    css`
+      animation: ${shake} 1s ease infinite;
+      transform-origin: 100px 140px;
     `}
 `;
 
