@@ -38,7 +38,7 @@ const SectionGroup = styled.div`
 const WordWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   align-items: center;
   padding: 0 5vw;
@@ -55,29 +55,38 @@ const Row = styled(motion.div)<{ align?: 'left' | 'right' }>`
   display: flex;
   justify-content: ${({ align }) =>
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
-  padding: 0 10vw;
+  padding: ${({ align }) =>
+    align === 'right' ? '0 0 0 10vw' : align === 'left' ? '0 10vw 0 0' : '0 10vw'};
 
   @media (max-width: 768px) {
     padding: 0 6vw;
   }
 `;
 
-const TextRow = styled(motion.div)<{ align?: 'left' | 'right' }>`
+const TextRow = styled(motion.div)<{ align?: 'left' | 'right'; isSecond?: boolean }>`
   width: 100%;
   display: flex;
   justify-content: ${({ align }) =>
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
   padding: 0 10vw;
 
+  @media (min-width: 1100px) {
+    margin-right: ${({ isSecond }) => (isSecond ? '-15%' : '0')};
+    margin-left: ${({ isSecond }) => (isSecond ? '0' : '-32%')};
+  }
+
   @media (max-width: 1100px) {
     padding: 0 6vw;
     justify-content: center;
+    margin: 0;
+    text-align: center;
   }
 `;
 
 const MobileTextWrapper = styled.div<{ align?: 'left' | 'right' }>`
   display: inline-block;
   white-space: nowrap;
+  width: 100%;
   text-align: ${({ align }) => align || 'left'};
 
   @media (max-width: 1100px) {
@@ -115,7 +124,6 @@ export default function MessageSection() {
   return (
     <NextSection>
       <ResponsiveBox>
-        {/* 스크롤 아이콘 영역 */}
         <SectionGroup>
           <motion.div
             ref={scroll.ref}
@@ -132,7 +140,6 @@ export default function MessageSection() {
           </motion.div>
         </SectionGroup>
 
-        {/* 별/문장/달 아이콘 영역 */}
         <SectionGroup>
           <Row
             ref={star.ref}
@@ -151,13 +158,13 @@ export default function MessageSection() {
             variants={fadeInVariants}
             align="left"
           >
-            <MobileTextWrapper>
+            <MobileTextWrapper align="left">
               <Text
                 as="h2"
                 size="clamp(1.3rem, 6vw, 3.75rem)"
                 weight="bold"
                 color="white"
-                align="left"
+                align="center"
               >
                 하고 싶은 일을 몰라도 괜찮아요
               </Text>
@@ -170,14 +177,15 @@ export default function MessageSection() {
             animate={text2.controls}
             variants={fadeInVariants}
             align="right"
+            isSecond
           >
-            <MobileTextWrapper>
+            <MobileTextWrapper align="right">
               <Text
                 as="h2"
                 size="clamp(1.3rem, 6vw, 3.75rem)"
                 weight="bold"
                 color="white"
-                align="right"
+                align="center"
               >
                 우리는 당신에게 맞는 길부터 찾으니까요
               </Text>
@@ -195,7 +203,6 @@ export default function MessageSection() {
           </Row>
         </SectionGroup>
 
-        {/* 누워있는 곰 영역 */}
         <SectionGroup
           as={FinalSection}
           ref={bear.ref}
@@ -235,7 +242,6 @@ export default function MessageSection() {
   );
 }
 
-// ============ animation variants ============
 const fadeInVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
