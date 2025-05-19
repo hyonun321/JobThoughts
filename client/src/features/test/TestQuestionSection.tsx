@@ -41,6 +41,13 @@ const CardContainer = styled.div`
   align-items: center;
   gap: 5%;
   row-gap: 2vh;
+
+  @media (max-width: 920px) {
+  }
+
+  @media (max-width: 780px) {
+    gap: 1.5rem;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -61,6 +68,19 @@ const ResponsiveButton = styled(Button)`
   font-size: ${({ theme }) => theme.fontSize.s};
   padding: 0.75rem 1.5rem;
   min-width: 100px;
+
+  @media (max-width: 1024px) {
+    min-width: 80px;
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    padding: 0.6rem 1.2rem;
+  }
+
+  @media (max-width: 768px) {
+    min-width: 60px;
+    font-size: ${({ theme }) => theme.fontSize.xxs};
+    padding: 0.5rem 1rem;
+    width: 70%;
+  }
 `;
 
 // ============ Main Component ============
@@ -166,7 +186,7 @@ export default function TestQuestionSection({
         <div>
           <Text
             as="h3"
-            size="lg"
+            size="clamp(1rem, 1.5vw, 1.5rem)"
             weight="medium"
             color="black"
             align="center"
@@ -176,7 +196,7 @@ export default function TestQuestionSection({
           </Text>
           <Text
             as="p"
-            size="lg"
+            size="clamp(1rem, 1.5vw, 1.5rem)"
             weight="light"
             color="black"
             align="center"
