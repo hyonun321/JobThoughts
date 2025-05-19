@@ -1,5 +1,8 @@
 import { requestCareerResultUrl } from '../services/careerAPI.js';
 import getChartDataFromReportUrl from '../services/puppeteer.js';
+import { loadCacheFromFile, saveCacheToFile } from '../utils/cacheStore.js';
+
+let persistentCache = loadCacheFromFile();
 
 export const getReportHandler = async (req, res, cache) => {
   const { answers } = req.body;
@@ -8,11 +11,10 @@ export const getReportHandler = async (req, res, cache) => {
     return res.status(400).json({ error: 'answers 값이 필요합니다.' });
   }
 
-  // 1. 캐시 확인
-  const cached = cache.get(answers);
-  if (cached) {
-    console.log('📦 캐시된 데이터 반환');
-    return res.json(cached);
+  // 캐시 체크
+  if (persistentCache[answers]) {
+    console.log('📦 디스크 캐시 반환');
+    return res.json(persistentCache[answers]);
   }
 
   try {
@@ -27,8 +29,9 @@ export const getReportHandler = async (req, res, cache) => {
       results: reportData,
     };
 
-    // 4. 캐시에 저장
-    cache.set(answers, responseData);
+    // 캐시에 저장 + 파일로 저장
+    persistentCache[answers] = responseData;
+    saveCacheToFile(persistentCache);
 
     // 5. 클라이언트에 결과 전송
     return res.json(responseData);
