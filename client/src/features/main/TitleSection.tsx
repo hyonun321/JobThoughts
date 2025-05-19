@@ -30,7 +30,7 @@ const Bear = styled(motion.img)`
   top: 20%;
   left: 60%;
   transform: translate(-50%, -50%);
-  width: clamp(180px, 33vw, 500px);
+  width: clamp(160px, 33vw, 500px);
   pointer-events: none;
 
   @media (max-width: 768px) {
@@ -49,7 +49,7 @@ const TextGroup = styled(motion.div)`
 
   @media (max-width: 768px) {
     top: 20vh;
-    left: 10vw;
+    left: 15vw;
     gap: 1.5rem;
   }
 `;
@@ -143,7 +143,7 @@ export default function TitleSection() {
           <motion.div variants={textVariants} custom={1}>
             <Text
               as="h1"
-              size="clamp(2.8rem, 8vw, 7.5rem)"
+              size="clamp(2.5rem, 8vw, 7.5rem)"
               weight="bold"
               color="primary"
               align="left"
