@@ -32,13 +32,13 @@ export default function FilterBar({
   return (
     <FilterBarWrapper>
       <Dropdown
-        options={['서울', '대전', '대구', '부산']}
+        options={['전체', '서울', '대전', '대구', '부산']}
         selected={locationFilter}
         onSelect={setLocationFilter}
         placeholder="지역"
       />
       <Dropdown
-        options={['정규직', '계약직', '아르바이트', '프리랜서']}
+        options={['전체', '정규직', '계약직', '아르바이트', '프리랜서']}
         selected={typeFilter}
         onSelect={setTypeFilter}
         placeholder="고용형태"
