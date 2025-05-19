@@ -13,15 +13,15 @@ const Section = styled.section`
 
 const StickyWrapper = styled.div`
   position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100vh;
+  width: 100vw;
+  height: 100dvh;
   display: flex;
   justify-content: center;
   background-color: white;
   align-items: center;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 `;
 
 const Wrapper = styled.div`
@@ -45,12 +45,10 @@ const JobText = styled(motion.span)<{ $outline?: boolean }>`
 `;
 
 const BlackSection = styled(motion.div)`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: fixed;
-  top: 0;
-  left: 0;
   z-index: 1;
 `;
 
