@@ -28,6 +28,20 @@ const BackgroundFloatWrapper = styled.div`
     pointer-events: none;
     z-index: 0;
   }
+  .ring {
+    left: 20vw;
+    @media (max-width: 768px) {
+      left: 6vw;
+    }
+  }
+  .cube {
+    right: 8vw;
+    bottom: 5%;
+
+    @media (max-width: 768px) {
+      right: 2vw;
+    }
+  }
 `;
 
 export default function TestPage() {
@@ -84,7 +98,7 @@ export default function TestPage() {
         <Image
           src={waveIcon}
           alt="배경 웨이브"
-          width="clamp(400px, 55vw, 1100px)"
+          width="clamp(450px, 55vw, 1100px)"
           motion="float"
           style={{
             top: 'calc(-5vw)', // 화면 작아지면 더 들어가고 커지면 살짝 튀어나옴
@@ -96,19 +110,19 @@ export default function TestPage() {
           alt="배경 링"
           width="clamp(200px, 20vw, 25vw)"
           motion="float"
+          className="ring"
           style={{
-            top: 'clamp(72%, 75%, 80%)',
-            left: 'clamp(15vw, 20vw, 25vw)',
+            top: 'clamp(80%, 75%, 80%)',
           }}
         />
         <Image
           src={cubeIcon}
           alt="배경 큐브"
-          width="clamp(150px, 15vw, 288px)"
+          width="clamp(170px, 15vw, 288px)"
           motion="float"
+          className="cube"
           style={{
-            bottom: '5%',
-            right: 'calc(8vw)',
+            bottom: 'clamp(25%,5%,5%)',
           }}
         />
       </BackgroundFloatWrapper>
