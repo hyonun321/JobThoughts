@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import IconBack from '../assets/icons/icon-back.svg';
 
+const ANIMATION_DURATION = 300;
+
 type CardFrameProps = {
   step: number;
   renderContent: (step: number) => React.ReactNode;
@@ -135,7 +137,6 @@ export default function CardFrame({
   }, [animating]);
 
   useEffect(() => {
-    // step이 처음 설정될 때만 색상 초기화
     if (internalStep === step) return;
 
     setAnimating(true);
@@ -149,18 +150,18 @@ export default function CardFrame({
         setMiddleCard({ ...backCardRef.current, rotation: -3 });
         setBackCard({
           id: step - 2,
-          color: topCard.color, // 기존 topCard 색상 복사
+          color: topCard.color,
           rotation: 3,
         });
 
         setInternalStep(step);
         setDisplayedStep(step);
         setAnimating(false);
-      }, 600);
+      }, ANIMATION_DURATION);
     } else {
       const newTop = {
         id: step,
-        color: backCard.color, // 기존 backCard 색상 복사
+        color: backCard.color,
         rotation: 0,
       };
       setTopCard(newTop);
@@ -183,7 +184,7 @@ export default function CardFrame({
 
         setInternalStep(step);
         setAnimating(false);
-      }, 600);
+      }, ANIMATION_DURATION);
     }
   }, [step]);
 
@@ -223,7 +224,7 @@ export default function CardFrame({
                 : { rotate: card.rotation }
               : { rotate: card.rotation }
         }
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
+        transition={{ duration: ANIMATION_DURATION / 1000, ease: 'easeInOut' }}
         style={isTop ? { pointerEvents: animating ? 'none' : 'auto' } : undefined}
       >
         <ForegroundContent>
@@ -268,7 +269,7 @@ export function LastCard({ children }: LastCardProps) {
         color="rgba(181, 231, 233, 1)"
         initial={{ x: 0, opacity: 1, rotate: 0 }}
         animate={{ x: 0, opacity: 1, rotate: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: ANIMATION_DURATION / 1000 }}
       >
         <ForegroundContent>
           <ContentWrapper>{children}</ContentWrapper>
