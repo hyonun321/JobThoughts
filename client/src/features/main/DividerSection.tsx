@@ -5,7 +5,9 @@ const Divider = styled.div`
   background: linear-gradient(to bottom, #ffffff 0%, ${({ theme }) => theme.colors.white} 100%);
   width: 100%;
 
-
+  @media (max-width: 768px) {
+    height: 15vh;
+  }
   }
 `;
 

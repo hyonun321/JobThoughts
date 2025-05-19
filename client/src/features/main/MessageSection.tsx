@@ -9,49 +9,100 @@ import iconStar from '../../assets/icons/icon-star.png';
 import iconMoon from '../../assets/icons/icon-moon.png';
 import lyingBear from '../../assets/lying-bear.png';
 
-// ======================= styled components =======================
 const NextSection = styled.section`
   width: 100vw;
-  height: auto;
   background: linear-gradient(to bottom, #000000 0%, #4f63ff 50%, #ffffff 100%);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
+  padding: clamp(40px, 6vw, 100px) 0;
+`;
+
+const ResponsiveBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+const SectionGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(30px, 5vw, 60px);
+  padding: clamp(85px, 6vw, 80px) 0;
 `;
 
 const WordWrap = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  padding: 0 5vw;
+  text-align: center;
+
+  span {
+    font-size: clamp(1.6rem, 6vw, 3.75rem);
+    font-weight: 700;
+  }
 `;
 
-// ======================= animation variants =======================
-const fadeInVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
+const Row = styled(motion.div)<{ align?: 'left' | 'right' }>`
+  width: 100%;
+  display: flex;
+  justify-content: ${({ align }) =>
+    align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
+  padding: 0 10vw;
 
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      delay: i * 0.25,
-    },
-  }),
-};
+  @media (max-width: 768px) {
+    padding: 0 6vw;
+  }
+`;
 
-// ======================= component =======================
+const TextRow = styled(motion.div)<{ align?: 'left' | 'right' }>`
+  width: 100%;
+  display: flex;
+  justify-content: ${({ align }) =>
+    align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
+  padding: 0 10vw;
+
+  @media (max-width: 1100px) {
+    padding: 0 6vw;
+    justify-content: center;
+  }
+`;
+
+const MobileTextWrapper = styled.div<{ align?: 'left' | 'right' }>`
+  display: inline-block;
+  white-space: nowrap;
+  text-align: ${({ align }) => align || 'left'};
+
+  @media (max-width: 1100px) {
+    transform: scale(0.85);
+    transform-origin: center;
+    text-align: center;
+  }
+`;
+
+const FinalSection = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+    margin-top: 20px;
+  }
+`;
+
 export default function MessageSection() {
   const theme = useTheme();
 
-  // 요소별 애니메이션 제어
   const scroll = useScrollAnimation();
   const star = useScrollAnimation();
   const text1 = useScrollAnimation();
@@ -63,107 +114,101 @@ export default function MessageSection() {
 
   return (
     <NextSection>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px' }}>
-        {/* 1. 스크롤 아이콘 */}
-        <motion.div
-          ref={scroll.ref}
-          initial="hidden"
-          animate={scroll.controls}
-          variants={fadeInVariants}
-        >
-          <Image src={iconScroll} alt="스크롤 아이콘" width="80px" motion="float" />
-        </motion.div>
+      <ResponsiveBox>
+        {/* 스크롤 아이콘 영역 */}
+        <SectionGroup>
+          <motion.div
+            ref={scroll.ref}
+            initial="hidden"
+            animate={scroll.controls}
+            variants={fadeInVariants}
+          >
+            <Image
+              src={iconScroll}
+              alt="스크롤 아이콘"
+              width="clamp(40px, 10vw, 80px)"
+              motion="float"
+            />
+          </motion.div>
+        </SectionGroup>
 
-        {/* 2. 별 아이콘 */}
-        <motion.div
-          ref={star.ref}
-          initial="hidden"
-          animate={star.controls}
-          variants={fadeInVariants}
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            margin: '40px 0',
-            marginRight: '35%',
-            width: '100vw',
-          }}
-        >
-          <Image src={iconStar} alt="별 아이콘" width="100px" motion="float" />
-        </motion.div>
+        {/* 별/문장/달 아이콘 영역 */}
+        <SectionGroup>
+          <Row
+            ref={star.ref}
+            initial="hidden"
+            animate={star.controls}
+            variants={fadeInVariants}
+            align="right"
+          >
+            <Image src={iconStar} alt="별 아이콘" width="clamp(50px, 12vw, 100px)" motion="float" />
+          </Row>
 
-        {/* 3. 문장 1 */}
-        <motion.div
-          ref={text1.ref}
-          initial="hidden"
-          animate={text1.controls}
-          variants={fadeInVariants}
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            margin: '40px 0',
-            marginLeft: '35%',
-            width: '100vw',
-          }}
-        >
-          <Text as="h2" size="60px" weight="bold" color="white" align="left">
-            하고 싶은 일을 몰라도 괜찮아요
-          </Text>
-        </motion.div>
+          <TextRow
+            ref={text1.ref}
+            initial="hidden"
+            animate={text1.controls}
+            variants={fadeInVariants}
+            align="left"
+          >
+            <MobileTextWrapper>
+              <Text
+                as="h2"
+                size="clamp(1.3rem, 6vw, 3.75rem)"
+                weight="bold"
+                color="white"
+                align="left"
+              >
+                하고 싶은 일을 몰라도 괜찮아요
+              </Text>
+            </MobileTextWrapper>
+          </TextRow>
 
-        {/* 4. 문장 2 */}
-        <motion.div
-          ref={text2.ref}
-          initial="hidden"
-          animate={text2.controls}
-          variants={fadeInVariants}
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            margin: '40px 0',
-            marginRight: '25%',
-            width: '100vw',
-          }}
-        >
-          <Text as="h2" size="60px" weight="bold" color="white" align="right">
-            우리는 당신에게 맞는 길부터 찾으니까요
-          </Text>
-        </motion.div>
+          <TextRow
+            ref={text2.ref}
+            initial="hidden"
+            animate={text2.controls}
+            variants={fadeInVariants}
+            align="right"
+          >
+            <MobileTextWrapper>
+              <Text
+                as="h2"
+                size="clamp(1.3rem, 6vw, 3.75rem)"
+                weight="bold"
+                color="white"
+                align="right"
+              >
+                우리는 당신에게 맞는 길부터 찾으니까요
+              </Text>
+            </MobileTextWrapper>
+          </TextRow>
 
-        {/* 5. 달 아이콘 */}
-        <motion.div
-          ref={moon.ref}
-          initial="hidden"
-          animate={moon.controls}
-          variants={fadeInVariants}
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            margin: '40px 0',
-            marginTop: '-10px',
-            marginLeft: '30%',
-            width: '100vw',
-          }}
-        >
-          <Image src={iconMoon} alt="달 아이콘" width="110px" motion="float" />
-        </motion.div>
+          <Row
+            ref={moon.ref}
+            initial="hidden"
+            animate={moon.controls}
+            variants={fadeInVariants}
+            align="left"
+          >
+            <Image src={iconMoon} alt="달 아이콘" width="clamp(60px, 14vw, 110px)" motion="float" />
+          </Row>
+        </SectionGroup>
 
-        {/* 6. 누운 곰 + 최종 문장 */}
-        <motion.div
+        {/* 누워있는 곰 영역 */}
+        <SectionGroup
+          as={FinalSection}
           ref={bear.ref}
           initial="hidden"
           animate={bear.controls}
           variants={fadeInVariants}
-          style={{
-            textAlign: 'center',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
         >
-          <Image src={lyingBear} alt="누워있는 곰" width="450px" motion="float" />
-
-          {/* 마지막 문장 - 단어별 애니메이션 */}
+          <Image
+            src={lyingBear}
+            alt="누워있는 곰"
+            width="clamp(200px, 40vw, 450px)"
+            motion="float"
+          />
           <WordWrap>
             {words.map((word, i) => (
               <motion.span
@@ -173,7 +218,6 @@ export default function MessageSection() {
                 whileInView="visible"
                 variants={wordVariants}
                 viewport={{ once: false, amount: 0.5 }}
-                style={{ fontSize: '60px', fontWeight: 700, color: theme.colors.gray900 }}
               >
                 {i === 0 ? (
                   <>
@@ -185,8 +229,30 @@ export default function MessageSection() {
               </motion.span>
             ))}
           </WordWrap>
-        </motion.div>
-      </div>
+        </SectionGroup>
+      </ResponsiveBox>
     </NextSection>
   );
 }
+
+// ============ animation variants ============
+const fadeInVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' },
+  },
+};
+
+const wordVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      delay: i * 0.15,
+    },
+  }),
+};

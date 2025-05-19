@@ -72,7 +72,7 @@ const DescriptionWrapper = styled(motion.div)`
   }
 `;
 
-const ErrorContainer = styled.div`
+const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,7 +102,6 @@ const slideInVariants = {
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [fetchTried, setFetchTried] = useState(false);
 
   const { answers } = useTestStore();
   const { result, setResult } = useResultStore();
@@ -115,9 +114,7 @@ export default function ResultPage() {
   };
 
   useEffect(() => {
-    (() => {
-      window.addEventListener('beforeunload', preventClose);
-    })();
+    window.addEventListener('beforeunload', preventClose);
 
     return () => {
       window.removeEventListener('beforeunload', preventClose);
@@ -145,20 +142,19 @@ export default function ResultPage() {
         console.error(err);
       })
       .finally(() => {
-        setFetchTried(true);
         setLoading(false);
       });
   }, [answers, result, setResult]);
 
   if (loading)
     return (
-      <ErrorContainer>
+      <LoadingContainer>
         <Loading message="결과를 불러오는 중이에요..." />
-      </ErrorContainer>
+      </LoadingContainer>
     );
 
   // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
-  if (!loading && (!answers || answers.length === 0 || (fetchTried && !result))) {
+  if (!answers || answers.length === 0 || !result) {
     return (
       <NoResult
         title="404 Page Not Found"

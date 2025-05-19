@@ -39,9 +39,14 @@ const StepWrapper = styled.div`
   padding-left: 20vw;
   left: 0;
 
+  @media (max-width: 1024px) {
+    padding-left: 10vw;
+  }
+
   @media (max-width: 768px) {
     padding-left: 0;
     align-items: center;
+    gap: 1.5rem;
   }
 `;
 
