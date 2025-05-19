@@ -32,13 +32,13 @@ const SectionGroup = styled.div`
   flex-direction: column;
   align-items: center;
   gap: clamp(30px, 5vw, 60px);
-  padding: clamp(85px, 6vw, 80px) 0;
+  padding: clamp(100px, 6vw, 80px) 0;
 `;
 
 const WordWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   align-items: center;
   padding: 0 5vw;
@@ -55,29 +55,40 @@ const Row = styled(motion.div)<{ align?: 'left' | 'right' }>`
   display: flex;
   justify-content: ${({ align }) =>
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
-  padding: 0 10vw;
+  padding: ${({ align }) => {
+    if (align === 'right') return '0 0 0 10vw';
+    if (align === 'left') return '0 10vw 0 0';
+    return '0 10vw';
+  }};
 
   @media (max-width: 768px) {
     padding: 0 6vw;
   }
 `;
 
-const TextRow = styled(motion.div)<{ align?: 'left' | 'right' }>`
+const TextRow = styled(motion.div)<{ align?: 'left' | 'right'; isSecond?: boolean }>`
   width: 100%;
   display: flex;
   justify-content: ${({ align }) =>
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
   padding: 0 10vw;
 
+  @media (min-width: 1100px) {
+    ${({ isSecond }) => (isSecond ? 'margin-right: -70px;' : 'margin-left: -300px;')}
+  }
+
   @media (max-width: 1100px) {
     padding: 0 6vw;
     justify-content: center;
+    margin: 0;
+    text-align: center;
   }
 `;
 
 const MobileTextWrapper = styled.div<{ align?: 'left' | 'right' }>`
   display: inline-block;
   white-space: nowrap;
+  width: 100%;
   text-align: ${({ align }) => align || 'left'};
 
   @media (max-width: 1100px) {
@@ -95,8 +106,8 @@ const FinalSection = styled(motion.div)`
   margin-top: 40px;
 
   @media (max-width: 768px) {
-    gap: 16px;
-    margin-top: 20px;
+    gap: 1px;
+    margin-top: 40px;
   }
 `;
 
@@ -151,13 +162,13 @@ export default function MessageSection() {
             variants={fadeInVariants}
             align="left"
           >
-            <MobileTextWrapper>
+            <MobileTextWrapper align="left">
               <Text
                 as="h2"
                 size="clamp(1.3rem, 6vw, 3.75rem)"
                 weight="bold"
                 color="white"
-                align="left"
+                align="center"
               >
                 하고 싶은 일을 몰라도 괜찮아요
               </Text>
@@ -170,14 +181,15 @@ export default function MessageSection() {
             animate={text2.controls}
             variants={fadeInVariants}
             align="right"
+            isSecond
           >
-            <MobileTextWrapper>
+            <MobileTextWrapper align="right">
               <Text
                 as="h2"
                 size="clamp(1.3rem, 6vw, 3.75rem)"
                 weight="bold"
                 color="white"
-                align="right"
+                align="center"
               >
                 우리는 당신에게 맞는 길부터 찾으니까요
               </Text>
@@ -206,7 +218,7 @@ export default function MessageSection() {
           <Image
             src={lyingBear}
             alt="누워있는 곰"
-            width="clamp(200px, 40vw, 450px)"
+            width="clamp(240px, 40vw, 450px)"
             motion="float"
           />
           <WordWrap>
