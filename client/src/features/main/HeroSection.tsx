@@ -3,6 +3,7 @@ import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { jobRows } from '../../data/jobRows';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 const Section = styled.section`
   width: 100%;
   height: 300vh;
@@ -69,7 +70,11 @@ export default function HeroSection() {
     setHideSticky(latest > 0.9999999); // 기준값은 자유롭게 조정 가능
   });
   const blackOpacity = useTransform(smoothScroll, [0.5, 0.6], [0, 1]);
-  const fontSize = useTransform(smoothScroll, [0, 1], ['6rem', '400rem']);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isHeightMobile = useMediaQuery('(max-height: 768px)');
+  const calFromSize = isMobile ? '5.5rem' : '8rem';
+  const fromSize = isHeightMobile ? '4.5rem' : calFromSize;
+  const fontSize = useTransform(smoothScroll, [0, 1], [fromSize, '400rem']);
   return (
     <Section ref={containerRef}>
       {!hideSticky && (
