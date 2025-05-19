@@ -4,7 +4,7 @@ import { loadCacheFromFile, saveCacheToFile } from '../utils/cacheStore.js';
 
 let persistentCache = loadCacheFromFile();
 
-export const getReportHandler = async (req, res, cache) => {
+export const getReportHandler = async (req, res) => {
   const { answers } = req.body;
 
   if (!answers) {
