@@ -36,9 +36,12 @@ const CardWrapper = styled.div<{
   selected: boolean;
   width?: string;
   height?: string;
+  mode?: 'info' | 'default';
 }>`
-  width: ${({ width }) => width || '240px'};
-  height: ${({ height }) => height || '240px'};
+  width: ${({ width }) =>
+    width ? `clamp(100px, ${parseInt(width)}px, 240px)` : 'clamp(120px, 35vw, 240px)'};
+  height: ${({ height }) =>
+    height ? `clamp(100px, ${parseInt(height)}px, 240px)` : 'clamp(120px, 35vw, 240px)'};
   background-color: ${({ theme, selected }) => (selected ? '#e0f0ff' : theme.colors.white)};
   border-radius: 30px;
   display: flex;
@@ -59,6 +62,13 @@ const CardWrapper = styled.div<{
         inset 10px 10px 10px 4px rgba(255, 255, 255, 0.6),
         inset -5px -5px 15px 4px rgba(193, 215, 249, 1)
         `};
+  @media (max-width: 920px) {
+    width: ${({ mode }) => (mode === 'info' ? 'clamp(64px, 24vw, 90px)' : '90%')};
+    height: ${({ mode }) => (mode === 'info' ? 'clamp(64px, 24vw, 90px)' : 'auto')};
+    flex-direction: ${({ mode }) => (mode === 'info' ? 'column' : 'row')};
+    gap: ${({ mode }) => (mode === 'info' ? '0.25rem' : '1rem')};
+    padding: ${({ mode }) => (mode === 'info' ? '0.4rem 0' : '1rem 1.25rem')};
+  }
 `;
 
 // 아이콘 스타일
@@ -66,14 +76,49 @@ const CardIcon = styled.img`
   margin-top: -18px;
   width: 65%;
   height: 65%;
+
+  @media (max-width: 920px) {
+    width: 48px;
+    height: 48px;
+    margin-top: 0;
+  }
+
+  @media (max-width: 780px) {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+`;
+
+// 텍스트 그룹
+const TextBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  @media (max-width: 920px) {
+    flex: 1;
+    align-items: flex-start;
+    min-width: 0; // 줄바꿈 방지
+  }
 `;
 
 // 텍스트 스타일
 const CardLabel = styled.span`
   margin-top: -10px;
-  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.fontSize.lg};
+
+  white-space: nowrap; // ✅ 줄바꿈 방지
+  text-align: center;
+
+  @media (max-width: 920px) {
+    margin-top: 0;
+    font-size: ${({ theme }) => theme.fontSize.m};
+  }
 `;
 
 // 텍스트 스타일 : Inform섹션용
@@ -81,6 +126,14 @@ const InfoCardLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.colors.black};
+
+  @media (max-width: 920px) {
+    font-size: ${({ theme }) => theme.fontSize.s};
+  }
+
+  @media (max-width: 780px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
+  }
 `;
 
 // 가치 설명 텍스트용 스타일
@@ -91,6 +144,12 @@ const CardDescription = styled.span`
   text-align: center;
   margin-top: 0.25rem;
   line-height: 1.4;
+
+  @media (max-width: 920px) {
+    text-align: left;
+    max-width: 100%;
+    margin-top: 0.3rem;
+  }
 `;
 
 // ================= Card Component =================
@@ -110,10 +169,13 @@ export default function Card({ value, selected, onClick, width, height, descript
       }}
       width={width}
       height={height}
+      mode="default"
     >
       <CardIcon src={icon} alt={`${value} 아이콘`} />
-      <CardLabel>{value}</CardLabel>
-      {description && <CardDescription>{description}</CardDescription>}
+      <TextBlock>
+        <CardLabel>{value}</CardLabel>
+        {description && <CardDescription>{description}</CardDescription>}
+      </TextBlock>
     </CardWrapper>
   );
 }
@@ -130,6 +192,7 @@ export function InfoCard({ value, selected, width, height }: Props) {
       }}
       width={width}
       height={height}
+      mode="info"
     >
       <CardIcon src={icon} alt={`${value} 아이콘`} />
       <InfoCardLabel>{value}</InfoCardLabel>
