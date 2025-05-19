@@ -55,11 +55,15 @@ const ExampleBlock = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+
+  @media (max-width: 780px) {
+    align-items: center;
+  }
 `;
 
 const SampleWrapper = styled.div`
   width: 100%;
-  height: 250px;
+  height: clamp(180px, 35vh, 250px);
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 20px;
   margin-top: 6px;
@@ -71,9 +75,13 @@ const SampleWrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
-  width: 850px;
-  padding: 0 1rem;
+  width: 100%;
+  padding: 0;
   box-sizing: border-box;
+
+  @media (max-width: 780px) {
+    width: 100%;
+  }
 `;
 
 const InfoTag = styled.div`
@@ -87,11 +95,21 @@ const InfoTag = styled.div`
   font-size: ${({ theme }) => theme.fontSize.ml};
   box-shadow: 1px 2px 6px rgba(79, 99, 255, 0.4);
   width: fit-content;
+
+  @media (max-width: 780px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    padding: 3px 35px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
   position: absolute;
   top: calc(88%);
+
+  @media (max-width: 780px) {
+    top: auto;
+    bottom: 5%;
+  }
 `;
 
 // 검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
@@ -100,6 +118,11 @@ const InfoCardWrapper = styled.div`
   gap: 30px;
   & > * {
     cursor: default !important;
+  }
+
+  @media (max-width: 780px) {
+    align-items: center;
+    gap: 0.5rem;
   }
 `;
 
@@ -110,7 +133,13 @@ const renderCardContent = () => (
   <CardContent>
     <InfoBlock>
       <TextWrapper>
-        <Text as="h2" size="ml" weight="bold" color="black" align="center">
+        <Text
+          as="h2"
+          size="clamp(0.75rem, 2vw, 1.125rem)"
+          weight="bold"
+          color="black"
+          align="center"
+        >
           직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
           여기는가를 살펴보고, 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는
           검사입니다.
@@ -119,18 +148,30 @@ const renderCardContent = () => (
 
       <ExampleBlock>
         <InfoTag>검사 진행방법</InfoTag>
-        <Text as="p" size="m" weight="medium" color="gray900" align="center">
+        <Text
+          as="p"
+          size="clamp(0.625rem, 2vw, 0.875rem)"
+          weight="medium"
+          color="gray900"
+          align="center"
+        >
           각 문항별로 짝을 지어 제시되는 두 가지 항목 중에서 자신에게 더 중요한 것에 응답해
           주십시오.
         </Text>
 
         <SampleWrapper>
-          <Text as="p" size="s" weight="medium" color="black" align="center">
+          <Text
+            as="p"
+            size="clamp(0.625rem, 2vw, 0.875rem)"
+            weight="medium"
+            color="black"
+            align="center"
+          >
             두 가치 중 자신에게 더 중요한 가치를 선택하세요.
           </Text>
           <Text
             as="p"
-            size="s"
+            size="clamp(0.625rem, 2vw, 0.875rem)"
             weight="light"
             color="black"
             align="center"
