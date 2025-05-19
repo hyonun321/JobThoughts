@@ -71,8 +71,8 @@ const TextRow = styled(motion.div)<{ align?: 'left' | 'right'; isSecond?: boolea
   padding: 0 10vw;
 
   @media (min-width: 1100px) {
-    margin-right: ${({ isSecond }) => (isSecond ? '-70px' : '0')};
-    margin-left: ${({ isSecond }) => (isSecond ? '0' : '-300px')};
+    margin-right: ${({ isSecond }) => (isSecond ? '-15%' : '0')};
+    margin-left: ${({ isSecond }) => (isSecond ? '0' : '-32%')};
   }
 
   @media (max-width: 1100px) {
