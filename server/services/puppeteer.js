@@ -1,6 +1,7 @@
 import puppeteer, { executablePath } from 'puppeteer';
 
 export default async function getChartDataFromReportUrl(resultUrl) {
+  console.log('test:', executablePath());
   const browser = await puppeteer.launch({
     headless: 'new',
     executablePath: executablePath(),
