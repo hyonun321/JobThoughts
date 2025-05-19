@@ -1,5 +1,5 @@
 import styled, { useTheme } from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import IconBack from '../assets/icons/icon-back.svg';
 
@@ -8,6 +8,7 @@ type CardFrameProps = {
   renderContent: (step: number) => React.ReactNode;
   onBack?: () => void;
   direction?: 'forward' | 'backward';
+  onAnimatingChange?: (animating: boolean) => void;
 };
 
 type LastCardProps = {
@@ -77,6 +78,7 @@ export default function CardFrame({
   renderContent,
   onBack,
   direction = 'forward',
+  onAnimatingChange,
 }: CardFrameProps) {
   const theme = useTheme();
 
@@ -101,6 +103,25 @@ export default function CardFrame({
     rotation: 3,
   });
 
+  // direction 최신값 보존용
+  const directionRef = useRef(direction);
+  useEffect(() => {
+    directionRef.current = direction;
+  }, [direction]);
+
+  // 상태 유지용 ref
+  const middleCardRef = useRef(middleCard);
+  const backCardRef = useRef(backCard);
+  useEffect(() => {
+    middleCardRef.current = middleCard;
+    backCardRef.current = backCard;
+  }, [middleCard, backCard]);
+
+  // animating 상태 외부로 전달
+  useEffect(() => {
+    onAnimatingChange?.(animating);
+  }, [animating]);
+
   useEffect(() => {
     setTopCard({ id: step, color: getColor(step), rotation: 0 });
     setMiddleCard({ id: step - 1, color: getColor(step - 1), rotation: -3 });
@@ -111,13 +132,13 @@ export default function CardFrame({
     if (step === internalStep) return;
     setAnimating(true);
 
-    if (direction === 'forward') {
+    if (directionRef.current === 'forward') {
       setMiddleCard((prev) => ({ ...prev, rotation: 0 }));
       setBackCard((prev) => ({ ...prev, rotation: -3 }));
 
       setTimeout(() => {
-        setTopCard({ ...middleCard, color: getColor(step), rotation: 0 });
-        setMiddleCard({ ...backCard, color: getColor(step - 1), rotation: -3 });
+        setTopCard({ ...middleCardRef.current, color: getColor(step), rotation: 0 });
+        setMiddleCard({ ...backCardRef.current, color: getColor(step - 1), rotation: -3 });
         setBackCard({ id: step - 2, color: getColor(step - 2), rotation: 3 });
 
         setInternalStep(step);
@@ -140,7 +161,7 @@ export default function CardFrame({
         setAnimating(false);
       }, 600);
     }
-  }, [step, direction, internalStep]); // ✅ 불필요한 상태 제거
+  }, [step]); // ✅ 불필요한 상태 제거
 
   const renderCard = (
     card: typeof topCard,
@@ -150,30 +171,29 @@ export default function CardFrame({
     showBackBtn = false
   ) => {
     const isTopAnim = isTop && animating;
-    const isBackFading = direction === 'backward' && z === 0 && animating;
 
     return (
       <AnimatedCard
-        key={`${isTop ? 'top' : 'card'}-${card.id}-${z}`}
+        key={`${isTop ? 'top' : 'card'}-${card.id}-${z}-${directionRef.current}`}
         z={z}
         color={card.color}
         initial={
           isTop
             ? {
-                x: direction === 'backward' ? -400 : 0,
-                opacity: direction === 'backward' ? 0 : 1,
-                rotate: direction === 'backward' ? -10 : 0,
+                x: directionRef.current === 'backward' ? -400 : 0,
+                opacity: directionRef.current === 'backward' ? 0 : 1,
+                rotate: directionRef.current === 'backward' ? -10 : 0,
               }
             : undefined
         }
         animate={
           isTop
             ? isTopAnim
-              ? direction === 'forward'
+              ? directionRef.current === 'forward'
                 ? { x: -400, opacity: 0, rotate: -10 }
                 : { x: 0, opacity: 1, rotate: 0 }
               : { x: 0, opacity: 1, rotate: 0 }
-            : isBackFading
+            : directionRef.current === 'backward' && z === 0 && animating
               ? waitForTimeout
                 ? { opacity: 0 }
                 : { rotate: card.rotation }
