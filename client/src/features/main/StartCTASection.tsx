@@ -8,7 +8,8 @@ import Button from '../../components/Button';
 import Image from '../../components/Image';
 import rocketImg from '../../assets/icons/icon-rocket.svg';
 import keyImg from '../../assets/icons/icon-key.svg';
-import bearImg from '../../assets/start-bear.svg';
+import bearBodyImg from '../../assets/bears/bears-cta-body.svg';
+import bearHandImg from '../../assets/bears/bears-cta-hand.svg';
 import arrowImg from '../../assets/icons/icon-start-arrow.svg';
 
 // ======================== 타입 ========================
@@ -50,6 +51,22 @@ const ButtonWrapper = styled(motion.div)`
   justify-content: center;
 `;
 
+const BearWrapper = styled.div`
+  position: relative;
+  z-index: 1;
+  width: 300px;
+`;
+
+const BearHandWrapper = styled.div`
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+`;
+
+const BearBodyWrapper = styled.div`
+  position: relative;
+  z-index: 2;
+`;
 // 아이콘(화살표/열쇠/우주선) 위치 지정용 wrapper
 const PositionedWrapper = styled(motion.div)<{
   top?: string;
@@ -172,7 +189,14 @@ export default function StartCTASection() {
         animate={bear.controls}
         variants={fadeInVariants}
       >
-        <Image src={bearImg} alt="곰 캐릭터" width="100%" />
+        <BearWrapper>
+          <BearBodyWrapper>
+            <Image src={bearBodyImg} alt="곰 몸통" width="100%" />
+          </BearBodyWrapper>
+          <BearHandWrapper>
+            <Image src={bearHandImg} alt="곰 손" width="100%" motion="shake" />
+          </BearHandWrapper>
+        </BearWrapper>
       </MotionCharacter>
     </CTAWrapper>
   );
