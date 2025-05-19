@@ -118,7 +118,7 @@ export default function FlowButtonSection() {
             style={{ display: 'flex', justifyContent: 'flex-end', position: 'relative' }}
           >
             <Image
-              style={{ width: 'clamp(200px, 25vw, 450px)', height: 'auto' }}
+              style={{ width: 'clamp(150px, 25vw, 450px)', height: 'auto' }}
               src={flowBear}
               alt="flow bear"
               motion="float"
