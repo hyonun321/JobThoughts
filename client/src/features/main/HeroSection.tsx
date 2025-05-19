@@ -3,6 +3,7 @@ import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { jobRows } from '../../data/jobRows';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 const Section = styled.section`
   width: 100%;
   height: 300vh;
@@ -13,15 +14,15 @@ const Section = styled.section`
 
 const StickyWrapper = styled.div`
   position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100vh;
+  width: 100vw;
+  height: 100dvh;
   display: flex;
   justify-content: center;
   background-color: white;
   align-items: center;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 `;
 
 const Wrapper = styled.div`
@@ -45,12 +46,10 @@ const JobText = styled(motion.span)<{ $outline?: boolean }>`
 `;
 
 const BlackSection = styled(motion.div)`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: fixed;
-  top: 0;
-  left: 0;
   z-index: 1;
 `;
 
@@ -71,7 +70,11 @@ export default function HeroSection() {
     setHideSticky(latest > 0.9999999); // 기준값은 자유롭게 조정 가능
   });
   const blackOpacity = useTransform(smoothScroll, [0.5, 0.6], [0, 1]);
-  const fontSize = useTransform(smoothScroll, [0, 1], ['6rem', '400rem']);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isHeightMobile = useMediaQuery('(max-height: 768px)');
+  const calFromSize = isMobile ? '5.5rem' : '8rem';
+  const fromSize = isHeightMobile ? '4.5rem' : calFromSize;
+  const fontSize = useTransform(smoothScroll, [0, 1], [fromSize, '400rem']);
   return (
     <Section ref={containerRef}>
       {!hideSticky && (
