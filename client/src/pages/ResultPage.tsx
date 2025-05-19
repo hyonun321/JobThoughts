@@ -72,7 +72,7 @@ const DescriptionWrapper = styled(motion.div)`
   }
 `;
 
-const ErrorContainer = styled.div`
+const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,9 +114,7 @@ export default function ResultPage() {
   };
 
   useEffect(() => {
-    (() => {
-      window.addEventListener('beforeunload', preventClose);
-    })();
+    window.addEventListener('beforeunload', preventClose);
 
     return () => {
       window.removeEventListener('beforeunload', preventClose);
@@ -150,9 +148,9 @@ export default function ResultPage() {
 
   if (loading)
     return (
-      <ErrorContainer>
+      <LoadingContainer>
         <Loading message="결과를 불러오는 중이에요..." />
-      </ErrorContainer>
+      </LoadingContainer>
     );
 
   // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
