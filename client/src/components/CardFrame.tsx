@@ -1,13 +1,17 @@
 import styled, { useTheme } from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import IconBack from '../assets/icons/icon-back.svg';
+
+const ANIMATION_DURATION = 300;
 
 type CardFrameProps = {
   step: number;
   renderContent: (step: number) => React.ReactNode;
   onBack?: () => void;
   direction?: 'forward' | 'backward';
+  onAnimatingChange?: (animating: boolean) => void;
+  total?: number;
 };
 
 type LastCardProps = {
@@ -57,7 +61,6 @@ const ContentWrapper = styled.div`
   gap: 2rem;
 `;
 
-// 이전 질문 이동 버튼
 const BackButton = styled.button`
   position: absolute;
   top: 1rem;
@@ -73,11 +76,26 @@ const BackButton = styled.button`
   }
 `;
 
+const StepIndicator = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: -0.5rem;
+  z-index: 5;
+  font-size: ${({ theme }) => theme.fontSize.m};
+  color: ${({ theme }) => theme.colors.black};
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+`;
+
 export default function CardFrame({
   step,
   renderContent,
   onBack,
   direction = 'forward',
+  onAnimatingChange,
+  total,
 }: CardFrameProps) {
   const theme = useTheme();
 
@@ -86,7 +104,11 @@ export default function CardFrame({
   const [animating, setAnimating] = useState(false);
   const [waitForTimeout, setWaitForTimeout] = useState(false);
 
-  const [topCard, setTopCard] = useState({ id: step, color: theme.colors.deco2, rotation: 0 });
+  const [topCard, setTopCard] = useState({
+    id: step,
+    color: theme.colors.deco2,
+    rotation: 0,
+  });
   const [middleCard, setMiddleCard] = useState({
     id: step - 1,
     color: 'rgba(220, 234, 255, 1)',
@@ -98,33 +120,50 @@ export default function CardFrame({
     rotation: 3,
   });
 
+  const directionRef = useRef(direction);
   useEffect(() => {
-    setTopCard({ id: step, color: theme.colors.deco2, rotation: 0 });
-    setMiddleCard({ id: step - 1, color: 'rgba(220, 234, 255, 1)', rotation: -3 });
-    setBackCard({ id: step - 2, color: 'rgba(191, 217, 255, 1)', rotation: 3 });
-  }, [theme]);
+    directionRef.current = direction;
+  }, [direction]);
+
+  const middleCardRef = useRef(middleCard);
+  const backCardRef = useRef(backCard);
+  useEffect(() => {
+    middleCardRef.current = middleCard;
+    backCardRef.current = backCard;
+  }, [middleCard, backCard]);
 
   useEffect(() => {
-    if (step === internalStep) return;
+    onAnimatingChange?.(animating);
+  }, [animating]);
+
+  useEffect(() => {
+    if (internalStep === step) return;
+
     setAnimating(true);
 
-    if (direction === 'forward') {
-      // forward: 중간 -> 탑, 백 -> 중간, 새 백 생성
+    if (directionRef.current === 'forward') {
       setMiddleCard((prev) => ({ ...prev, rotation: 0 }));
       setBackCard((prev) => ({ ...prev, rotation: -3 }));
 
       setTimeout(() => {
-        setTopCard({ ...middleCard, rotation: 0 });
-        setMiddleCard({ ...backCard, rotation: -3 });
-        setBackCard({ id: step - 2, color: topCard.color, rotation: 3 });
+        setTopCard({ ...middleCardRef.current, rotation: 0 });
+        setMiddleCard({ ...backCardRef.current, rotation: -3 });
+        setBackCard({
+          id: step - 2,
+          color: topCard.color,
+          rotation: 3,
+        });
 
         setInternalStep(step);
         setDisplayedStep(step);
         setAnimating(false);
-      }, 600);
+      }, ANIMATION_DURATION);
     } else {
-      // backward: 백 -> 탑 (0), 탑 -> 중간 (-3), 중간 -> 백 (3)
-      const newTop = { id: step, color: backCard.color, rotation: 0 };
+      const newTop = {
+        id: step,
+        color: backCard.color,
+        rotation: 0,
+      };
       setTopCard(newTop);
       setDisplayedStep(step);
       setWaitForTimeout(false);
@@ -132,16 +171,23 @@ export default function CardFrame({
       setTimeout(() => {
         setWaitForTimeout(true);
         setTopCard(newTop);
-        setMiddleCard({ id: topCard.id, color: topCard.color, rotation: -3 });
-        setBackCard({ id: middleCard.id, color: middleCard.color, rotation: 3 });
+        setMiddleCard({
+          id: topCard.id,
+          color: topCard.color,
+          rotation: -3,
+        });
+        setBackCard({
+          id: middleCard.id,
+          color: middleCard.color,
+          rotation: 3,
+        });
 
         setInternalStep(step);
         setAnimating(false);
-      }, 600);
+      }, ANIMATION_DURATION);
     }
   }, [step]);
 
-  // 카드 하나를 렌더링하는 함수
   const renderCard = (
     card: typeof topCard,
     z: number,
@@ -150,36 +196,35 @@ export default function CardFrame({
     showBackBtn = false
   ) => {
     const isTopAnim = isTop && animating;
-    const isBackFading = direction === 'backward' && z === 0 && animating;
 
     return (
       <AnimatedCard
-        key={`${isTop ? 'top' : 'card'}-${card.id}`}
+        key={`${isTop ? 'top' : 'card'}-${card.id}-${z}-${directionRef.current}`}
         z={z}
         color={card.color}
         initial={
           isTop
             ? {
-                x: direction === 'backward' ? -400 : 0,
-                opacity: direction === 'backward' ? 0 : 1,
-                rotate: direction === 'backward' ? -10 : 0,
+                x: directionRef.current === 'backward' ? -400 : 0,
+                opacity: directionRef.current === 'backward' ? 0 : 1,
+                rotate: directionRef.current === 'backward' ? -10 : 0,
               }
             : undefined
         }
         animate={
           isTop
             ? isTopAnim
-              ? direction === 'forward'
+              ? directionRef.current === 'forward'
                 ? { x: -400, opacity: 0, rotate: -10 }
                 : { x: 0, opacity: 1, rotate: 0 }
               : { x: 0, opacity: 1, rotate: 0 }
-            : isBackFading
+            : directionRef.current === 'backward' && z === 0 && animating
               ? waitForTimeout
                 ? { opacity: 0 }
                 : { rotate: card.rotation }
               : { rotate: card.rotation }
         }
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
+        transition={{ duration: ANIMATION_DURATION / 1000, ease: 'easeInOut' }}
         style={isTop ? { pointerEvents: animating ? 'none' : 'auto' } : undefined}
       >
         <ForegroundContent>
@@ -188,6 +233,11 @@ export default function CardFrame({
               <BackButton onClick={onBack}>
                 <img src={IconBack} alt="이전" />
               </BackButton>
+            )}
+            {total && (
+              <StepIndicator>
+                {displayedStep + 1} / {total}
+              </StepIndicator>
             )}
             {content}
           </ContentWrapper>
@@ -200,13 +250,7 @@ export default function CardFrame({
     <FrameWrapper>
       {renderCard(backCard, 0, renderContent(displayedStep + 2))}
       {renderCard(middleCard, 1, renderContent(displayedStep + 1))}
-      {renderCard(
-        topCard,
-        2,
-        renderContent(displayedStep),
-        true,
-        displayedStep > 0 // <- 현재 보여지고 있는 카드 기준으로 버튼 노출
-      )}
+      {renderCard(topCard, 2, renderContent(displayedStep), true, displayedStep > 0)}
     </FrameWrapper>
   );
 }
@@ -225,7 +269,7 @@ export function LastCard({ children }: LastCardProps) {
         color="rgba(181, 231, 233, 1)"
         initial={{ x: 0, opacity: 1, rotate: 0 }}
         animate={{ x: 0, opacity: 1, rotate: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: ANIMATION_DURATION / 1000 }}
       >
         <ForegroundContent>
           <ContentWrapper>{children}</ContentWrapper>

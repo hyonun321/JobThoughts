@@ -1,54 +1,17 @@
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import ResultChart from '../features/result/ResultChart';
 import ResultDescriptionCard from '../features/result/ResultDescriptionCard';
 import JobGroupSection from '../features/result/JobGroupSection';
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import ClickFinger from '../../src/assets/icons/icon-click-finger.svg';
 import { theme } from '../../src/styles/theme';
-import axios from 'axios';
-import { mockAnswersData } from '../data/mockAnswersData';
-
-const LayoutTitle = styled.div`
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-
-  h1 {
-    text-align: center;
-    color: ${theme.colors.gray900};
-    font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
-    font-weight: normal;
-    transform: translateX(40px);
-  }
-
-  span {
-    color: ${theme.colors.primary};
-  }
-
-  .image-wrapper {
-    width: clamp(40px, 18vw, 200px);
-    margin-left: -35px;
-    margin-top: -50px;
-  }
-
-  @media (max-width: 768px) {
-    .image-wrapper {
-      margin-left: -25px;
-      margin-top: -40px;
-    }
-  }
-  @media (max-width: 485px) {
-    .image-wrapper {
-      margin-left: -15px;
-      margin-top: -30px;
-    }
-    h1 {
-      transform: translateX(20px);
-    }
-  }
-`;
+import { useTestStore } from '../store/useTestStore';
+import { useResultStore } from '../store/useResultStore';
+import { postReport } from '../api/report';
+import Loading from '../components/Loading';
+import NoResult from '../components/NoResult';
+import { useNavigate } from 'react-router-dom';
 
 const ResultSection = styled.div`
   padding: 0px 20px;
@@ -57,14 +20,41 @@ const ResultSection = styled.div`
   flex-direction: column;
 `;
 
+const ChartInfoText = styled.div`
+  position: relative;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+    color: ${theme.colors.gray900};
+    font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
+    font-weight: normal;
+  }
+
+  span {
+    color: ${theme.colors.primary};
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url(${ClickFinger});
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: clamp(40px, 18vw, 150px);
+    height: clamp(40px, 18vw, 200px);
+    top: -40%;
+    left: calc(100% - 40px);
+  }
+`;
+
 const ResultTopWrapper = styled.div`
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: 4rem;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
   min-height: clamp(400px, 60vw, 500px);
 `;
 
@@ -82,11 +72,17 @@ const DescriptionWrapper = styled(motion.div)`
   }
 `;
 
-// ======================= animation variants =======================
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 const layoutSpring = {
-  type: 'spring', // spring 애니메이션 적용
-  stiffness: 40, // 낮을수록 부드럽고 천천히 감
-  damping: 20, // 감쇠율을 높이면 느리게 멈춤, 기본적으로 20
+  type: 'spring',
+  stiffness: 40,
+  damping: 20,
 };
 
 const slideInVariants = {
@@ -103,59 +99,101 @@ const slideInVariants = {
   },
 };
 
-// ======================= components =======================
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
-  const [chartData, setChartData] = useState([]);
-  const [topValues, setTopValues] = useState([]);
-  const [jobsByMajor, setJobsByMajor] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [fetchTried, setFetchTried] = useState(false);
+
+  const { answers } = useTestStore();
+  const { result, setResult } = useResultStore();
+
+  const navigate = useNavigate();
+
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
 
   useEffect(() => {
-    const fetchResultData = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.post('/api/report', { answer: mockAnswersData });
-        console.log(data);
-        setChartData(
-          data.results.scores.map(
-            (item: { name: string; score: number; description?: string }) => ({
-              type: item.name,
-              score: item.score,
-              description: item.description,
-            })
-          )
-        );
-        setTopValues(data.results.topValues);
-        setJobsByMajor(data.results.jobsByMajor);
-      } catch (error) {
-        console.error('결과 가져오기 실패:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    (() => {
+      window.addEventListener('beforeunload', preventClose);
+    })();
 
-    fetchResultData();
+    return () => {
+      window.removeEventListener('beforeunload', preventClose);
+    };
   }, []);
 
-  if (loading) {
-    return <div>결과를 불러오는 중입니다...</div>;
+  useEffect(() => {
+    if (result) {
+      setLoading(false);
+      return;
+    }
+
+    // ✅ answers가 없으면 리포트 요청하지 않음
+    if (!answers || answers.length === 0) {
+      setLoading(false);
+      return;
+    }
+
+    postReport(answers)
+      .then((res) => {
+        const resultData = res.results;
+        setResult(resultData);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setFetchTried(true);
+        setLoading(false);
+      });
+  }, [answers, result, setResult]);
+
+  if (loading)
+    return (
+      <ErrorContainer>
+        <Loading message="결과를 불러오는 중이에요..." />
+      </ErrorContainer>
+    );
+
+  // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
+  if (!loading && (!answers || answers.length === 0 || (fetchTried && !result))) {
+    return (
+      <NoResult
+        title="404 Page Not Found"
+        description="요청하신 테스트 결과를 찾을 수 없습니다."
+        subDescription={
+          <>
+            아래 버튼을 눌러 다시 검사해 보세요!
+            <br />
+            당신에게 꼭 맞는 직업과 채용 정보를 안내해드릴게요.
+          </>
+        }
+        buttonText="다시 검사하기"
+        onButtonClick={() => navigate('/test')}
+      />
+    );
   }
+
+  const chartData = result!.scores.map((s) => ({
+    type: s.name,
+    score: s.score,
+  }));
 
   return (
     <ResultSection>
-      <LayoutTitle>
+      <ChartInfoText>
         <h1>
           차트의 각 항목을 <span>클릭</span> 해보세요!
           <br />
           나의 직업 가치관에 대한 설명을 확인할 수 있어요
         </h1>
-        <img className="image-wrapper" src={ClickFinger} alt="클릭하는 손가락 아이콘" />
-      </LayoutTitle>
+      </ChartInfoText>
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
           <ResultChart
-            chartData={chartData}
+            data={chartData}
             onLabelClick={(label) => setSelectedLabel(label)}
             activeLabel={selectedLabel}
           />
@@ -176,7 +214,7 @@ export default function ResultPage() {
           </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection jobsByMajor={jobsByMajor} topValues={topValues} />
+      <JobGroupSection jobsByMajor={result!.jobsByMajor} topValues={result!.topValues} />
     </ResultSection>
   );
 }

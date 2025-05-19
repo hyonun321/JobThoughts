@@ -16,7 +16,7 @@ const variantStyles: Record<
     border: string;
     padding: string;
     boxShadow: string;
-    size: keyof typeof theme.fontSize;
+    size: keyof typeof theme.fontSize | string;
     fontWeight?: keyof typeof theme.fontWeight | number;
     transition?: string;
     hoverColor?: keyof typeof theme.colors;
@@ -24,18 +24,18 @@ const variantStyles: Record<
   }
 > = {
   main: {
-    width: '300px',
-    height: '55px',
+    width: 'clamp(200px, 40vw, 300px)',
+    height: 'clamp(45px, 6vw, 55px)',
     backgroundColor: 'white',
     color: 'primary',
     border: 'none',
-    padding: '20px 72px',
+    padding: 'clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 5vw, 4.5rem)',
     boxShadow: '0px 0px 10px rgba(79, 99, 255, 0.4)',
     size: 'xl',
     fontWeight: 'bold',
     transition: 'all 0.3s ease',
     hoverColor: 'primary',
-    disabledColor: 'gray400',
+    disabledColor: 'gray300',
   },
   action: {
     width: '50px',
@@ -47,29 +47,29 @@ const variantStyles: Record<
     boxShadow: '2px 2px 4px rgba(1, 1, 1, 0.4)',
     size: 'm',
     fontWeight: 'medium',
-    disabledColor: 'gray400',
+    disabledColor: 'gray300',
   },
   link: {
-    width: '250px',
+    width: 'clamp(100px, 40vw, 250px)',
     height: '30px',
     backgroundColor: 'primary',
     color: 'white',
     border: 'none',
     padding: '16px 24px',
     boxShadow: '2px 2px 4px rgba(1, 1, 1, 0.4)',
-    size: 'lg',
+    size: `clamp(${theme.fontSize.m}, 2.5vw, ${theme.fontSize.lg})`,
     fontWeight: 'medium',
-    disabledColor: 'gray400',
+    disabledColor: 'gray300',
   },
   job: {
-    width: '100px',
-    height: '20px',
+    width: 'fit-content',
+    height: 'clamp(10px, 1.5vw, 20px)',
     backgroundColor: 'white',
     color: 'black',
     border: 'none',
-    padding: '12px 16px',
-    boxShadow: '4px 4px 4px rgba(79, 99, 255, 0.4)',
-    size: 'm',
+    padding: '10px 12px',
+    boxShadow: '4px 4px 4px rgb(200, 224, 255)',
+    size: 'clamp(0.75rem, 1.5vw, 1rem)',
     fontWeight: 'medium',
     transition: 'all 0.3s ease',
     hoverColor: 'primary',
@@ -174,7 +174,11 @@ export default function Button({
       $color={color || style.color}
       $border={border || style.border}
       $boxShadow={boxShadow || style.boxShadow}
-      $fontSize={theme.fontSize[(size || style.size) as keyof typeof theme.fontSize]}
+      $fontSize={
+        typeof (size || style.size) === 'string' && !(size || style.size in theme.fontSize)
+          ? size || style.size
+          : theme.fontSize[(size || style.size) as keyof typeof theme.fontSize]
+      }
       $fontWeight={
         typeof fontWeight === 'number'
           ? fontWeight

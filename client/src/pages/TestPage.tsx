@@ -6,14 +6,15 @@ import TestCompleteSection from '../features/test/TestCompleteSection';
 
 import { fetchQuestions } from '../api/questions';
 import type { Question } from '../api/questions';
-import Loading from '../components/Loading';
+import { useTestStore } from '../store/useTestStore';
+import { formatAnswers } from '../api/report';
 
+import Loading from '../components/Loading';
 import Image from '../components/Image';
 import cubeIcon from '../assets/icons/icon-cube.png';
 import ringIcon from '../assets/icons/icon-ring.png';
 import waveIcon from '../assets/icons/icon-wave.png';
 
-// 📌 배경 이미지 전용 래퍼
 const BackgroundFloatWrapper = styled.div`
   position: absolute;
   width: 100%;
@@ -31,15 +32,15 @@ const BackgroundFloatWrapper = styled.div`
 
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [step, setStep] = useState(0); // 질문 step 조정용
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [step, setStep] = useState(0);
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
-
-  const [questions, setQuestions] = useState<Question[]>([]); // ✅ 실제 질문
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ API로 질문 불러오기
+  const { addAnswer, resetAnswers, removeLastAnswer, answers } = useTestStore();
+
   useEffect(() => {
+    resetAnswers();
     fetchQuestions()
       .then((data) => setQuestions(data))
       .catch((err) => {
@@ -47,62 +48,71 @@ export default function TestPage() {
         alert('질문 데이터를 불러올 수 없습니다.');
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [resetAnswers]);
 
   const isComplete = currentIndex > questions.length;
 
   const handleAnswer = (value: string) => {
+    const question = questions[currentIndex - 1];
+    const selectedScore =
+      value === question.answer01 ? question.answerScore01 : question.answerScore02;
+
+    addAnswer({ qitemNo: question.qitemNo, answerScore: selectedScore });
     setDirection('forward');
-    setAnswers((prev) => {
-      const updated = [...prev, value];
-      console.log('✅ 선택된 답변 배열:', updated); // 선택 후 상태 출력
-      return updated;
-    });
     setCurrentIndex((prev) => prev + 1);
     setStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
     if (currentIndex === 0) return;
-
+    removeLastAnswer();
     setDirection('backward');
-    setAnswers((prev) => {
-      const updated = prev.slice(0, -1);
-      console.log('↩️ 되돌린 후 답변 배열:', updated); // 되돌린 후 상태 출력
-      return updated;
-    });
     setCurrentIndex((prev) => prev - 1);
     setStep((prev) => prev - 1);
   };
 
+  useEffect(() => {
+    if (isComplete) {
+      const formatted = formatAnswers(answers);
+      console.log('✅ formatted answers string:', formatted);
+    }
+  }, [isComplete, answers]);
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {/* 배경 이미지 레이어 */}
       <BackgroundFloatWrapper>
         <Image
           src={waveIcon}
           alt="배경 웨이브"
-          width="55%"
+          width="clamp(400px, 55vw, 1100px)"
           motion="float"
-          style={{ top: '-10%', left: '-5%' }}
+          style={{
+            top: 'calc(-5vw)', // 화면 작아지면 더 들어가고 커지면 살짝 튀어나옴
+            left: 'calc(-3vw)',
+          }}
         />
         <Image
           src={ringIcon}
           alt="배경 링"
-          width="20%"
+          width="clamp(200px, 20vw, 25vw)"
           motion="float"
-          style={{ top: '75%', left: '25%' }}
+          style={{
+            top: 'clamp(72%, 75%, 80%)',
+            left: 'clamp(15vw, 20vw, 25vw)',
+          }}
         />
         <Image
           src={cubeIcon}
           alt="배경 큐브"
-          width="15%"
+          width="clamp(150px, 15vw, 288px)"
           motion="float"
-          style={{ bottom: '0%', right: '8%' }}
+          style={{
+            bottom: '5%',
+            right: 'calc(8vw)',
+          }}
         />
       </BackgroundFloatWrapper>
 
-      {/* 본문 콘텐츠 */}
       {loading ? (
         <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
       ) : currentIndex === 0 ? (

@@ -5,7 +5,7 @@ import { theme } from '../../styles/theme';
 
 const Card = styled.div`
   position: relative;
-  width: clamp(200px, 40vw, 500px);
+  width: clamp(150px, 40vw, 500px);
   min-height: clamp(300px, 50vw, 400px);
   display: flex;
   flex-direction: column;
@@ -19,13 +19,10 @@ const Card = styled.div`
   & p {
     padding-left: clamp(8px, 1vw, 10px);
   }
+
   @media (max-width: 768px) {
     width: 80vw;
     min-height: 400px;
-  }
-  @media (max-width: 485px) {
-    width: 80vw;
-    min-height: 300px;
   }
 `;
 
@@ -46,11 +43,11 @@ const SectionTitle = styled.h3`
   box-shadow: 0px 1px 3px rgba(79, 99, 255, 0.5);
   padding: clamp(3px, 0.8vw, 5px) clamp(8px, 1vw, 12px);
   text-align: center;
-  font-size: clamp(12px, 2vw, ${theme.fontSize.m});
+  font-size: clamp(${theme.fontSize.xs}, 2vw, ${theme.fontSize.m});
 `;
 
 const SectionContent = styled.p`
-  font-size: clamp(12px, 2vw, ${theme.fontSize.m});
+  font-size: clamp(${theme.fontSize.xs}, 2vw, ${theme.fontSize.m});
   line-height: clamp(18px, 4vw, 28px);
 `;
 

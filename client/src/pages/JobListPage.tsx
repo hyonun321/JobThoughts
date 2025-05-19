@@ -34,7 +34,7 @@ const BearImage = styled.div`
   left: 50%;
   transform: translateX(-50%);
   width: 350px;
-  z-index: 1;
+  z-index: 999;
 `;
 
 const SectionWrapper = styled.section`

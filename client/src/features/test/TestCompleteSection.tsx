@@ -6,9 +6,10 @@ import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Button from '../../components/Button';
 import IconCheck from '../../assets/icons/icon-check.png';
+import type { Answer } from '../../store/useTestStore';
 
 type Props = {
-  answers: string[];
+  answers: Answer[];
 };
 
 const Wrapper = styled.div`
@@ -16,8 +17,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
-  gap: 2rem;
+  gap: 1.5rem;
 `;
 
 const TextWrapper = styled.div`
@@ -25,15 +25,12 @@ const TextWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1rem;
   gap: 0.2rem;
 `;
 
 const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
+  margin-top: auto;
 `;
 
 export default function TestCompleteSection({ answers }: Props) {
@@ -43,12 +40,12 @@ export default function TestCompleteSection({ answers }: Props) {
     <FullScreenSection>
       <LastCard>
         <Wrapper>
-          <Image src={IconCheck} width="150px" />
+          <Image src={IconCheck} width="clamp(100px, 20vw, 150px)" />
           <TextWrapper>
-            <Text as="h1" weight="bold" size="32px" color="black">
+            <Text as="h1" weight="bold" size="clamp(24px, 3vw, 32px)" color="black">
               검사가 완료되었습니다
             </Text>
-            <Text as="p" weight="light" size="24px" color="black">
+            <Text as="p" weight="light" size="clamp(16px, 3vw,24px)" color="black" align="center">
               수고하셨습니다! 이제 결과를 바탕으로 어떤 포지션이 잘 맞는지 알아볼까요?
             </Text>
           </TextWrapper>
