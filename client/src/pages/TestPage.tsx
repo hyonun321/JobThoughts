@@ -84,23 +84,32 @@ export default function TestPage() {
         <Image
           src={waveIcon}
           alt="배경 웨이브"
-          width="55%"
+          width="clamp(400px, 55vw, 1100px)"
           motion="float"
-          style={{ top: '-10%', left: '-5%' }}
+          style={{
+            top: 'calc(-5vw)', // 화면 작아지면 더 들어가고 커지면 살짝 튀어나옴
+            left: 'calc(-3vw)',
+          }}
         />
         <Image
           src={ringIcon}
           alt="배경 링"
-          width="20%"
+          width="clamp(200px, 20vw, 25vw)"
           motion="float"
-          style={{ top: '75%', left: '25%' }}
+          style={{
+            top: 'clamp(72%, 75%, 80%)',
+            left: 'clamp(15vw, 20vw, 25vw)',
+          }}
         />
         <Image
           src={cubeIcon}
           alt="배경 큐브"
-          width="15%"
+          width="clamp(150px, 15vw, 288px)"
           motion="float"
-          style={{ bottom: '0%', right: '8%' }}
+          style={{
+            bottom: '5%',
+            right: 'calc(8vw)',
+          }}
         />
       </BackgroundFloatWrapper>
 

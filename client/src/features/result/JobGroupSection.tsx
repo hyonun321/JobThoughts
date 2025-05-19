@@ -63,7 +63,7 @@ const ImageArea = styled.div`
   align-items: flex-end;
 
   img {
-    width: clamp(150px, 40vw, 450px);
+    width: clamp(150px, 40vw, 350px);
     height: auto;
     object-fit: contain;
   }
@@ -151,11 +151,13 @@ export default function JobGroupSection({ topValues, jobsByMajor }: ResultJobLis
       <TitleContainer>
         <TextArea>
           <TopTitle>나의 가치관과 관련이 높은 직업</TopTitle>
-          <h2>
+          <h2 style={{ padding: '0px', margin: '0px' }}>
             <span>{topValues[0]}</span>도 챙기고, <span>{topValues[1]}</span>도 놓치기 싫은 당신!
-            이런 직업은 어때요?
           </h2>
-          <h3>직업을 클릭하면, 실시간 채용 공고까지 확인할 수 있어요.</h3>
+          <h2 style={{ padding: '0px', margin: '0px' }}>이런 직업은 어때요?</h2>
+          <h3 style={{ marginTop: '10px', color: '#212121' }}>
+            직업을 클릭하면, 실시간 채용 공고까지 확인할 수 있어요.
+          </h3>
         </TextArea>
         <ImageArea>
           <img src={JobIntroBear} alt="직업을 소개하는 곰돌이" />
