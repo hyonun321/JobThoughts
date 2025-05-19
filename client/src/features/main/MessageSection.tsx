@@ -32,7 +32,7 @@ const SectionGroup = styled.div`
   flex-direction: column;
   align-items: center;
   gap: clamp(30px, 5vw, 60px);
-  padding: clamp(100px, 6vw, 80px) 0;
+  padding: clamp(85px, 6vw, 80px) 0;
 `;
 
 const WordWrap = styled.div`
@@ -55,11 +55,8 @@ const Row = styled(motion.div)<{ align?: 'left' | 'right' }>`
   display: flex;
   justify-content: ${({ align }) =>
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'};
-  padding: ${({ align }) => {
-    if (align === 'right') return '0 0 0 10vw';
-    if (align === 'left') return '0 10vw 0 0';
-    return '0 10vw';
-  }};
+  padding: ${({ align }) =>
+    align === 'right' ? '0 0 0 10vw' : align === 'left' ? '0 10vw 0 0' : '0 10vw'};
 
   @media (max-width: 768px) {
     padding: 0 6vw;
@@ -74,7 +71,8 @@ const TextRow = styled(motion.div)<{ align?: 'left' | 'right'; isSecond?: boolea
   padding: 0 10vw;
 
   @media (min-width: 1100px) {
-    ${({ isSecond }) => (isSecond ? 'margin-right: -70px;' : 'margin-left: -300px;')}
+    margin-right: ${({ isSecond }) => (isSecond ? '-70px' : '0')};
+    margin-left: ${({ isSecond }) => (isSecond ? '0' : '-300px')};
   }
 
   @media (max-width: 1100px) {
@@ -106,8 +104,8 @@ const FinalSection = styled(motion.div)`
   margin-top: 40px;
 
   @media (max-width: 768px) {
-    gap: 1px;
-    margin-top: 40px;
+    gap: 16px;
+    margin-top: 20px;
   }
 `;
 
@@ -126,7 +124,6 @@ export default function MessageSection() {
   return (
     <NextSection>
       <ResponsiveBox>
-        {/* 스크롤 아이콘 영역 */}
         <SectionGroup>
           <motion.div
             ref={scroll.ref}
@@ -143,7 +140,6 @@ export default function MessageSection() {
           </motion.div>
         </SectionGroup>
 
-        {/* 별/문장/달 아이콘 영역 */}
         <SectionGroup>
           <Row
             ref={star.ref}
@@ -207,7 +203,6 @@ export default function MessageSection() {
           </Row>
         </SectionGroup>
 
-        {/* 누워있는 곰 영역 */}
         <SectionGroup
           as={FinalSection}
           ref={bear.ref}
@@ -218,7 +213,7 @@ export default function MessageSection() {
           <Image
             src={lyingBear}
             alt="누워있는 곰"
-            width="clamp(240px, 40vw, 450px)"
+            width="clamp(200px, 40vw, 450px)"
             motion="float"
           />
           <WordWrap>
@@ -247,7 +242,6 @@ export default function MessageSection() {
   );
 }
 
-// ============ animation variants ============
 const fadeInVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
