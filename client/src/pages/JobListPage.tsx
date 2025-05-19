@@ -101,15 +101,20 @@ export default function JobListPage() {
   let filteredJobs = jobsForSelectedJob;
 
   if (locationFilter) {
-    filteredJobs = filteredJobs.filter((job) => job.location.includes(locationFilter));
+    if (locationFilter !== '전체') {
+      filteredJobs = filteredJobs.filter((job) => job.location.includes(locationFilter));
+    }
   }
   if (typeFilter) {
-    filteredJobs = filteredJobs.filter((job) => job.type === typeFilter);
+    if (typeFilter !== '전체') {
+      filteredJobs = filteredJobs.filter((job) => job.type === typeFilter);
+    }
   }
-  if (sortFilter === '오름차순') {
-    filteredJobs.sort((a, b) => new Date(a.postedAt).getTime() - new Date(b.postedAt).getTime());
-  } else {
+  if (sortFilter === '내림차순') {
+    // 기본 오름차순
     filteredJobs.sort((a, b) => new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime());
+  } else {
+    filteredJobs.sort((a, b) => new Date(a.postedAt).getTime() - new Date(b.postedAt).getTime());
   }
   const visibleJobs = filteredJobs.slice(0, visibleCount);
   useEffect(() => {
