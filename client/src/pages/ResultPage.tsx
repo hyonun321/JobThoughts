@@ -108,6 +108,21 @@ export default function ResultPage() {
 
   const navigate = useNavigate();
 
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+
+  useEffect(() => {
+    (() => {
+      window.addEventListener('beforeunload', preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener('beforeunload', preventClose);
+    };
+  }, []);
+
   useEffect(() => {
     if (result) {
       setLoading(false);
