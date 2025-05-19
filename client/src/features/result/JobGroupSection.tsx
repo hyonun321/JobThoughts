@@ -32,35 +32,19 @@ const Section = styled.div`
   padding: clamp(20px, 5vw, 50px);
 `;
 
-const JobInfoArea = styled.div`
+const TitleContainer = styled.div`
   display: flex;
-  align-items: center;
-
-  img {
-    width: clamp(100px, 30vw, 300px);
-    transform: translateY(24px);
-  }
-`;
-
-const SmallTitle = styled.span`
-  background-color: #f5f9ff;
-  color: ${theme.colors.primary};
-  padding: clamp(10px, 2vw, 16px) clamp(16px, 3vw, 24px);
-  border-radius: 100px;
-  box-shadow: 2px 3px 1px rgba(200, 224, 255, 1);
-  font-size: clamp(14px, 2vw, ${theme.fontSize.ml});
-  font-weight: ${theme.fontWeight.medium};
+  justify-content: space-between;
 `;
 
 // 제목 텍스트 부분
 const TextArea = styled.div`
-  ${SmallTitle} {
-    display: inline-block;
-    margin-bottom: clamp(12px, 2vw, 20px);
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   h2 {
-    font-size: clamp(18px, 3vw, 28px);
+    font-size: clamp(${theme.fontSize.m}, 3vw, ${theme.fontSize.xl});
     margin: clamp(5px, 1vw, 10px) 0;
   }
 
@@ -69,29 +53,55 @@ const TextArea = styled.div`
   }
 
   h3 {
-    font-size: clamp(14px, 2vw, 20px);
-    font-weight: ${theme.fontWeight.medium};
-    margin: 0 0 clamp(30px, 5vw, 60px) 0;
+    font-size: clamp(${theme.fontSize.s}, 2vw, ${theme.fontSize.lg});
+    margin: 0 0 clamp(10px, 5vw, 30px) 0;
   }
 `;
 
-// 계열별 직업 리스트 레이아웃
-const Group = styled.div`
+const ImageArea = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
+
+  img {
+    width: clamp(150px, 40vw, 450px);
+    height: auto;
+    object-fit: contain;
+  }
+`;
+
+const TopTitle = styled.span`
+  width: fit-content;
+  margin-bottom: clamp(12px, 2vw, 20px);
+  background-color: #f5f9ff;
+  color: ${theme.colors.primary};
+  padding: 8px 16px;
+  border-radius: 100px;
+  box-shadow: 2px 3px 1px rgba(200, 224, 255, 1);
+  font-size: clamp(${theme.fontSize.xs}, 2vw, ${theme.fontSize.lg});
+  font-weight: ${theme.fontWeight.medium};
+`;
+
+// 직업 리스트 전체 레이아웃 O
+const JobListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 3vw, 32px);
+`;
+
+// 계열별 직업 리스트 레이아웃 O
+const JobGroup = styled.div`
+  display: flex;
   gap: 15px;
-  margin-bottom: 24px;
-  padding: 0px 14px 0px 14px;
 `;
 
 // 계열 레이아웃
 const Category = styled.div`
   display: flex;
   align-items: center;
-  width: clamp(180px, 20vw, 250px);
+  width: clamp(160px, 20vw, 250px);
   flex-shrink: 0;
   background-color: #e0ecff;
-  border-radius: 30px;
+  border-radius: clamp(20px, 2vw, 30px);
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 
   img {
@@ -101,23 +111,23 @@ const Category = styled.div`
   }
 
   h4 {
-    font-size: clamp(16px, 2vw, 22px);
-    margin: 0;
-    white-space: nowrap;
+    font-size: clamp(${theme.fontSize.s}, 1.5vw, ${theme.fontSize.lg});
+    margin-left: -5px;
+    white-space: wrap;
   }
 `;
 
-// 직업 버튼 레이아웃
-const JobList = styled.div`
+// 직업 버튼 레이아웃 O
+const JobButtonContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: clamp(4px, 1vw, 12px);
   flex: 1;
   align-items: center;
-  padding-left: clamp(10px, 2vw, 20px);
+  padding: clamp(10px, 2vw, 20px);
   background-color: rgb(245, 249, 255);
-  border-radius: 30px;
-  box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
+  border-radius: clamp(20px, 2vw, 30px);
+  box-shadow: 4px 4px 4px rgba(200, 224, 255);
 `;
 
 type JobsByMajor = {
@@ -138,39 +148,34 @@ export default function JobGroupSection({ topValues, jobsByMajor }: ResultJobLis
 
   return (
     <Section>
-      <JobInfoArea>
+      <TitleContainer>
         <TextArea>
-          <SmallTitle>나의 가치관과 관련이 높은 직업</SmallTitle>
+          <TopTitle>나의 가치관과 관련이 높은 직업</TopTitle>
           <h2>
             <span>{topValues[0]}</span>도 챙기고, <span>{topValues[1]}</span>도 놓치기 싫은 당신!
             이런 직업은 어때요?
           </h2>
           <h3>직업을 클릭하면, 실시간 채용 공고까지 확인할 수 있어요.</h3>
         </TextArea>
-        <div>
+        <ImageArea>
           <img src={JobIntroBear} alt="직업을 소개하는 곰돌이" />
-        </div>
-      </JobInfoArea>
-      {Object.entries(jobsByMajor).map(([category, jobs]) => (
-        <Group key={category}>
-          <Category>
-            <img src={categoryImages[category]} alt={category} />
-            <h4>{category}</h4>
-          </Category>
-          <JobList>
-            {jobs.map((job) => (
-              <Button
-                key={job}
-                text={job}
-                variant="job"
-                onClick={() => handleClick(job)}
-                padding="clamp(6px, 1vw, 12px) clamp(10px, 2vw, 20px)"
-                width="fit-content"
-              />
-            ))}
-          </JobList>
-        </Group>
-      ))}
+        </ImageArea>
+      </TitleContainer>
+      <JobListContainer>
+        {Object.entries(jobsByMajor).map(([category, jobs]) => (
+          <JobGroup key={category}>
+            <Category>
+              <img src={categoryImages[category]} alt={category} />
+              <h4>{category}</h4>
+            </Category>
+            <JobButtonContainer>
+              {jobs.map((job) => (
+                <Button key={job} text={job} variant="job" onClick={() => handleClick(job)} />
+              ))}
+            </JobButtonContainer>
+          </JobGroup>
+        ))}
+      </JobListContainer>
     </Section>
   );
 }
