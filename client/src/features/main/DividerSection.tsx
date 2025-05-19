@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Divider = styled.div`
-  height: 25vh; // 뷰포트 높이의 20%
+  height: 35vh;
   background: linear-gradient(to bottom, #ffffff 0%, ${({ theme }) => theme.colors.white} 100%);
   width: 100%;
 

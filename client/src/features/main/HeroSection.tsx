@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { jobRows } from '../../data/jobRows';
 const Section = styled.section`
   width: 100%;
-  height: 400vh;
+  height: 300vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: relative;
   overflow: hidden;

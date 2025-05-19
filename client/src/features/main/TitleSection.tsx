@@ -13,6 +13,10 @@ const Section = styled.section`
   overflow: hidden;
   background: black;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    height: 60vh;
+  }
 `;
 
 const Shape = styled(motion.div)`
@@ -23,10 +27,31 @@ const Shape = styled(motion.div)`
 
 const Bear = styled(motion.img)`
   position: absolute;
-  bottom: 10%;
-  right: 13%;
-  width: 500px;
+  top: 20%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  width: clamp(180px, 33vw, 500px);
   pointer-events: none;
+
+  @media (max-width: 768px) {
+    left: 55%;
+    top: 30%;
+  }
+`;
+
+const TextGroup = styled(motion.div)`
+  position: absolute;
+  top: 25vh;
+  left: 15vw;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 4vh, 3rem);
+
+  @media (max-width: 768px) {
+    top: 20vh;
+    left: 10vw;
+    gap: 1.5rem;
+  }
 `;
 
 /* ===== 애니메이션 Variants ===== */
@@ -39,7 +64,7 @@ const shapeVariants: Variants = {
     y: pos.y * 700,
     scale: pos.size,
     opacity: 1,
-    transition: { duration: 1.8, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 1.3, ease: [0.25, 0.1, 0.25, 1] },
   }),
 };
 
@@ -48,7 +73,7 @@ const textVariants: Variants = {
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay: i * 0.5 },
+    transition: { duration: 0.5, delay: i * 0.4 },
   }),
 };
 
@@ -57,24 +82,22 @@ const bearVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 1.3, ease: 'easeOut', delay: 0.5 },
+    transition: { duration: 1.1, ease: 'easeOut', delay: 0.4 },
   },
 };
 
 /* ===== 컴포넌트 ===== */
 export default function TitleSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.2, once: false }); // 스크롤 진입·이탈 감지
+  const inView = useInView(ref, { amount: 0.2, once: false });
   const controls = useAnimation();
 
-  /* ⭐ 좌표를 state로 관리: inView 가 true일 때만 새로 만든다 */
   const [circles, setCircles] = useState<{ x: number; y: number; size: number }[]>([]);
 
   useEffect(() => {
     controls.start(inView ? 'visible' : 'hidden');
 
     if (inView) {
-      /* 진입할 때마다 새 좌표 생성 */
       const newCircles = Array.from({ length: 30 }, () => {
         const angle = Math.random() * Math.PI * 2;
         const radius = Math.random();
@@ -87,7 +110,6 @@ export default function TitleSection() {
       });
       setCircles(newCircles);
     } else {
-      /* 뷰포트를 벗어나면 좌표를 비워 재생성 준비 */
       setCircles([]);
     }
   }, [inView, controls]);
@@ -117,25 +139,31 @@ export default function TitleSection() {
           />
         ))}
 
-        <motion.div
-          variants={textVariants}
-          custom={1}
-          style={{ position: 'absolute', top: '30%', left: '15%' }}
-        >
-          <Text as="h1" size="120px" weight="bold" color="primary" align="left">
-            무슨 생각?
-          </Text>
-        </motion.div>
+        <TextGroup>
+          <motion.div variants={textVariants} custom={1}>
+            <Text
+              as="h1"
+              size="clamp(2.8rem, 8vw, 7.5rem)"
+              weight="bold"
+              color="primary"
+              align="left"
+            >
+              무슨 생각?
+            </Text>
+          </motion.div>
 
-        <motion.div
-          variants={textVariants}
-          custom={2}
-          style={{ position: 'absolute', top: '55%', left: '15%' }}
-        >
-          <Text as="h1" size="120px" weight="bold" color="white" align="left">
-            잡 생각
-          </Text>
-        </motion.div>
+          <motion.div variants={textVariants} custom={2}>
+            <Text
+              as="h1"
+              size="clamp(2.5rem, 8vw, 7.5rem)"
+              weight="bold"
+              color="white"
+              align="left"
+            >
+              잡 생각
+            </Text>
+          </motion.div>
+        </TextGroup>
 
         <Bear src={spaceBear} alt="우주곰" variants={bearVariants} />
       </motion.div>
