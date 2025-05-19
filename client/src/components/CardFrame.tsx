@@ -22,6 +22,11 @@ const FrameWrapper = styled.div`
   position: relative;
   width: clamp(200px, 65vw, 900px);
   height: clamp(400px, 70vh, 700px);
+
+  @media (min-width: 1024px) {
+    width: 65%;
+    height: 65%;
+  }
 `;
 
 const AnimatedCard = styled(motion.div)<{ z: number; color: string }>`
