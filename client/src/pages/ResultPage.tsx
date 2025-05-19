@@ -164,7 +164,7 @@ export default function ResultPage() {
             </>
           )
         }
-        buttonText={isNoAnswer ? '검사하기' : '다시 검사하기'}
+        buttonText={!isNoAnswer ? '검사하기' : '다시 검사하기'}
         onButtonClick={() => navigate('/test')}
       />
     );
