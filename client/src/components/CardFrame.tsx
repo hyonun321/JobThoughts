@@ -9,6 +9,7 @@ type CardFrameProps = {
   onBack?: () => void;
   direction?: 'forward' | 'backward';
   onAnimatingChange?: (animating: boolean) => void;
+  total?: number;
 };
 
 type LastCardProps = {
@@ -73,12 +74,26 @@ const BackButton = styled.button`
   }
 `;
 
+const StepIndicator = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: -0.5rem;
+  z-index: 5;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.black};
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+`;
+
 export default function CardFrame({
   step,
   renderContent,
   onBack,
   direction = 'forward',
   onAnimatingChange,
+  total,
 }: CardFrameProps) {
   const theme = useTheme();
 
@@ -208,6 +223,11 @@ export default function CardFrame({
               <BackButton onClick={onBack}>
                 <img src={IconBack} alt="이전" />
               </BackButton>
+            )}
+            {total && (
+              <StepIndicator>
+                {displayedStep + 1} / {total}
+              </StepIndicator>
             )}
             {content}
           </ContentWrapper>

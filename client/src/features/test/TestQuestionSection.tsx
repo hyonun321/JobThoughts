@@ -206,6 +206,7 @@ export default function TestQuestionSection({
             onBack={handleBack}
             direction={direction}
             onAnimatingChange={setAnimating}
+            total={questions.length}
           />
         </MotionWrapper>
       )}

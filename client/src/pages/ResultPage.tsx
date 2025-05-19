@@ -13,47 +13,6 @@ import Loading from '../components/Loading';
 import NoResult from '../components/NoResult';
 import { useNavigate } from 'react-router-dom';
 
-const LayoutTitle = styled.div`
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-
-  h1 {
-    text-align: center;
-    color: ${theme.colors.gray900};
-    font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
-    font-weight: normal;
-    transform: translateX(40px);
-  }
-
-  span {
-    color: ${theme.colors.primary};
-  }
-
-  .image-wrapper {
-    width: clamp(40px, 18vw, 200px);
-    margin-left: -35px;
-    margin-top: -50px;
-  }
-
-  @media (max-width: 768px) {
-    .image-wrapper {
-      margin-left: -25px;
-      margin-top: -40px;
-    }
-  }
-  @media (max-width: 485px) {
-    .image-wrapper {
-      margin-left: -15px;
-      margin-top: -30px;
-    }
-    h1 {
-      transform: translateX(20px);
-    }
-  }
-`;
-
 const ResultSection = styled.div`
   padding: 0px 20px;
   margin-top: 40px;
@@ -61,14 +20,41 @@ const ResultSection = styled.div`
   flex-direction: column;
 `;
 
+const ChartInfoText = styled.div`
+  position: relative;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+    color: ${theme.colors.gray900};
+    font-size: clamp(12px, 3vw, ${theme.fontSize.lg});
+    font-weight: normal;
+  }
+
+  span {
+    color: ${theme.colors.primary};
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url(${ClickFinger});
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: clamp(40px, 18vw, 150px);
+    height: clamp(40px, 18vw, 200px);
+    top: -40%;
+    left: calc(100% - 40px);
+  }
+`;
+
 const ResultTopWrapper = styled.div`
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: 4rem;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
   min-height: clamp(400px, 60vw, 500px);
 `;
 
@@ -84,6 +70,13 @@ const DescriptionWrapper = styled(motion.div)`
     justify-content: center;
     align-items: center;
   }
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;
 
 const layoutSpring = {
@@ -134,13 +127,17 @@ export default function ResultPage() {
       })
       .catch((err) => {
         console.error(err);
-        alert('결과를 불러오지 못했습니다.');
       })
       .finally(() => setLoading(false));
   }, [answers, result, setResult]);
 
-  if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
-  if (!result)
+  if (loading)
+    return (
+      <ErrorContainer>
+        <Loading message="결과를 불러오는 중이에요..." />
+      </ErrorContainer>
+    );
+  if (!loading && !result)
     return (
       <NoResult
         title="404 Page Not Found"
@@ -155,21 +152,20 @@ export default function ResultPage() {
       />
     );
 
-  const chartData = result.scores.map((s) => ({
+  const chartData = result!.scores.map((s) => ({
     type: s.name,
     score: s.score,
   }));
 
   return (
     <ResultSection>
-      <LayoutTitle>
+      <ChartInfoText>
         <h1>
           차트의 각 항목을 <span>클릭</span> 해보세요!
           <br />
           나의 직업 가치관에 대한 설명을 확인할 수 있어요
         </h1>
-        <img className="image-wrapper" src={ClickFinger} alt="클릭하는 손가락 아이콘" />
-      </LayoutTitle>
+      </ChartInfoText>
       <ResultTopWrapper>
         <motion.div key="chart" layout transition={layoutSpring}>
           <ResultChart
@@ -194,7 +190,7 @@ export default function ResultPage() {
           </DescriptionWrapper>
         )}
       </ResultTopWrapper>
-      <JobGroupSection jobsByMajor={result.jobsByMajor} topValues={result.topValues} />
+      <JobGroupSection jobsByMajor={result!.jobsByMajor} topValues={result!.topValues} />
     </ResultSection>
   );
 }

@@ -16,14 +16,8 @@ type ResultChartProps = {
 
 const Wrapper = styled.div`
   position: relative;
-  width: clamp(250px, 50vw, 700px);
-  max-width: 450px;
+  width: clamp(320px, 40vw, 450px);
   aspect-ratio: 1 / 1;
-  margin: 50px;
-  border-radius: 1px solid red;
-  .nivo-radar .grid text {
-    display: none;
-  }
 `;
 
 const Label = styled.div<{ x: number; y: number; $active: boolean }>`
@@ -37,7 +31,6 @@ const Label = styled.div<{ x: number; y: number; $active: boolean }>`
   color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.gray900)};
   font-weight: ${({ $active }) => ($active ? theme.fontWeight.bold : theme.fontWeight.medium)};
   white-space: nowrap;
-  transition: color 0.2s;
 
   &:hover {
     color: #4f63ff;
@@ -72,7 +65,7 @@ export default function ResultChart({ data, onLabelClick, activeLabel }: ResultC
         data={data}
         keys={['score']}
         indexBy="type"
-        margin={{ top: 40, right: 40, bottom: 40, left: 60 }}
+        margin={{ top: 30, right: 30, bottom: 30, left: 50 }}
         gridLabelOffset={400}
         enableDots={false}
         colors={['#4F63FF']}
