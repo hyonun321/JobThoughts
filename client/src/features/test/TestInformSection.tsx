@@ -24,11 +24,6 @@ const Wrapper = styled.div`
 //이전 페이지에서 넘어올때 부드러운 화면 전환 추가를 위한 MotionSection
 const MotionSection = motion(Wrapper);
 
-// 검사 설명/예시 묶음
-const CardContent = styled.div`
-  border: 3px solid blue;
-`;
-
 const TextWrapper = styled.div`
   padding-bottom: 20px;
 `;
@@ -46,7 +41,6 @@ const ExampleBlock = styled.div`
 `;
 
 const SampleWrapper = styled.div`
-  border: 3px solid green;
   width: 100%;
   height: clamp(170px, 33vh, 250px);
   background-color: ${({ theme }) => theme.colors.white};
@@ -62,7 +56,6 @@ const SampleWrapper = styled.div`
 `;
 
 const TextGroup = styled.div`
-  border: 1px solid red;
   margin-bottom: clamp(0.5rem, 1.5vw, 2.5rem);
 `;
 
@@ -85,7 +78,6 @@ const ButtonWrapper = styled.div`
 
 // 검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
 const InfoCardWrapper = styled.div`
-  border: 1px solid red;
   display: flex;
   gap: clamp(25px, 2.7vw, 35px);
 
@@ -98,7 +90,7 @@ const { left, right } = testData[0];
 
 // 🔁 카드에 들어갈 공통 콘텐츠 정의
 const renderCardContent = () => (
-  <CardContent>
+  <div>
     <TextWrapper>
       <Text
         as="h2"
@@ -152,7 +144,7 @@ const renderCardContent = () => (
         </InfoCardWrapper>
       </SampleWrapper>
     </ExampleBlock>
-  </CardContent>
+  </div>
 );
 
 export default function TestInformSection({ onStart }: Props) {
