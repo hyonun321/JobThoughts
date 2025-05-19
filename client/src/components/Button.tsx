@@ -174,7 +174,11 @@ export default function Button({
       $color={color || style.color}
       $border={border || style.border}
       $boxShadow={boxShadow || style.boxShadow}
-      $fontSize={theme.fontSize[(size || style.size) as keyof typeof theme.fontSize]}
+      $fontSize={
+        typeof (size || style.size) === 'string' && (size || style.size) in theme.fontSize
+          ? theme.fontSize[(size || style.size) as keyof typeof theme.fontSize]
+          : size || style.size
+      }
       $fontWeight={
         typeof fontWeight === 'number'
           ? fontWeight

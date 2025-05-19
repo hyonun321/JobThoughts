@@ -10,7 +10,8 @@ import { useTestStore } from '../store/useTestStore';
 import { useResultStore } from '../store/useResultStore';
 import { postReport } from '../api/report';
 import Loading from '../components/Loading';
-import Text from '../components/Text';
+import NoResult from '../components/NoResult';
+import { useNavigate } from 'react-router-dom';
 
 const LayoutTitle = styled.div`
   display: flex;
@@ -112,6 +113,8 @@ export default function ResultPage() {
   const { answers } = useTestStore();
   const { result, setResult } = useResultStore();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (result) {
       setLoading(false);
@@ -139,9 +142,17 @@ export default function ResultPage() {
   if (loading) return <Loading message="결과를 불러오는 중이에요..." />;
   if (!result)
     return (
-      <Text as="p" color="gray800" align="center">
-        결과가 없습니다.
-      </Text>
+      <NoResult
+        title="404 Page Not Found"
+        subDescription={
+          <>
+            아래 버튼을 눌러 다시 검사해 보세요!
+            <br />
+            당신에게 꼭 맞는 직업과 채용 정보를 안내해드릴게요.
+          </>
+        }
+        onButtonClick={() => navigate('/test')}
+      />
     );
 
   const chartData = result.scores.map((s) => ({
