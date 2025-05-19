@@ -147,7 +147,7 @@ export default function ResultPage() {
     const isNoAnswer = !answers || answers.length === 0;
     return (
       <NoResult
-        title={isNoAnswer ? 'Oops! Did you skip the test?' : '404 Page Not Found'}
+        title={isNoAnswer ? '404 Page Not Found' : 'Oops! Did you skip the test?'}
         description="테스트를 완료하시면 결과를 확인할 수 있어요."
         subDescription={
           isNoAnswer ? (
