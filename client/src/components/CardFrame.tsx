@@ -22,6 +22,18 @@ const FrameWrapper = styled.div`
   position: relative;
   width: 65%;
   height: 65%;
+
+  @media (max-width: 1024px) {
+    height: 70%;
+  }
+
+  @media (max-width: 768px) {
+    height: 75%;
+  }
+
+  @media (max-width: 480px) {
+    height: 80%;
+  }
 `;
 
 const AnimatedCard = styled(motion.div)<{ z: number; color: string }>`
@@ -59,12 +71,23 @@ const ContentWrapper = styled.div`
   align-items: center;
   text-align: center;
   gap: 2rem;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    gap: 1.25rem;
+    height: 92%;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+    height: 100%;
+  }
 `;
 
 const BackButton = styled.button`
   position: absolute;
   top: 1rem;
-  left: -0.5rem;
+  left: 0;
   background: none;
   border: none;
   padding: 0;
@@ -74,12 +97,36 @@ const BackButton = styled.button`
   img {
     width: 100%;
   }
+
+  @media (max-width: 920px) {
+    top: 1rem;
+    left: 0.75rem;
+
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    top: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    left: 1rem;
+    padding: 1rem 0;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
 `;
 
 const StepIndicator = styled.div`
   position: absolute;
   top: 1rem;
-  right: -0.5rem;
+  right: 0;
   z-index: 5;
   font-size: ${({ theme }) => theme.fontSize.m};
   color: ${({ theme }) => theme.colors.black};
@@ -87,6 +134,24 @@ const StepIndicator = styled.div`
   padding: 0.3rem 0.6rem;
   border-radius: 1rem;
   font-weight: ${({ theme }) => theme.fontWeight.medium};
+
+  @media (max-width: 920px) {
+    font-size: ${({ theme }) => theme.fontSize.s};
+    top: 1rem;
+    right: 1rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    top: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.15rem 0.4rem;
+  }
 `;
 
 export default function CardFrame({

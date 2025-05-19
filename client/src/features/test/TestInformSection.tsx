@@ -72,6 +72,11 @@ const SampleWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    max-height: 170px;
+    margin-top: 3px;
+  }
 `;
 
 const TextWrapper = styled.div`
@@ -81,6 +86,19 @@ const TextWrapper = styled.div`
 
   @media (max-width: 780px) {
     width: 100%;
+  }
+`;
+
+const TextGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -105,10 +123,15 @@ const InfoTag = styled.div`
 const ButtonWrapper = styled.div`
   position: absolute;
   top: calc(88%);
+  display: flex;
+  justify-content: center;
+  width: 100%;
 
   @media (max-width: 780px) {
-    top: auto;
-    bottom: 5%;
+    position: static;
+    margin-top: 1.5rem;
+    justify-content: center;
+    width: 100%;
   }
 `;
 
@@ -141,8 +164,8 @@ const renderCardContent = () => (
           align="center"
         >
           직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
-          여기는가를 살펴보고, 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는
-          검사입니다.
+          여기는가를 살펴보고,
+          <br /> 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
         </Text>
       </TextWrapper>
 
@@ -160,25 +183,27 @@ const renderCardContent = () => (
         </Text>
 
         <SampleWrapper>
-          <Text
-            as="p"
-            size="clamp(0.625rem, 2vw, 0.875rem)"
-            weight="medium"
-            color="black"
-            align="center"
-          >
-            두 가치 중 자신에게 더 중요한 가치를 선택하세요.
-          </Text>
-          <Text
-            as="p"
-            size="clamp(0.625rem, 2vw, 0.875rem)"
-            weight="light"
-            color="black"
-            align="center"
-            style={{ marginTop: '0.1rem', marginBottom: '2rem' }}
-          >
-            "아래의 답변을 클릭해 보세요"
-          </Text>
+          <TextGroup>
+            <Text
+              as="p"
+              size="clamp(0.625rem, 2vw, 0.875rem)"
+              weight="medium"
+              color="black"
+              align="center"
+            >
+              두 가치 중 자신에게 더 중요한 가치를 선택하세요.
+            </Text>
+            <Text
+              as="p"
+              size="clamp(0.625rem, 2vw, 0.875rem)"
+              weight="light"
+              color="black"
+              align="center"
+              style={{ marginTop: '0.1rem' }}
+            >
+              "아래의 답변을 클릭해 보세요"
+            </Text>
+          </TextGroup>
           <InfoCardWrapper>
             <InfoCard value={left} width="120px" height="125px" />
             <InfoCard value={right} width="120px" height="125px" />
