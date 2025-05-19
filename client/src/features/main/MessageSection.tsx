@@ -24,8 +24,15 @@ const ResponsiveBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(30px, 5vw, 60px);
   width: 100%;
+`;
+
+const SectionGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(30px, 5vw, 60px);
+  padding: clamp(85px, 6vw, 80px) 0;
 `;
 
 const WordWrap = styled.div`
@@ -108,81 +115,89 @@ export default function MessageSection() {
   return (
     <NextSection>
       <ResponsiveBox>
-        <motion.div
-          ref={scroll.ref}
-          initial="hidden"
-          animate={scroll.controls}
-          variants={fadeInVariants}
-        >
-          <Image
-            src={iconScroll}
-            alt="스크롤 아이콘"
-            width="clamp(40px, 10vw, 80px)"
-            motion="float"
-          />
-        </motion.div>
+        {/* 스크롤 아이콘 영역 */}
+        <SectionGroup>
+          <motion.div
+            ref={scroll.ref}
+            initial="hidden"
+            animate={scroll.controls}
+            variants={fadeInVariants}
+          >
+            <Image
+              src={iconScroll}
+              alt="스크롤 아이콘"
+              width="clamp(40px, 10vw, 80px)"
+              motion="float"
+            />
+          </motion.div>
+        </SectionGroup>
 
-        <Row
-          ref={star.ref}
-          initial="hidden"
-          animate={star.controls}
-          variants={fadeInVariants}
-          align="right"
-        >
-          <Image src={iconStar} alt="별 아이콘" width="clamp(50px, 12vw, 100px)" motion="float" />
-        </Row>
+        {/* 별/문장/달 아이콘 영역 */}
+        <SectionGroup>
+          <Row
+            ref={star.ref}
+            initial="hidden"
+            animate={star.controls}
+            variants={fadeInVariants}
+            align="right"
+          >
+            <Image src={iconStar} alt="별 아이콘" width="clamp(50px, 12vw, 100px)" motion="float" />
+          </Row>
 
-        <TextRow
-          ref={text1.ref}
-          initial="hidden"
-          animate={text1.controls}
-          variants={fadeInVariants}
-          align="left"
-        >
-          <MobileTextWrapper>
-            <Text
-              as="h2"
-              size="clamp(1.3rem, 6vw, 3.75rem)"
-              weight="bold"
-              color="white"
-              align="left"
-            >
-              하고 싶은 일을 몰라도 괜찮아요
-            </Text>
-          </MobileTextWrapper>
-        </TextRow>
+          <TextRow
+            ref={text1.ref}
+            initial="hidden"
+            animate={text1.controls}
+            variants={fadeInVariants}
+            align="left"
+          >
+            <MobileTextWrapper>
+              <Text
+                as="h2"
+                size="clamp(1.3rem, 6vw, 3.75rem)"
+                weight="bold"
+                color="white"
+                align="left"
+              >
+                하고 싶은 일을 몰라도 괜찮아요
+              </Text>
+            </MobileTextWrapper>
+          </TextRow>
 
-        <TextRow
-          ref={text2.ref}
-          initial="hidden"
-          animate={text2.controls}
-          variants={fadeInVariants}
-          align="right"
-        >
-          <MobileTextWrapper>
-            <Text
-              as="h2"
-              size="clamp(1.3rem, 6vw, 3.75rem)"
-              weight="bold"
-              color="white"
-              align="right"
-            >
-              우리는 당신에게 맞는 길부터 찾으니까요
-            </Text>
-          </MobileTextWrapper>
-        </TextRow>
+          <TextRow
+            ref={text2.ref}
+            initial="hidden"
+            animate={text2.controls}
+            variants={fadeInVariants}
+            align="right"
+          >
+            <MobileTextWrapper>
+              <Text
+                as="h2"
+                size="clamp(1.3rem, 6vw, 3.75rem)"
+                weight="bold"
+                color="white"
+                align="right"
+              >
+                우리는 당신에게 맞는 길부터 찾으니까요
+              </Text>
+            </MobileTextWrapper>
+          </TextRow>
 
-        <Row
-          ref={moon.ref}
-          initial="hidden"
-          animate={moon.controls}
-          variants={fadeInVariants}
-          align="left"
-        >
-          <Image src={iconMoon} alt="달 아이콘" width="clamp(60px, 14vw, 110px)" motion="float" />
-        </Row>
+          <Row
+            ref={moon.ref}
+            initial="hidden"
+            animate={moon.controls}
+            variants={fadeInVariants}
+            align="left"
+          >
+            <Image src={iconMoon} alt="달 아이콘" width="clamp(60px, 14vw, 110px)" motion="float" />
+          </Row>
+        </SectionGroup>
 
-        <FinalSection
+        {/* 누워있는 곰 영역 */}
+        <SectionGroup
+          as={FinalSection}
           ref={bear.ref}
           initial="hidden"
           animate={bear.controls}
@@ -214,7 +229,7 @@ export default function MessageSection() {
               </motion.span>
             ))}
           </WordWrap>
-        </FinalSection>
+        </SectionGroup>
       </ResponsiveBox>
     </NextSection>
   );
