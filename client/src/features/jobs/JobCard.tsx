@@ -11,7 +11,7 @@ import starIcon from '../../assets/icons/icon-star.svg';
 import { theme } from '../../styles/theme';
 import type { Job } from '../../types';
 import { motion } from 'framer-motion';
-import useScrollAnimation from '../../hooks/useScrollAnimation';
+import useScrollAnimation from '../../hooks/useScrollAnimation'; // ✅ 수정됨
 
 type Props = {
   job: Job;
@@ -194,7 +194,7 @@ const MotionCard = motion(Card);
 
 export default function JobCard({ job, dDay }: Props) {
   const isScrapButton = false;
-  const { ref, controls } = useScrollAnimation(0.1, true);
+  const { ref, controls } = useScrollAnimation(0.1);
   return (
     <MotionCard
       ref={ref}
