@@ -20,20 +20,8 @@ type LastCardProps = {
 
 const FrameWrapper = styled.div`
   position: relative;
-  width: 65%;
-  height: 65%;
-
-  @media (max-width: 1024px) {
-    height: 70%;
-  }
-
-  @media (max-width: 768px) {
-    height: 75%;
-  }
-
-  @media (max-width: 480px) {
-    height: 80%;
-  }
+  width: clamp(200px, 65vw, 900px);
+  height: clamp(400px, 70vh, 700px);
 `;
 
 const AnimatedCard = styled(motion.div)<{ z: number; color: string }>`

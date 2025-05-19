@@ -11,18 +11,6 @@ type Props = {
 };
 
 // ================= styled-components =================
-const FullScreenSection = styled.section`
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column; /* 필요시 row로 바꿔도 됨 */
-  justify-content: center;
-  align-items: center;
-  scroll-snap-align: start; /* 선택 사항 */
-`;
-
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -36,17 +24,13 @@ const Wrapper = styled.div`
 //이전 페이지에서 넘어올때 부드러운 화면 전환 추가를 위한 MotionSection
 const MotionSection = motion(Wrapper);
 
+// 검사 설명/예시 묶음
 const CardContent = styled.div`
-  max-width: 90%;
+  border: 3px solid blue;
 `;
 
-// 검사 설명/예시 묶음
-const InfoBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 28px; // 제목과 아래 요소 간격
-  padding-top: 20px;
-  padding-bottom: 10px;
+const TextWrapper = styled.div`
+  padding-bottom: 20px;
 `;
 
 // 검사 진행방법, 설명 텍스트, 샘플 묶음
@@ -54,7 +38,7 @@ const ExampleBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
 
   @media (max-width: 780px) {
     align-items: center;
@@ -62,12 +46,11 @@ const ExampleBlock = styled.div`
 `;
 
 const SampleWrapper = styled.div`
+  border: 3px solid green;
   width: 100%;
-  height: clamp(180px, 35vh, 250px);
+  height: clamp(170px, 33vh, 250px);
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 20px;
-  margin-top: 6px;
-  padding-top: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,77 +58,39 @@ const SampleWrapper = styled.div`
 
   @media (max-width: 768px) {
     max-height: 170px;
-    margin-top: 3px;
-  }
-`;
-
-const TextWrapper = styled.div`
-  width: 100%;
-  padding: 0;
-  box-sizing: border-box;
-
-  @media (max-width: 780px) {
-    width: 100%;
   }
 `;
 
 const TextGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-
-  @media (max-width: 768px) {
-    gap: 0.3rem;
-    margin-bottom: 0.5rem;
-  }
+  border: 1px solid red;
+  margin-bottom: clamp(0.5rem, 1.5vw, 2.5rem);
 `;
 
+// 검사 진행방법 o
 const InfoTag = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
   padding: 3px 35px;
   background-color: white;
   color: black;
   border-radius: 100px;
-  font-size: ${({ theme }) => theme.fontSize.ml};
+  font-size: clamp(0.75rem, 1.2vw, 1.125rem);
   box-shadow: 1px 2px 6px rgba(79, 99, 255, 0.4);
-  width: fit-content;
-
-  @media (max-width: 780px) {
-    font-size: ${({ theme }) => theme.fontSize.xs};
-    padding: 3px 35px;
-  }
 `;
 
+// 버튼 o
 const ButtonWrapper = styled.div`
-  position: absolute;
-  top: calc(88%);
   display: flex;
   justify-content: center;
-  width: 100%;
-
-  @media (max-width: 780px) {
-    position: static;
-    margin-top: 1.5rem;
-    justify-content: center;
-    width: 100%;
-  }
+  margin-top: clamp(1rem, 4vh, 3rem);
 `;
 
 // 검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
 const InfoCardWrapper = styled.div`
+  border: 1px solid red;
   display: flex;
-  gap: 30px;
+  gap: clamp(25px, 2.7vw, 35px);
+
   & > * {
     cursor: default !important;
-  }
-
-  @media (max-width: 780px) {
-    align-items: center;
-    gap: 0.5rem;
   }
 `;
 
@@ -154,69 +99,65 @@ const { left, right } = testData[0];
 // 🔁 카드에 들어갈 공통 콘텐츠 정의
 const renderCardContent = () => (
   <CardContent>
-    <InfoBlock>
-      <TextWrapper>
-        <Text
-          as="h2"
-          size="clamp(0.75rem, 2vw, 1.125rem)"
-          weight="bold"
-          color="black"
-          align="center"
-        >
-          직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
-          여기는가를 살펴보고,
-          <br /> 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
-        </Text>
-      </TextWrapper>
+    <TextWrapper>
+      <Text
+        as="h2"
+        size="clamp(0.75rem, 1.6vw, 1.125rem)"
+        weight="bold"
+        color="black"
+        align="center"
+      >
+        직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
+        여기는가를 살펴보고,
+        <br /> 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
+      </Text>
+    </TextWrapper>
 
-      <ExampleBlock>
-        <InfoTag>검사 진행방법</InfoTag>
-        <Text
-          as="p"
-          size="clamp(0.625rem, 2vw, 0.875rem)"
-          weight="medium"
-          color="gray900"
-          align="center"
-        >
-          각 문항별로 짝을 지어 제시되는 두 가지 항목 중에서 자신에게 더 중요한 것에 응답해
-          주십시오.
-        </Text>
+    <ExampleBlock>
+      <InfoTag>검사 진행방법</InfoTag>
+      <Text
+        as="p"
+        size="clamp(0.625rem, 1.5vw, 0.875rem)"
+        weight="medium"
+        color="gray900"
+        align="center"
+      >
+        각 문항별로 짝을 지어 제시되는 두 가지 항목 중에서 자신에게 더 중요한 것에 응답해 주십시오.
+      </Text>
 
-        <SampleWrapper>
-          <TextGroup>
-            <Text
-              as="p"
-              size="clamp(0.625rem, 2vw, 0.875rem)"
-              weight="medium"
-              color="black"
-              align="center"
-            >
-              두 가치 중 자신에게 더 중요한 가치를 선택하세요.
-            </Text>
-            <Text
-              as="p"
-              size="clamp(0.625rem, 2vw, 0.875rem)"
-              weight="light"
-              color="black"
-              align="center"
-              style={{ marginTop: '0.1rem' }}
-            >
-              "아래의 답변을 클릭해 보세요"
-            </Text>
-          </TextGroup>
-          <InfoCardWrapper>
-            <InfoCard value={left} width="120px" height="125px" />
-            <InfoCard value={right} width="120px" height="125px" />
-          </InfoCardWrapper>
-        </SampleWrapper>
-      </ExampleBlock>
-    </InfoBlock>
+      <SampleWrapper>
+        <TextGroup>
+          <Text
+            as="p"
+            size="clamp(0.625rem, 2vw, 0.875rem)"
+            weight="medium"
+            color="black"
+            align="center"
+          >
+            두 가치 중 자신에게 더 중요한 가치를 선택하세요.
+          </Text>
+          <Text
+            as="p"
+            size="clamp(0.625rem, 2vw, 0.875rem)"
+            weight="light"
+            color="black"
+            align="center"
+          >
+            "아래의 답변을 클릭해 보세요"
+          </Text>
+        </TextGroup>
+        <InfoCardWrapper>
+          <InfoCard value={left} width="120px" height="125px" />
+          <InfoCard value={right} width="120px" height="125px" />
+        </InfoCardWrapper>
+      </SampleWrapper>
+    </ExampleBlock>
   </CardContent>
 );
 
 export default function TestInformSection({ onStart }: Props) {
   return (
-    <FullScreenSection>
+    <>
       <MotionSection
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -228,6 +169,6 @@ export default function TestInformSection({ onStart }: Props) {
           <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />
         </ButtonWrapper>
       </MotionSection>
-    </FullScreenSection>
+    </>
   );
 }
