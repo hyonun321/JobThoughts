@@ -64,7 +64,7 @@ const shapeVariants: Variants = {
     y: pos.y * 700,
     scale: pos.size,
     opacity: 1,
-    transition: { duration: 1.8, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 1.3, ease: [0.25, 0.1, 0.25, 1] },
   }),
 };
 
@@ -73,7 +73,7 @@ const textVariants: Variants = {
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay: i * 0.5 },
+    transition: { duration: 0.5, delay: i * 0.4 },
   }),
 };
 
@@ -82,7 +82,7 @@ const bearVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 1.3, ease: 'easeOut', delay: 0.5 },
+    transition: { duration: 1.1, ease: 'easeOut', delay: 0.4 },
   },
 };
 
