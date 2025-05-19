@@ -26,12 +26,9 @@ app.use(
   })
 );
 
-// 메모리 캐시 (기본 6시간 TTL)
-const cache = new NodeCache({ stdTTL: 60 * 60 * 6 });
-
 // 라우트 등록
 app.get('/questions', getQuestionsHandler);
-app.post('/report', (req, res) => getReportHandler(req, res, cache));
+app.post('/report', (req, res) => getReportHandler(req, res));
 
 app.listen(PORT, () => {
   console.log(`✅  서버 실행: http://localhost:${PORT}`);
