@@ -75,7 +75,6 @@ export default function NoResult({
             variant="link"
             text={buttonText}
             onClick={onButtonClick}
-            size="clamp(1rem, 2vw, 1.25rem)"
             width="30%"
             padding="2%"
           />
