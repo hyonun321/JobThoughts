@@ -105,7 +105,7 @@ export default function TestQuestionSection({
     setClicked(true); // 클릭 시 바로 재클릭 방지
     setTimeout(() => {
       onAnswer(selected); // 기존 상위 컴포넌트 호출
-    }, 600);
+    }, 300);
   };
 
   // Back 버튼 중복 클릭 방지용 핸들러
@@ -115,7 +115,7 @@ export default function TestQuestionSection({
     setClicked(true);
     setTimeout(() => {
       onBack();
-    }, 600);
+    }, 300);
   };
 
   const renderQuestion = (index: number) => {
