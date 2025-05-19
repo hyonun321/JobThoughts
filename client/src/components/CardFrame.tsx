@@ -97,34 +97,32 @@ export default function CardFrame({
 }: CardFrameProps) {
   const theme = useTheme();
 
-  const colorCycle = [theme.colors.deco2, 'rgba(220, 234, 255, 1)', 'rgba(191, 217, 255, 1)'];
-  const getColor = (index: number) =>
-    colorCycle[((index % colorCycle.length) + colorCycle.length) % colorCycle.length];
-
   const [internalStep, setInternalStep] = useState(step);
   const [displayedStep, setDisplayedStep] = useState(step);
   const [animating, setAnimating] = useState(false);
   const [waitForTimeout, setWaitForTimeout] = useState(false);
 
-  const [topCard, setTopCard] = useState({ id: step, color: getColor(step), rotation: 0 });
+  const [topCard, setTopCard] = useState({
+    id: step,
+    color: theme.colors.deco2,
+    rotation: 0,
+  });
   const [middleCard, setMiddleCard] = useState({
     id: step - 1,
-    color: getColor(step - 1),
+    color: 'rgba(220, 234, 255, 1)',
     rotation: -3,
   });
   const [backCard, setBackCard] = useState({
     id: step - 2,
-    color: getColor(step - 2),
+    color: 'rgba(191, 217, 255, 1)',
     rotation: 3,
   });
 
-  // direction 최신값 보존용
   const directionRef = useRef(direction);
   useEffect(() => {
     directionRef.current = direction;
   }, [direction]);
 
-  // 상태 유지용 ref
   const middleCardRef = useRef(middleCard);
   const backCardRef = useRef(backCard);
   useEffect(() => {
@@ -132,19 +130,14 @@ export default function CardFrame({
     backCardRef.current = backCard;
   }, [middleCard, backCard]);
 
-  // animating 상태 외부로 전달
   useEffect(() => {
     onAnimatingChange?.(animating);
   }, [animating]);
 
   useEffect(() => {
-    setTopCard({ id: step, color: getColor(step), rotation: 0 });
-    setMiddleCard({ id: step - 1, color: getColor(step - 1), rotation: -3 });
-    setBackCard({ id: step - 2, color: getColor(step - 2), rotation: 3 });
-  }, [theme, step]);
+    // step이 처음 설정될 때만 색상 초기화
+    if (internalStep === step) return;
 
-  useEffect(() => {
-    if (step === internalStep) return;
     setAnimating(true);
 
     if (directionRef.current === 'forward') {
@@ -152,16 +145,24 @@ export default function CardFrame({
       setBackCard((prev) => ({ ...prev, rotation: -3 }));
 
       setTimeout(() => {
-        setTopCard({ ...middleCardRef.current, color: getColor(step), rotation: 0 });
-        setMiddleCard({ ...backCardRef.current, color: getColor(step - 1), rotation: -3 });
-        setBackCard({ id: step - 2, color: getColor(step - 2), rotation: 3 });
+        setTopCard({ ...middleCardRef.current, rotation: 0 });
+        setMiddleCard({ ...backCardRef.current, rotation: -3 });
+        setBackCard({
+          id: step - 2,
+          color: topCard.color, // 기존 topCard 색상 복사
+          rotation: 3,
+        });
 
         setInternalStep(step);
         setDisplayedStep(step);
         setAnimating(false);
       }, 600);
     } else {
-      const newTop = { id: step, color: getColor(step), rotation: 0 };
+      const newTop = {
+        id: step,
+        color: backCard.color, // 기존 backCard 색상 복사
+        rotation: 0,
+      };
       setTopCard(newTop);
       setDisplayedStep(step);
       setWaitForTimeout(false);
@@ -169,14 +170,22 @@ export default function CardFrame({
       setTimeout(() => {
         setWaitForTimeout(true);
         setTopCard(newTop);
-        setMiddleCard({ id: topCard.id, color: getColor(step + 1), rotation: -3 });
-        setBackCard({ id: middleCard.id, color: getColor(step + 2), rotation: 3 });
+        setMiddleCard({
+          id: topCard.id,
+          color: topCard.color,
+          rotation: -3,
+        });
+        setBackCard({
+          id: middleCard.id,
+          color: middleCard.color,
+          rotation: 3,
+        });
 
         setInternalStep(step);
         setAnimating(false);
       }, 600);
     }
-  }, [step]); // ✅ 불필요한 상태 제거
+  }, [step]);
 
   const renderCard = (
     card: typeof topCard,
