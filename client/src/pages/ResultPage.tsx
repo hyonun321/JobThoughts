@@ -157,29 +157,20 @@ export default function ResultPage() {
       </ErrorContainer>
     );
 
-  // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 테스트를 했지만 결과가 없는 경우(서버 문제) - 오류 페이지
+  // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
   if (!loading && (!answers || answers.length === 0 || (fetchTried && !result))) {
-    const isNoAnswer = !answers || answers.length === 0;
     return (
       <NoResult
-        title={isNoAnswer ? '404 Page Not Found' : 'Oops! Did you skip the test?'}
-        description="테스트를 완료하시면 결과를 확인할 수 있어요."
+        title="404 Page Not Found"
+        description="요청하신 테스트 결과를 찾을 수 없습니다."
         subDescription={
-          isNoAnswer ? (
-            <>
-              아래 버튼을 눌러 검사를 진행해 주세요!
-              <br />
-              당신에게 꼭 맞는 직업과 채용 정보를 알려드릴게요.
-            </>
-          ) : (
-            <>
-              아래 버튼을 눌러 다시 검사해 보세요!
-              <br />
-              당신에게 꼭 맞는 직업과 채용 정보를 안내해드릴게요.
-            </>
-          )
+          <>
+            아래 버튼을 눌러 다시 검사해 보세요!
+            <br />
+            당신에게 꼭 맞는 직업과 채용 정보를 안내해드릴게요.
+          </>
         }
-        buttonText={!isNoAnswer ? '검사하기' : '다시 검사하기'}
+        buttonText="다시 검사하기"
         onButtonClick={() => navigate('/test')}
       />
     );
