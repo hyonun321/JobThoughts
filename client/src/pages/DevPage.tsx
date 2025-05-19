@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { mockAnswersData } from '../data/mockAnswersData';
 export default function DevPage() {
   const [questionData, setQuestionData] = useState(null);
   const [reportUrl, setReportUrl] = useState('');
@@ -23,6 +23,7 @@ export default function DevPage() {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ answers: mockAnswersData.join(' ') }),
       });
       if (!response.ok) throw new Error('서버 응답 오류 (결과)');
       const data = await response.json();
