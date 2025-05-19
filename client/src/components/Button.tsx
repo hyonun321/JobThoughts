@@ -24,12 +24,12 @@ const variantStyles: Record<
   }
 > = {
   main: {
-    width: '300px',
-    height: '55px',
+    width: 'clamp(200px, 40vw, 300px)',
+    height: 'clamp(45px, 6vw, 55px)',
     backgroundColor: 'white',
     color: 'primary',
     border: 'none',
-    padding: '20px 72px',
+    padding: 'clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 5vw, 4.5rem)',
     boxShadow: '0px 0px 10px rgba(79, 99, 255, 0.4)',
     size: 'xl',
     fontWeight: 'bold',

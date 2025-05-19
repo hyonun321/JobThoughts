@@ -6,10 +6,10 @@ import { motion, type Variants } from 'framer-motion';
 import FullScreenSection from '../../components/FullScreenSection';
 import Button from '../../components/Button';
 import Image from '../../components/Image';
-import rocketImg from '../../assets/icons/icon-rocket.png';
-import keyImg from '../../assets/icons/icon-key.png';
-import bearImg from '../../assets/start-bear.png';
-import arrowImg from '../../assets/icons/icon-start-arrow.png';
+import rocketImg from '../../assets/icons/icon-rocket.svg';
+import keyImg from '../../assets/icons/icon-key.svg';
+import bearImg from '../../assets/start-bear.svg';
+import arrowImg from '../../assets/icons/icon-start-arrow.svg';
 
 // ======================== 타입 ========================
 type PositionedIconProps = {
@@ -28,7 +28,7 @@ type PositionedIconProps = {
 // CTA 전체 영역 (배경 및 전체 화면 섹션)
 const CTAWrapper = styled(FullScreenSection)`
   width: 100vw;
-  height: 160vh;
+  height: clamp(100vh, 160vh, 200vh);
   background: linear-gradient(to bottom, #ffffff 0%, #4f63ff 40%, #000000 100%);
   position: relative;
   overflow: hidden;
@@ -36,8 +36,8 @@ const CTAWrapper = styled(FullScreenSection)`
 
 // 캐릭터 위치 스타일
 const MotionCharacter = styled(motion.div)`
-  margin-top: 2rem;
-  width: 15%;
+  margin-top: clamp(1rem, 4vw, 4rem);
+  width: clamp(160px, 60vw, 260px);
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -61,8 +61,12 @@ const PositionedWrapper = styled(motion.div)<{
   top: ${({ top }) => top || 'auto'};
   left: ${({ left }) => left || 'auto'};
   right: ${({ right }) => right || 'auto'};
-  width: ${({ width }) => width || 'auto'};
+  width: ${({ width }) => (width ? `clamp(160px, ${width}, 400px)` : 'auto')};
   z-index: 1;
+
+  @media (max-width: 768px) {
+    width: ${({ width }) => (width ? `clamp(200px, calc(${width}), 250px)` : 'auto')};
+  }
 `;
 
 // ======================== 애니메이션 정의 ========================
@@ -114,26 +118,26 @@ export default function StartCTASection() {
       animation: arrow.controls,
       src: arrowImg,
       alt: '시작 화살표',
-      top: '4%',
-      width: '15%',
+      top: '5%',
+      width: '18vw',
     },
     {
       refObj: key.ref,
       animation: key.controls,
       src: keyImg,
       alt: '열쇠 이미지',
-      top: '20%',
-      left: '-7%',
-      width: '25%',
+      top: '15%',
+      left: '-2%',
+      width: '25vw',
     },
     {
       refObj: rocket.ref,
       animation: rocket.controls,
       src: rocketImg,
       alt: '우주선 이미지',
-      top: '0%',
-      right: '-7%',
-      width: '30%',
+      top: '5%',
+      right: '-2%',
+      width: '35vw',
     },
   ];
 
