@@ -102,6 +102,7 @@ const slideInVariants = {
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchTried, setFetchTried] = useState(false);
 
   const { answers } = useTestStore();
   const { result, setResult } = useResultStore();
@@ -143,7 +144,10 @@ export default function ResultPage() {
       .catch((err) => {
         console.error(err);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setFetchTried(true);
+        setLoading(false);
+      });
   }, [answers, result, setResult]);
 
   if (loading)
@@ -152,10 +156,13 @@ export default function ResultPage() {
         <Loading message="결과를 불러오는 중이에요..." />
       </ErrorContainer>
     );
-  if (!loading && !result)
+
+  // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
+  if (!loading && (!answers || answers.length === 0 || (fetchTried && !result))) {
     return (
       <NoResult
         title="404 Page Not Found"
+        description="요청하신 테스트 결과를 찾을 수 없습니다."
         subDescription={
           <>
             아래 버튼을 눌러 다시 검사해 보세요!
@@ -163,9 +170,11 @@ export default function ResultPage() {
             당신에게 꼭 맞는 직업과 채용 정보를 안내해드릴게요.
           </>
         }
+        buttonText="다시 검사하기"
         onButtonClick={() => navigate('/test')}
       />
     );
+  }
 
   const chartData = result!.scores.map((s) => ({
     type: s.name,

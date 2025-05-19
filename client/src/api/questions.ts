@@ -1,3 +1,4 @@
+import { API_BASE_URL } from './config';
 export interface Question {
   qitemNo: number;
   question: string;
@@ -10,9 +11,9 @@ export interface Question {
 }
 
 export const fetchQuestions = async (): Promise<Question[]> => {
-  const res = await fetch('/api/questions');
+  const res = await fetch(`${API_BASE_URL}/questions`);
   if (!res.ok) {
     throw new Error('질문지를 불러오지 못했습니다');
   }
-  return res.json(); // 커리어넷 API의 실제 질문 목록을 반환
+  return res.json();
 };

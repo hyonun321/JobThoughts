@@ -12,7 +12,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://job-thoughts-client.vercel.app', 'http://localhost:5173'],
+    credentials: true,
+  })
+);
 
 // 메모리 캐시 (기본 6시간 TTL)
 const cache = new NodeCache({ stdTTL: 60 * 60 * 6 });
