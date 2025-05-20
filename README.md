@@ -8,7 +8,7 @@
 
 해당 직업과 관련된 **실시간 채용정보**까지 연결해주는 **진로 탐색/채용 연계 서비스**입니다.
 
-[🔗팀노션](https://rigorous-termite-44d.notion.site/Team-Project-Template-1ecbbd280f318080b3f1e61be738fdd6?pvs=4)
+[🔗팀노션](https://www.notion.so/03-Team-Project-1ecbbd280f318080b3f1e61be738fdd6?pvs=4)
 [🎨피그마](https://www.figma.com/design/kzBz8vu4o70rNzyNu9p76g/3%EC%A1%B0-%EC%9E%A1%EC%83%9D%EA%B0%81---%EC%9C%A0%EB%A0%88%EC%B9%B4-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82?node-id=0-1&t=ZjWI6LJL9gbCBXy0-1)
 [🌐배포사이트](https://job-thoughts-client.vercel.app/)
 
