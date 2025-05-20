@@ -5,6 +5,7 @@ import Button from '../../components/Button';
 import Text from '../../components/Text';
 import { InfoCard } from '../../components/Card';
 import testData from '../../data/testData';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   onStart: () => void;
@@ -89,20 +90,53 @@ const InfoCardWrapper = styled.div`
 const { left, right } = testData[0];
 
 // 🔁 카드에 들어갈 공통 콘텐츠 정의
-const renderCardContent = () => (
+const renderCardContent = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => (
   <div>
     <TextWrapper>
-      <Text
-        as="h2"
-        size="clamp(0.75rem, 1.6vw, 1.125rem)"
-        weight="bold"
-        color="black"
-        align="center"
-      >
-        직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
-        여기는가를 살펴보고,
-        <br /> 그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
-      </Text>
+      {isMobile && (
+        <Text
+          as="h2"
+          size="clamp(0.75rem, 1.6vw, 1.125rem)"
+          weight="bold"
+          color="black"
+          align="center"
+        >
+          직업과 관련된 다양한 욕구 및 가치들에 대해
+          <br /> 여러분이 상대적으로 무엇을 얼마나
+          <br /> 더 중요하게 여기는가를 살펴보고,
+          <br /> 그 가치가 충족될 가능성이 높은 직업을
+          <br /> 탐색할 수 있도록 도움을 주는 검사입니다.
+        </Text>
+      )}
+
+      {isTablet && (
+        <Text
+          as="h2"
+          size="clamp(0.75rem, 1.6vw, 1.125rem)"
+          weight="bold"
+          color="black"
+          align="center"
+        >
+          직업과 관련된 다양한 욕구 및 가치들에 대해
+          <br />
+          여러분이 상대적으로 무엇을 얼마나 더 중요하게 여기는가를 살펴보고,
+          <br />그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
+        </Text>
+      )}
+
+      {isDesktop && (
+        <Text
+          as="h2"
+          size="clamp(0.75rem, 1.6vw, 1.125rem)"
+          weight="bold"
+          color="black"
+          align="center"
+        >
+          직업과 관련된 다양한 욕구 및 가치들에 대해 여러분이 상대적으로 무엇을 얼마나 더 중요하게
+          여기는가를 살펴보고,
+          <br />그 가치가 충족될 가능성이 높은 직업을 탐색할 수 있도록 도움을 주는 검사입니다.
+        </Text>
+      )}
     </TextWrapper>
 
     <ExampleBlock>
@@ -148,6 +182,10 @@ const renderCardContent = () => (
 );
 
 export default function TestInformSection({ onStart }: Props) {
+  const isMobile = useMediaQuery({ query: '(max-width: 480px)' });
+  const isTablet = useMediaQuery({ query: '(min-width: 481px) and (max-width: 1023px)' });
+  const isDesktop = useMediaQuery({ query: '(min-width: 1025px)' });
+
   return (
     <>
       <MotionSection
@@ -159,7 +197,7 @@ export default function TestInformSection({ onStart }: Props) {
         <CardFrame
           step={0}
           direction="forward"
-          renderContent={() => renderCardContent()}
+          renderContent={() => renderCardContent(isMobile, isTablet, isDesktop)}
           renderOnlyTopCard
         />
         <ButtonWrapper>

@@ -84,7 +84,7 @@ const ResponsiveButton = styled(Button)`
 `;
 
 const QuestionTextWrapper = styled.div`
-  margin-top: 0; // 기본값 (데스크탑)
+  margin-top: 0;
 
   @media (max-width: 920px) {
     margin-top: 2.5rem;
