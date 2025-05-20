@@ -112,7 +112,7 @@ export default function TestPage() {
   }, [isComplete, answers]);
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', height: '100dvh', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', height: '100lvh', overflow: 'hidden' }}>
       <BackgroundFloatWrapper>
         <Image
           src={waveIcon}
