@@ -9,12 +9,13 @@ const Section = styled.section`
   height: 300vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: relative;
-  overflow: hidden;
 `;
-
 const StickyWrapper = styled.div`
   position: fixed;
-  width: 100vw;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100dvh;
   display: flex;
   justify-content: center;
@@ -22,7 +23,6 @@ const StickyWrapper = styled.div`
   align-items: center;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
 `;
 
 const Wrapper = styled.div`
@@ -46,7 +46,10 @@ const JobText = styled(motion.span)<{ $outline?: boolean }>`
 `;
 
 const BlackSection = styled(motion.div)`
-  width: 100vw;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.black};
   position: fixed;

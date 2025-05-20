@@ -39,7 +39,7 @@ const WordWrapper = styled.div`
   flex-direction: column;
   gap: clamp(0.75rem, 4vw, 2rem);
   h1 {
-    font-size: clamp(${theme.fontSize.xl}, 3.125vw, ${theme.fontSize.xxl});
+    font-size: clamp(22px, 3.125vw, ${theme.fontSize.xxl});
     white-space: nowrap;
   }
 
