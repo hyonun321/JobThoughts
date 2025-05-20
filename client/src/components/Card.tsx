@@ -117,10 +117,12 @@ const CardLabel = styled.span`
     margin-top: 0;
     font-size: ${({ theme }) => theme.fontSize.m};
   }
-  @media (max-width: 780px) {
+  @media (max-width: 768px) {
     margin-top: 0;
     font-size: ${({ theme }) => theme.fontSize.xs};
     text-align: center;
+    color: ${({ theme }) => theme.colors.primary};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `;
 
@@ -149,7 +151,7 @@ const CardDescription = styled.span`
   line-height: 1.4;
 
   @media (max-width: 920px) {
-    text-align: left;
+    text-align: center;
     max-width: 100%;
     margin-top: 0.3rem;
   }
