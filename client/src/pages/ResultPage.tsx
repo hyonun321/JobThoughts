@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSection from '../features/result/LoadingSection';
 import OnboardingModal from '../features/result/OnboardingModal';
 import mockResultData from '../data/mockResultData';
+const isDev = import.meta.env.DEV;
 const ResultSection = styled.div`
   padding: 0px 20px;
   margin-top: 40px;
@@ -99,7 +100,6 @@ export default function ResultPage() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const { answers } = useTestStore();
   const { result, setResult } = useResultStore();
-  const isDev = process.env.NODE_ENV === 'development';
   const navigate = useNavigate();
 
   const preventClose = (e: BeforeUnloadEvent) => {
