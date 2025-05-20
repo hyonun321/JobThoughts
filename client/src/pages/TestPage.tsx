@@ -28,10 +28,20 @@ const BackgroundFloatWrapper = styled.div`
     pointer-events: none;
     z-index: 0;
   }
+
+  .wave {
+    left: 'calc(-3vw)';
+    @media (max-width: 768px) {
+      left: -10vw;
+    }
+  }
+
   .ring {
     left: 20vw;
+    top: 75%;
     @media (max-width: 768px) {
-      left: 6vw;
+      left: 1vw;
+      top: 80%;
     }
   }
   .cube {
@@ -39,29 +49,8 @@ const BackgroundFloatWrapper = styled.div`
     bottom: 5%;
 
     @media (max-width: 768px) {
-      right: 2vw;
+      right: -7vw;
     }
-  }
-`;
-
-const LoadingOverlay = styled.div`
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const CubeImage = styled(Image)`
-  position: absolute;
-  bottom: 5%;
-
-  @media (max-width: 768px) {
-    bottom: 1%;
   }
 `;
 
@@ -121,9 +110,9 @@ export default function TestPage() {
           alt="배경 웨이브"
           width="clamp(450px, 55vw, 1100px)"
           motion="float"
+          className="wave"
           style={{
             top: 'calc(-5vw)', // 화면 작아지면 더 들어가고 커지면 살짝 튀어나옴
-            left: 'calc(-8vw)',
           }}
         />
         <Image
@@ -132,23 +121,21 @@ export default function TestPage() {
           width="clamp(200px, 20vw, 25vw)"
           motion="float"
           className="ring"
-          style={{
-            top: 'clamp(78%, 75%, 78%)',
-          }}
         />
-        <CubeImage
+        <Image
           src={cubeIcon}
           alt="배경 큐브"
           width="clamp(170px, 15vw, 288px)"
           motion="float"
           className="cube"
+          style={{
+            bottom: 'clamp(25%,5%,5%)',
+          }}
         />
       </BackgroundFloatWrapper>
 
       {loading ? (
-        <LoadingOverlay>
-          <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
-        </LoadingOverlay>
+        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
       ) : currentIndex === 0 ? (
         <TestInformSection onStart={() => setCurrentIndex(1)} />
       ) : !isComplete ? (
