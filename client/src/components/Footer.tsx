@@ -23,7 +23,6 @@ const FooterWrapper = styled.footer`
 const BearsRow = styled.div`
   display: flex;
   justify-content: center;
-  gap: 25px;
   margin-bottom: 40px;
   flex-wrap: wrap;
   width: 90%;

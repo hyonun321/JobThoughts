@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
-import useScrollAnimation from '../../hooks/useScrollAnimation';
+import useScrollAnimation from '../../hooks/useScrollAnimation'; // ✅ 수정됨
 
 // 이미지 리소스
 import worriedBear from '../../assets/bears/worried-bear.svg';
@@ -39,7 +39,7 @@ const WordWrapper = styled.div`
   flex-direction: column;
   gap: clamp(0.75rem, 4vw, 2rem);
   h1 {
-    font-size: clamp(${theme.fontSize.xl}, 3.125vw, ${theme.fontSize.xxl});
+    font-size: clamp(22px, 3.125vw, ${theme.fontSize.xxl});
     white-space: nowrap;
   }
 

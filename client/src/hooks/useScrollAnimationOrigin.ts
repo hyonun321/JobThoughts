@@ -11,9 +11,12 @@ export default function useScrollAnimation(amount = 0.5, once = false) {
   const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
+    // 한번만 실행하는 옵션이면서 아직 실행 안 한 경우
     if (once) {
-      controls.start('visible'); //4️⃣ 보이면 visible, 아니면 hidden 상태로 애니메이션 상태 전환
-      setHasAnimated(true);
+      if (inView && !hasAnimated) {
+        controls.start('visible');
+        setHasAnimated(true);
+      }
     } else {
       controls.start(inView ? 'visible' : 'hidden');
     }

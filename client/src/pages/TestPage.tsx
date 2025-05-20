@@ -28,10 +28,20 @@ const BackgroundFloatWrapper = styled.div`
     pointer-events: none;
     z-index: 0;
   }
+
+  .wave {
+    left: 'calc(-3vw)';
+    @media (max-width: 768px) {
+      left: -10vw;
+    }
+  }
+
   .ring {
     left: 20vw;
+    top: 75%;
     @media (max-width: 768px) {
-      left: 6vw;
+      left: 1vw;
+      top: 80%;
     }
   }
   .cube {
@@ -39,7 +49,7 @@ const BackgroundFloatWrapper = styled.div`
     bottom: 5%;
 
     @media (max-width: 768px) {
-      right: 2vw;
+      right: -7vw;
     }
   }
 `;
@@ -100,9 +110,9 @@ export default function TestPage() {
           alt="배경 웨이브"
           width="clamp(450px, 55vw, 1100px)"
           motion="float"
+          className="wave"
           style={{
             top: 'calc(-5vw)', // 화면 작아지면 더 들어가고 커지면 살짝 튀어나옴
-            left: 'calc(-3vw)',
           }}
         />
         <Image
@@ -111,9 +121,6 @@ export default function TestPage() {
           width="clamp(200px, 20vw, 25vw)"
           motion="float"
           className="ring"
-          style={{
-            top: 'clamp(80%, 75%, 80%)',
-          }}
         />
         <Image
           src={cubeIcon}
