@@ -82,7 +82,7 @@ const LoadingContainer = styled.div`
 const layoutSpring = {
   type: 'spring',
   stiffness: 40,
-  damping: 20,
+  damping: 10,
 };
 
 const slideInVariants = {

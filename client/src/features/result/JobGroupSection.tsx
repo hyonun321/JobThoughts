@@ -92,6 +92,14 @@ const JobListContainer = styled.div`
 const JobGroup = styled.div`
   display: flex;
   gap: 15px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 5px;
+    img {
+      display: none;
+    }
+  }
 `;
 
 // 계열 레이아웃
@@ -101,7 +109,7 @@ const Category = styled.div`
   width: clamp(160px, 20vw, 250px);
   flex-shrink: 0;
   background-color: #e0ecff;
-  border-radius: clamp(20px, 2vw, 30px);
+  border-radius: clamp(8px, 2vw, 30px);
   box-shadow: 4px 4px 4px rgba(200, 224, 255, 1);
 
   img {
@@ -115,6 +123,19 @@ const Category = styled.div`
     margin-left: -5px;
     white-space: wrap;
   }
+
+  @media (max-width: 640px) {
+    width: 100%;
+
+    img {
+      display: none;
+    }
+
+    h4 {
+      margin: 0 auto;
+      padding: 12px;
+    }
+  }
 `;
 
 // 직업 버튼 레이아웃 O
@@ -126,7 +147,7 @@ const JobButtonContainer = styled.div`
   align-items: center;
   padding: clamp(10px, 2vw, 20px);
   background-color: rgb(245, 249, 255);
-  border-radius: clamp(20px, 2vw, 30px);
+  border-radius: clamp(8px, 2vw, 30px);
   box-shadow: 4px 4px 4px rgba(200, 224, 255);
 `;
 
