@@ -75,6 +75,7 @@ const Button = styled.button<{ isOpen: boolean; isPlaceholder: boolean }>`
   }
   @media (max-width: 640px) {
     font-size: ${({ theme }) => theme.fontSize.xs};
+    gap: 0.2rem;
   }
 `;
 
