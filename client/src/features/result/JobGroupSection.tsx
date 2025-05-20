@@ -37,6 +37,13 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
 `;
 
 // 제목 텍스트 부분
@@ -48,6 +55,10 @@ const TextArea = styled.div`
   h3 {
     font-size: clamp(${theme.fontSize.xs}, 2vw, ${theme.fontSize.lg});
     margin: 0 0 clamp(10px, 5vw, 30px) 0;
+  }
+
+  @media (max-width: 640px) {
+    align-items: center;
   }
 `;
 
@@ -61,6 +72,10 @@ const H2Wrapper = styled.div`
 
   h2 span {
     color: ${theme.colors.primary};
+  }
+
+  @media (max-width: 640px) {
+    margin-right: 0;
   }
 `;
 
@@ -77,6 +92,10 @@ const ImageArea = styled.div`
     object-fit: contain;
     z-index: 10;
   }
+
+  @media (max-width: 640px) {
+    display: none; // ✅ 전체 이미지 영역을 숨김
+  }
 `;
 
 const TopTitle = styled.div`
@@ -89,6 +108,11 @@ const TopTitle = styled.div`
   box-shadow: 2px 3px 1px rgba(200, 224, 255, 1);
   font-size: clamp(${theme.fontSize.xxs}, 2vw, ${theme.fontSize.lg});
   font-weight: ${theme.fontWeight.medium};
+
+  @media (max-width: 640px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 // 직업 리스트 전체 레이아웃 O
@@ -151,13 +175,22 @@ const Category = styled.div`
 const JobButtonContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(4px, 1vw, 12px);
+  gap: clamp(5px, 1vw, 12px);
   flex: 1;
   align-items: center;
   padding: clamp(10px, 2vw, 20px);
   background-color: rgb(245, 249, 255);
   border-radius: clamp(8px, 2vw, 30px);
   box-shadow: 4px 4px 4px rgba(200, 224, 255);
+
+  @media (max-width: 640px) {
+    justify-content: center;
+    box-shadow: none;
+
+    button {
+      box-shadow: none; // ✅ 버튼 자체도 모바일에선 shadow 제거
+    }
+  }
 `;
 
 type JobsByMajor = {
