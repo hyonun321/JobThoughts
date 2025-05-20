@@ -1,26 +1,49 @@
 # 유레카 프론트엔드 비대면 3조
 ![image](https://github.com/user-attachments/assets/cf5feed1-4add-4bf7-ba2e-3be73272d434)
 
-## 잡생각
+## 잡생각(JobThoughts)
 ![image](https://github.com/user-attachments/assets/d3a348df-4d15-41e9-8d48-1a06af898fd5)
 
 💡 **잡생각**은 사용자의 성향, 선호도, 선택 데이터를 기반으로 적합한 직업을 추천하고,
 
 해당 직업과 관련된 **실시간 채용정보**까지 연결해주는 **진로 탐색/채용 연계 서비스**입니다.
 
+[🔗팀노션](https://rigorous-termite-44d.notion.site/Team-Project-Template-1ecbbd280f318080b3f1e61be738fdd6?pvs=4)
+[🎨피그마](https://www.figma.com/design/kzBz8vu4o70rNzyNu9p76g/3%EC%A1%B0-%EC%9E%A1%EC%83%9D%EA%B0%81---%EC%9C%A0%EB%A0%88%EC%B9%B4-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82?node-id=0-1&t=ZjWI6LJL9gbCBXy0-1)
+[🌐배포사이트](https://job-thoughts-client.vercel.app/)
 
-[팀노션](https://rigorous-termite-44d.notion.site/Team-Project-Template-1ecbbd280f318080b3f1e61be738fdd6?pvs=4)
-[피그마](https://www.figma.com/design/kzBz8vu4o70rNzyNu9p76g/3%EC%A1%B0-%EC%9E%A1%EC%83%9D%EA%B0%81---%EC%9C%A0%EB%A0%88%EC%B9%B4-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82?node-id=0-1&t=ZjWI6LJL9gbCBXy0-1)
-
-
+  
 ## 🏃‍♂️ 주요기능
 
 | 기능 | 설명 |
 | --- | --- |
 | 1. 성향 선택형 테스트 | 간단한 질문을 통해 사용자의 기호와 선호 활동을 파악 |
 | 2. 직업 추천 | **커리어넷 API 기반으로 적합한 직업 추천** |
-| 3. 실시간 채용 정보 조회 | 추천된 직업의 **채용 공고를 바로 조회 가능** |
+| 3. 실시간 채용 정보 조회 | 추천된 직업의 **채용 공고를 바로 조회 가능**( 현재 mock데이터 사용중 ) |
 | 4. 직업 정보 열람 | 각 직업에 대한 설명, 필요 역량, 자격증, 학과 정보 등 제공 |
+
+### 메인화면
+
+https://github.com/user-attachments/assets/44784c55-993d-4678-9093-69e1be39b3ef
+
+### 직업 가치관 검사 화면
+
+https://github.com/user-attachments/assets/c95d8638-ab44-45e5-91fb-48fa7865f83f
+
+### 직업 가치관 검사 결과 화면
+
+https://github.com/user-attachments/assets/c711b204-6118-4e52-ab4d-8f52edaeee2b
+
+### 채용 공고 화면
+
+https://github.com/user-attachments/assets/d4a62e6e-ade1-43d7-a7b3-c5d73ce2e755
+
+### 모바일 반응형 구현(모든 페이지)
+
+https://github.com/user-attachments/assets/a7157564-5de4-49c7-be2f-50f985d959cf
+
+https://github.com/user-attachments/assets/aafbd9c3-7293-4582-a34b-f1f0ac03026d
+
 
 ## 📚 Tech Stack
 
@@ -60,3 +83,22 @@
 - `Refactor`: Code refactoring
 - `Test`: Test code, adding refactoring tests
 - `Build`: Build task updates, package manager updates
+
+
+# 🔰 실행 방법
+``` bash
+# 1. pnpm 설치 (npm 사용자는 먼저 pnpm을 설치해야 합니다)
+npm install -g pnpm
+
+# 2. 의존성 설치 (루트 디렉토리에서 실행)
+pnpm install
+
+# 3. 빌드 (서버, 클라이언트 등 모든 패키지 빌드)
+pnpm build
+
+# 4. 개발 서버 실행 (서버와 클라이언트가 동시에 실행됨)
+pnpm dev
+```
+
+> 💡 해당 프로젝트는 모노레포 구조로 되어 있으며, pnpm 워크스페이스를 사용해 서버와 클라이언트를 함께 관리합니다. 
+> pnpm dev 실행 시 서버와 클라이언트가 동시에 구동됩니다.
