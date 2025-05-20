@@ -136,7 +136,7 @@ export default function TestQuestionSection({
           ) : (
             <Text
               as="h3"
-              size="clamp(0.75rem, 1vw, 1.5rem)"
+              size="clamp(0.75rem, 2vw, 2rem)"
               weight="medium"
               color="black"
               align="center"
