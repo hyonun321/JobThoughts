@@ -15,6 +15,15 @@ import cubeIcon from '../assets/icons/icon-cube.png';
 import ringIcon from '../assets/icons/icon-ring.png';
 import waveIcon from '../assets/icons/icon-wave.png';
 
+const LoadingWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+`;
 const BackgroundFloatWrapper = styled.div`
   position: absolute;
   width: 100%;
@@ -135,7 +144,9 @@ export default function TestPage() {
       </BackgroundFloatWrapper>
 
       {loading ? (
-        <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
+        <LoadingWrapper>
+          <Loading message="당신에게 맞는 질문을 준비 중이에요..." />
+        </LoadingWrapper>
       ) : currentIndex === 0 ? (
         <TestInformSection onStart={() => setCurrentIndex(1)} />
       ) : !isComplete ? (

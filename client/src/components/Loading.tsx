@@ -20,6 +20,7 @@ const LoadingContainer = styled.div`
   justify-content: center;
   height: 150px;
   gap: 1.5rem;
+  z-index: 2;
 `;
 
 const rotate = keyframes`
