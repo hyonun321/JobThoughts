@@ -21,5 +21,18 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
+  },
+  {
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+        alias: {
+          map: [['@', './src']],
+          extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        },
+      },
+    },
   }
 );
