@@ -29,7 +29,7 @@ const categoryImages: Record<string, string> = {
 const Section = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: clamp(20px, 5vw, 50px);
+  padding: clamp(5px, 5vw, 50px);
 `;
 
 const TitleContainer = styled.div`
