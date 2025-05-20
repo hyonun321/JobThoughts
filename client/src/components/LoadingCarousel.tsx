@@ -72,7 +72,7 @@ export default function LoadingCarousel({ images, messages }: Props) {
           exit={{ opacity: 0, x: -30 }}
           transition={{ duration: 0.6 }}
         >
-          <Image src={images[index]} width={'100%'} alt="loading visual" />
+          <Image loading="eager" src={images[index]} width={'100%'} alt="loading visual" />
           <Message>{messages[index]}</Message>
         </CarouselItem>
       </AnimatePresence>

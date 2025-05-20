@@ -6,6 +6,7 @@ import loading3 from '../../assets/bears/bears-5.svg';
 import loading4 from '../../assets/bears/bears-6.svg';
 import loading5 from '../../assets/bears/stop-bear.svg';
 import Loading from '../../components/Loading';
+import { useEffect } from 'react';
 const images = [loading1, loading2, loading3, loading4, loading5];
 
 const messages = [
@@ -17,6 +18,12 @@ const messages = [
 ];
 
 export default function LoadingSection() {
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
   return (
     <LoadingContainer>
       <LoadingCarousel images={images} messages={messages} />
