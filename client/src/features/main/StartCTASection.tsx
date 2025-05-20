@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useScrollAnimation from '../../hooks/useScrollAnimation';
+import useScrollAnimation from '../../hooks/useScrollAnimation'; // ✅ 수정됨
 import { motion, type Variants } from 'framer-motion';
 import FullScreenSection from '../../components/FullScreenSection';
 import Button from '../../components/Button';

@@ -9,6 +9,24 @@ import iconStar from '../../assets/icons/icon-star.png';
 import iconMoon from '../../assets/icons/icon-moon.png';
 import lyingBear from '../../assets/lying-bear.png';
 
+const fadeInVariants: Variants = {
+  hidden: { opacity: 0, y: 50, transition: { duration: 0.4, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+};
+
+const wordVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      delay: i * 0.15,
+      ease: 'easeOut',
+    },
+  }),
+};
+
 const NextSection = styled.section`
   width: 100vw;
   background: linear-gradient(to bottom, #000000 0%, #4f63ff 50%, #ffffff 100%);
@@ -35,7 +53,7 @@ const SectionGroup = styled.div`
   padding: clamp(85px, 6vw, 80px) 0;
 `;
 
-const WordWrap = styled.div`
+const WordWrap = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -118,6 +136,7 @@ export default function MessageSection() {
   const text2 = useScrollAnimation();
   const moon = useScrollAnimation();
   const bear = useScrollAnimation();
+  const word = useScrollAnimation();
 
   const words = ['잡생각은,', '이런', '걸', '합니다'];
 
@@ -216,22 +235,20 @@ export default function MessageSection() {
             width="clamp(200px, 40vw, 450px)"
             motion="float"
           />
-          <WordWrap>
-            {words.map((word, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                variants={wordVariants}
-                viewport={{ once: false, amount: 0.5 }}
-              >
+          <WordWrap
+            ref={word.ref}
+            initial="hidden"
+            animate={word.controls}
+            variants={fadeInVariants}
+          >
+            {words.map((wordText, i) => (
+              <motion.span key={i} custom={i} variants={wordVariants}>
                 {i === 0 ? (
                   <>
                     <span style={{ color: theme.colors.primary }}>잡생각</span>은,
                   </>
                 ) : (
-                  word
+                  wordText
                 )}
               </motion.span>
             ))}
@@ -241,24 +258,3 @@ export default function MessageSection() {
     </NextSection>
   );
 }
-
-const fadeInVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
-  },
-};
-
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      delay: i * 0.15,
-    },
-  }),
-};
