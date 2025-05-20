@@ -58,6 +58,7 @@ const Image: React.FC<ImageProps> = ({
       height={height}
       $motion={motion}
       onClick={onClick}
+      loading="eager"
       {...rest} // data-aos 등 외부 속성 허용
     />
   );
