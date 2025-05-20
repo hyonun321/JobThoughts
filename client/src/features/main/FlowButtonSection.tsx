@@ -8,7 +8,7 @@ import { useRef, useState, useEffect } from 'react';
 
 const Section = styled.section`
   width: 100vw;
-  height: 500vh;
+  height: 400vh;
   background-color: ${({ theme }) => theme.colors.white};
   position: relative;
 `;
