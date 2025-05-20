@@ -16,7 +16,7 @@ type ResultChartProps = {
 
 const Wrapper = styled.div`
   position: relative;
-  width: clamp(320px, 40vw, 450px);
+  width: clamp(250px, 40vw, 450px);
   aspect-ratio: 1 / 1;
 `;
 
