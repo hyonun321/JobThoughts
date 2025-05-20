@@ -56,6 +56,15 @@ const LoadingOverlay = styled.div`
   align-items: center;
 `;
 
+const CubeImage = styled(Image)`
+  position: absolute;
+  bottom: 5%;
+
+  @media (max-width: 768px) {
+    bottom: 1%;
+  }
+`;
+
 export default function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [step, setStep] = useState(0);
@@ -114,7 +123,7 @@ export default function TestPage() {
           motion="float"
           style={{
             top: 'calc(-5vw)', // 화면 작아지면 더 들어가고 커지면 살짝 튀어나옴
-            left: 'calc(-3vw)',
+            left: 'calc(-8vw)',
           }}
         />
         <Image
@@ -124,18 +133,15 @@ export default function TestPage() {
           motion="float"
           className="ring"
           style={{
-            top: 'clamp(80%, 75%, 80%)',
+            top: 'clamp(78%, 75%, 78%)',
           }}
         />
-        <Image
+        <CubeImage
           src={cubeIcon}
           alt="배경 큐브"
           width="clamp(170px, 15vw, 288px)"
           motion="float"
           className="cube"
-          style={{
-            bottom: 'clamp(25%,5%,5%)',
-          }}
         />
       </BackgroundFloatWrapper>
 

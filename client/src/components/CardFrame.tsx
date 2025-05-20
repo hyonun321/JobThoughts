@@ -12,6 +12,7 @@ type CardFrameProps = {
   direction?: 'forward' | 'backward';
   onAnimatingChange?: (animating: boolean) => void;
   total?: number;
+  renderOnlyTopCard?: boolean;
 };
 
 type LastCardProps = {
@@ -22,6 +23,11 @@ const FrameWrapper = styled.div`
   position: relative;
   width: clamp(200px, 65vw, 900px);
   height: clamp(400px, 70vh, 700px);
+
+  @media (min-width: 1024px) {
+    width: 65%;
+    height: 65%;
+  }
 `;
 
 const AnimatedCard = styled(motion.div)<{ z: number; color: string }>`
@@ -149,6 +155,7 @@ export default function CardFrame({
   direction = 'forward',
   onAnimatingChange,
   total,
+  renderOnlyTopCard,
 }: CardFrameProps) {
   const theme = useTheme();
 
@@ -301,8 +308,8 @@ export default function CardFrame({
 
   return (
     <FrameWrapper>
-      {renderCard(backCard, 0, renderContent(displayedStep + 2))}
-      {renderCard(middleCard, 1, renderContent(displayedStep + 1))}
+      {renderCard(backCard, 0, renderOnlyTopCard ? null : renderContent(displayedStep + 2))}
+      {renderCard(middleCard, 1, renderOnlyTopCard ? null : renderContent(displayedStep + 1))}
       {renderCard(topCard, 2, renderContent(displayedStep), true, displayedStep > 0)}
     </FrameWrapper>
   );

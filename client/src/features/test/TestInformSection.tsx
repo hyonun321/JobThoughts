@@ -156,7 +156,12 @@ export default function TestInformSection({ onStart }: Props) {
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <CardFrame step={0} direction="forward" renderContent={() => renderCardContent()} />
+        <CardFrame
+          step={0}
+          direction="forward"
+          renderContent={() => renderCardContent()}
+          renderOnlyTopCard
+        />
         <ButtonWrapper>
           <Button onClick={onStart} variant="link" text="직업 가치관 검사 시작" hoverColor="area" />
         </ButtonWrapper>
