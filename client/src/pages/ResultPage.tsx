@@ -9,10 +9,9 @@ import { theme } from '../../src/styles/theme';
 import { useTestStore } from '../store/useTestStore';
 import { useResultStore } from '../store/useResultStore';
 import { postReport } from '../api/report';
-import Loading from '../components/Loading';
 import NoResult from '../components/NoResult';
 import { useNavigate } from 'react-router-dom';
-
+import LoadingSection from '../features/result/LoadingSection';
 const ResultSection = styled.div`
   padding: 0px 20px;
   margin-top: 40px;
@@ -70,13 +69,6 @@ const DescriptionWrapper = styled(motion.div)`
     justify-content: center;
     align-items: center;
   }
-`;
-
-const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 `;
 
 const layoutSpring = {
@@ -146,12 +138,7 @@ export default function ResultPage() {
       });
   }, [answers, result, setResult]);
 
-  if (loading)
-    return (
-      <LoadingContainer>
-        <Loading message="결과를 불러오는 중이에요..." />
-      </LoadingContainer>
-    );
+  if (loading) return <LoadingSection />;
 
   // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
   if (!answers || answers.length === 0 || !result) {
