@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import Image from './Image';
-import { theme } from '../styles/theme';
+import { theme } from '@/styles/theme';
 type Props = {
   images: string[];
   messages: string[];

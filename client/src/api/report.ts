@@ -7,7 +7,6 @@ export const formatAnswers = (answers: Answer[]) => {
 
 export const postReport = async (answers: Answer[]) => {
   const formatted = formatAnswers(answers);
-  console.log('formatted answers string:', formatted);
 
   const res = await fetch(`${API_BASE_URL}/report`, {
     method: 'POST',

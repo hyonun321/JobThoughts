@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import NoResultBear from '../../src/assets/bears/no-result-bear.svg';
+import NoResultBear from '@/assets/bears/no-result-bear.svg';
 import Button from './Button';
-import { theme } from '../styles/theme';
+import { theme } from '@/styles/theme';
 import type React from 'react';
 
 const NoResultContainer = styled.div`

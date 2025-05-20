@@ -13,7 +13,6 @@ export const getReportHandler = async (req, res) => {
 
   // 캐시 체크
   if (persistentCache[answers]) {
-    console.log('📦 디스크 캐시 반환');
     return res.json(persistentCache[answers]);
   }
 

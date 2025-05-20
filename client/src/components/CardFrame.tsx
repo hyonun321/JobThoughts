@@ -1,7 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import IconBack from '../assets/icons/icon-back.svg';
+import IconBack from '@/assets/icons/icon-back.svg';
 
 const ANIMATION_DURATION = 300;
 
@@ -25,8 +25,8 @@ const FrameWrapper = styled.div`
   height: clamp(400px, 65vh, 700px);
 
   @media (min-width: 1024px) {
-    width: 65%;
-    height: 65%;
+    width: 75%;
+    height: 75%;
   }
 `;
 
