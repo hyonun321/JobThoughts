@@ -12,6 +12,9 @@ import { postReport } from '../api/report';
 import NoResult from '../components/NoResult';
 import { useNavigate } from 'react-router-dom';
 import LoadingSection from '../features/result/LoadingSection';
+import OnboardingModal from '../features/result/OnboardingModal';
+import mockResultData from '../data/mockResultData';
+const isDev = import.meta.env.DEV;
 const ResultSection = styled.div`
   padding: 0px 20px;
   margin-top: 40px;
@@ -94,15 +97,13 @@ const slideInVariants = {
 export default function ResultPage() {
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const { answers } = useTestStore();
   const { result, setResult } = useResultStore();
-
   const navigate = useNavigate();
 
   const preventClose = (e: BeforeUnloadEvent) => {
     e.preventDefault();
-    e.returnValue = '';
   };
 
   useEffect(() => {
@@ -138,10 +139,26 @@ export default function ResultPage() {
       });
   }, [answers, result, setResult]);
 
-  if (loading) return <LoadingSection />;
+  useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+      localStorage.setItem('hasSeenOnboarding', 'true');
+    }
+  }, []);
 
+  useEffect(() => {
+    if (isDev) {
+      if (!result) {
+        setResult(mockResultData);
+        setLoading(false);
+      }
+    }
+  }, [result, setResult]);
+
+  if (loading) return <LoadingSection />;
   // 로딩 중이 아닌데, 테스트를 진행하지 않았거나 결과가 없는 경우 - 404 페이지로 통일 처리
-  if (!answers || answers.length === 0 || !result) {
+  if (!loading && (!result || ((!answers || answers.length === 0) && !isDev))) {
     return (
       <NoResult
         title="404 Page Not Found"
@@ -166,6 +183,7 @@ export default function ResultPage() {
 
   return (
     <ResultSection>
+      {showOnboarding && <OnboardingModal onClose={() => setShowOnboarding(false)} />}
       <ChartInfoText>
         <h1>
           차트의 각 항목을 <span>클릭</span> 해보세요!
