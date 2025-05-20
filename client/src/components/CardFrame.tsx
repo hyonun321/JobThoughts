@@ -22,7 +22,7 @@ type LastCardProps = {
 const FrameWrapper = styled.div`
   position: relative;
   width: clamp(200px, 65vw, 900px);
-  height: clamp(400px, 70vh, 700px);
+  height: clamp(400px, 65vh, 700px);
 
   @media (min-width: 1024px) {
     width: 65%;
@@ -108,11 +108,11 @@ const BackButton = styled.button`
 
   @media (max-width: 480px) {
     left: 1rem;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 
     img {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
   }
 `;
@@ -142,9 +142,10 @@ const StepIndicator = styled.div`
   }
 
   @media (max-width: 480px) {
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1.3rem;
+    right: 1.3rem;
     padding: 0.15rem 0.4rem;
+    font-size: ${({ theme }) => theme.fontSize.xxs};
   }
 `;
 

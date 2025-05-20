@@ -18,7 +18,7 @@ const LoadingContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60vh;
+  height: 150px;
   gap: 1.5rem;
 `;
 
@@ -28,10 +28,10 @@ const rotate = keyframes`
 `;
 
 const Spinner = styled.div`
-  width: 48px;
-  height: 48px;
-  border: 5px solid ${({ theme }) => theme.colors.gray300};
-  border-top: 5px solid ${({ theme }) => theme.colors.primary};
+  width: 35px;
+  height: 35px;
+  border: 4px solid ${({ theme }) => theme.colors.gray300};
+  border-top: 4px solid ${({ theme }) => theme.colors.primary};
   border-radius: 50%;
   animation: ${rotate} 1s linear infinite;
 `;

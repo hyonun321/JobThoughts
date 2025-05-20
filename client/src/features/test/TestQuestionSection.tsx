@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useMediaQuery } from 'react-responsive';
 
 import FullScreenSection from '../../components/FullScreenSection';
 import Card from '../../components/Card';
@@ -42,11 +43,8 @@ const CardContainer = styled.div`
   gap: 5%;
   row-gap: 2vh;
 
-  @media (max-width: 920px) {
-  }
-
   @media (max-width: 780px) {
-    gap: 1.5rem;
+    gap: 0.5rem;
   }
 `;
 
@@ -104,6 +102,7 @@ export default function TestQuestionSection({
   const [loading, setLoading] = useState(true);
   const [animating, setAnimating] = useState(false);
   const [clicked, setClicked] = useState(false); // 중복 클릭 방지용
+  const isMobile = useMediaQuery({ query: '(max-width: 480px)' });
 
   // ✅ 질문 데이터 fetch
   useEffect(() => {
@@ -170,7 +169,7 @@ export default function TestQuestionSection({
     }, 300);
   };
 
-  const renderQuestion = (index: number) => {
+  const renderQuestion = (index: number, isMobile: boolean) => {
     const data = questions[index];
     if (!data) return null;
 
@@ -192,19 +191,33 @@ export default function TestQuestionSection({
         }}
       >
         <QuestionTextWrapper>
-          <Text
-            as="h3"
-            size="clamp(0.875rem, 1.4vw, 1.5rem)"
-            weight="medium"
-            color="black"
-            align="center"
-            style={{ marginBottom: '0.5rem' }}
-          >
-            두 가치 중 자신에게 더 중요한 가치를 선택하세요.
-          </Text>
+          {isMobile ? (
+            <Text
+              as="h3"
+              size="clamp(0.75rem, 1vw, 1.5rem)"
+              weight="medium"
+              color="black"
+              align="center"
+              style={{ marginBottom: '0.5rem' }}
+            >
+              두 가치 중 자신에게
+              <br />더 중요한 가치를 선택하세요.
+            </Text>
+          ) : (
+            <Text
+              as="h3"
+              size="clamp(0.75rem, 1vw, 1.5rem)"
+              weight="medium"
+              color="black"
+              align="center"
+              style={{ marginBottom: '0.5rem' }}
+            >
+              두 가치 중 자신에게 더 중요한 가치를 선택하세요.
+            </Text>
+          )}
           <Text
             as="p"
-            size="clamp(0.75rem, 1.3vw, 1.5rem)"
+            size="clamp(0.7rem, 1vw, 1.5rem)"
             weight="light"
             color="black"
             align="center"
@@ -254,7 +267,7 @@ export default function TestQuestionSection({
         >
           <CardFrame
             step={step}
-            renderContent={(s) => renderQuestion(s)}
+            renderContent={(s) => renderQuestion(s, isMobile)}
             onBack={handleBack}
             direction={direction}
             onAnimatingChange={setAnimating}
