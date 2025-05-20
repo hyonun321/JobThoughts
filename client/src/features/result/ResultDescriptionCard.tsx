@@ -21,8 +21,7 @@ const Card = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 80vw;
-    min-height: 400px;
+    width: 90vw;
   }
 `;
 
