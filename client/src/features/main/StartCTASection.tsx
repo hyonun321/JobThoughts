@@ -82,7 +82,7 @@ const PositionedWrapper = styled(motion.div)<{
   z-index: 1;
 
   @media (max-width: 768px) {
-    width: ${({ width }) => (width ? `clamp(200px, calc(${width}), 250px)` : 'auto')};
+    width: ${({ width }) => (width ? `clamp(160px, calc(${width}), 250px)` : 'auto')};
   }
 `;
 
