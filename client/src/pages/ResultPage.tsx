@@ -43,8 +43,8 @@ const ChartInfoText = styled.div`
     background-repeat: no-repeat;
     width: clamp(40px, 18vw, 150px);
     height: clamp(40px, 18vw, 200px);
-    top: -40%;
-    left: calc(100% - 40px);
+    top: -30%;
+    left: calc(100% - 30px);
   }
 `;
 
@@ -82,7 +82,7 @@ const LoadingContainer = styled.div`
 const layoutSpring = {
   type: 'spring',
   stiffness: 40,
-  damping: 20,
+  damping: 10,
 };
 
 const slideInVariants = {
