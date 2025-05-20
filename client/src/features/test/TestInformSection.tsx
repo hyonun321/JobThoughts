@@ -74,7 +74,7 @@ const InfoTag = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: clamp(1rem, 4vh, 3rem);
+  margin-top: clamp(1rem, 3vh, 3rem);
 `;
 
 // 검사 진행방법 소개페이지에서는 Card 컴포넌트에 hover해도 cursor가 활성화되지 않도록 함
