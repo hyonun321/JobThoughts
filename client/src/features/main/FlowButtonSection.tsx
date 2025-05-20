@@ -1,8 +1,8 @@
 import StepItem from '../../components/StepItem';
 import Image from '../../components/Image';
 import flowBear from '../../assets/bears/flow-bear.svg';
-import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import useScrollAnimation from '../../hooks/useScrollAnimation'; // ✅ 수정됨
 import styled from 'styled-components';
 import { useRef, useState, useEffect } from 'react';
 

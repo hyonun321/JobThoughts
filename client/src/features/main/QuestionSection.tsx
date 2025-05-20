@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import Text from '../../components/Text';
-import useScrollAnimation from '../../hooks/useScrollAnimation';
+import useScrollAnimation from '../../hooks/useScrollAnimation'; // ✅ 수정됨
 
 // 이미지 리소스
 import worriedBear from '../../assets/bears/worried-bear.svg';

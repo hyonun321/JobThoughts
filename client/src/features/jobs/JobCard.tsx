@@ -11,7 +11,7 @@ import starIcon from '../../assets/icons/icon-star.svg';
 import { theme } from '../../styles/theme';
 import type { Job } from '../../types';
 import { motion } from 'framer-motion';
-import useScrollAnimation from '../../hooks/useScrollAnimation';
+import useScrollAnimation from '../../hooks/useScrollAnimationOrigin';
 import { useState } from 'react';
 import { Toast } from '../../components/Toast';
 
@@ -208,7 +208,6 @@ export default function JobCard({ job, dDay }: Props) {
       console.error('클립보드 복사 실패:', err);
     }
   };
-
   return (
     <>
       <MotionCard
