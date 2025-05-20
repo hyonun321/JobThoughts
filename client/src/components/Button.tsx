@@ -45,7 +45,7 @@ const variantStyles: Record<
     border: 'none',
     padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 5vw, 1.5rem)',
     boxShadow: '2px 2px 4px rgba(1, 1, 1, 0.4)',
-    size: `clamp(${theme.fontSize.s}, 2.5vw, ${theme.fontSize.ml})`,
+    size: `clamp(${theme.fontSize.xs}, 2.5vw, ${theme.fontSize.ml})`,
     fontWeight: 'medium',
     disabledColor: 'gray300',
   },
