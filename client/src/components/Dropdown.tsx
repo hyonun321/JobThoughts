@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import ChevronIcon from '../assets/icons/icon-dropdown.svg';
+import ChevronIcon from '@/assets/icons/icon-dropdown.svg';
 
 type DropdownProps = {
   options: string[];

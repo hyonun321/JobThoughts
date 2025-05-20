@@ -1,7 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import IconBack from '../assets/icons/icon-back.svg';
+import IconBack from '@/assets/icons/icon-back.svg';
 
 const ANIMATION_DURATION = 300;
 

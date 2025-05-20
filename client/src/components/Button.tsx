@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../styles/theme';
+import { theme } from '@/styles/theme';
 
 // Variant 타입
 type Variant = 'main' | 'action' | 'link' | 'job';

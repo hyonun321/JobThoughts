@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import achievement from '../assets/card/achievement.svg';
-import autonomy from '../assets/card/autonomy.svg';
-import creativity from '../assets/card/creativity.svg';
-import pay from '../assets/card/pay.svg';
-import selfDevelopment from '../assets/card/self-development.svg';
-import socialContribution from '../assets/card/social-contribution.svg';
-import socialRecognition from '../assets/card/social-recognition.svg';
-import stability from '../assets/card/stability.svg';
+import achievement from '@/assets/card/achievement.svg';
+import autonomy from '@/assets/card/autonomy.svg';
+import creativity from '@/assets/card/creativity.svg';
+import pay from '@/assets/card/pay.svg';
+import selfDevelopment from '@/assets/card/self-development.svg';
+import socialContribution from '@/assets/card/social-contribution.svg';
+import socialRecognition from '@/assets/card/social-recognition.svg';
+import stability from '@/assets/card/stability.svg';
 
 // Card 컴포넌트 props 정의
 type Props = {

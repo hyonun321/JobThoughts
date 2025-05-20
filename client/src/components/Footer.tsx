@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 
-import Bear1 from '../assets/bears/bears-1.svg';
-import Bear2 from '../assets/bears/bears-2.svg';
-import Bear3 from '../assets/bears/bears-3.svg';
-import Bear4 from '../assets/bears/bears-4.svg';
-import Bear5 from '../assets/bears/bears-5.svg';
-import Logo from '../assets/logo/job-logo.svg';
-import IconGithub from '../assets/icons/icon-github.svg';
-import IconFigma from '../assets/icons/icon-figma.svg';
-import IconNotion from '../assets/icons/icon-notion.svg';
+import Bear1 from '@/assets/bears/office-bear.svg';
+import Bear2 from '@/assets/bears/tele-bear.svg';
+import Bear3 from '@/assets/bears/pencil-bear.svg';
+import Bear4 from '@/assets/bears/doctor-bear.svg';
+import Bear5 from '@/assets/bears/poison-bear.svg';
+import Logo from '@/assets/logo/job-logo.svg';
+import IconGithub from '@/assets/icons/icon-github.svg';
+import IconFigma from '@/assets/icons/icon-figma.svg';
+import IconNotion from '@/assets/icons/icon-notion.svg';
 
-import { theme } from '../styles/theme';
+import { theme } from '@/styles/theme';
 
 const FooterWrapper = styled.footer`
   background: ${theme.colors.black};
