@@ -53,7 +53,6 @@ const TextArea = styled.div`
 
 const H2Wrapper = styled.div`
   margin-right: -130px;
-  white-space: nowrap;
 
   h2 {
     font-size: clamp(${theme.fontSize.xs}, 3vw, ${theme.fontSize.xl});
@@ -132,7 +131,6 @@ const Category = styled.div`
   h4 {
     font-size: clamp(${theme.fontSize.xs}, 1.5vw, ${theme.fontSize.lg});
     margin-left: -5px;
-    white-space: wrap;
   }
 
   @media (max-width: 640px) {
