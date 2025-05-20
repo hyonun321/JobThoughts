@@ -83,10 +83,8 @@ const CardIcon = styled.img`
     margin-top: 0;
   }
 
-  @media (max-width: 780px) {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -100,7 +98,7 @@ const TextBlock = styled.div`
 
   @media (max-width: 920px) {
     flex: 1;
-    align-items: flex-start;
+    align-items: center;
     min-width: 0; // 줄바꿈 방지
   }
 `;
@@ -118,6 +116,11 @@ const CardLabel = styled.span`
   @media (max-width: 920px) {
     margin-top: 0;
     font-size: ${({ theme }) => theme.fontSize.m};
+  }
+  @media (max-width: 780px) {
+    margin-top: 0;
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    text-align: center;
   }
 `;
 
