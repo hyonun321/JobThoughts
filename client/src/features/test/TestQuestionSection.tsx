@@ -83,6 +83,14 @@ const ResponsiveButton = styled(Button)`
   }
 `;
 
+const QuestionTextWrapper = styled.div`
+  margin-top: 0; // 기본값 (데스크탑)
+
+  @media (max-width: 920px) {
+    margin-top: 2.5rem;
+  }
+`;
+
 // ============ Main Component ============
 export default function TestQuestionSection({
   currentIndex,
@@ -183,7 +191,7 @@ export default function TestQuestionSection({
           padding: '1.5vh',
         }}
       >
-        <div style={{ marginTop: '2.5rem' }}>
+        <QuestionTextWrapper>
           <Text
             as="h3"
             size="clamp(0.875rem, 1.4vw, 1.5rem)"
@@ -204,7 +212,7 @@ export default function TestQuestionSection({
           >
             "아래의 답변을 클릭해 보세요"
           </Text>
-        </div>
+        </QuestionTextWrapper>
 
         <CardContainer>
           <ResponsiveCard
