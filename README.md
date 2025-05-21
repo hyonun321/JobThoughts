@@ -11,7 +11,7 @@
 [🔗팀노션](https://www.notion.so/03-Team-Project-1ecbbd280f318080b3f1e61be738fdd6?pvs=4)
 [🎨피그마](https://www.figma.com/design/kzBz8vu4o70rNzyNu9p76g/3%EC%A1%B0-%EC%9E%A1%EC%83%9D%EA%B0%81---%EC%9C%A0%EB%A0%88%EC%B9%B4-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82?node-id=0-1&t=ZjWI6LJL9gbCBXy0-1)
 [🌐배포사이트](https://job-thoughts-client.vercel.app/)
-
+[👨‍🏫발표자료](https://www.canva.com/design/DAGm6Gp7AEs/RV6anLgGtHmjVq6RjZv9dw/view?utm_content=DA[…]hare&utm_medium=link2&utm_source=uniquelinks&utlId=h4543e21b68)
   
 ## 🏃‍♂️ 주요기능
 
@@ -98,6 +98,11 @@ pnpm build
 
 # 4. 개발 서버 실행 (서버와 클라이언트가 동시에 실행됨)
 pnpm dev
+```
+
+```env
+# /server 폴더 내에 .env파일로 위치
+CAREER_API_KEY={커리어넷에서 받은 API키}
 ```
 
 > 💡 해당 프로젝트는 모노레포 구조로 되어 있으며, pnpm 워크스페이스를 사용해 서버와 클라이언트를 함께 관리합니다. 
